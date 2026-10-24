@@ -425,6 +425,14 @@ body.hj-edit-mode .panel.right.profile-editing .hj-extra-edit{display:block!impo
 body.hj-edit-mode .panel.right.profile-editing #profileEditToggle{display:block!important}
 body.hj-edit-mode .panel.right.profile-editing #saveProfile{display:block!important}
 body.hj-edit-mode .panel.right.profile-editing #profileEditOpen{display:none!important}
+&lt;/style&gt;&lt;style id=&quot;hj-profile-controls-order-20261025&quot;&gt;
+/* Place photo upload just below its preview; back-to-details at bottom of profile form. */
+.panel.right #hj-photo-upload-row{margin:8px 0 12px!important;padding:0!important}
+.panel.right #hj-photo-upload-row label{display:block!important;font-size:11px!important;margin-bottom:5px!important}
+.panel.right #hj-photo-upload-row input[type=file]{display:block;width:100%;max-width:100%;font-size:11px}
+.panel.right:not(.profile-editing) #hj-photo-upload-row{display:none!important}
+body.hj-edit-mode .panel.right.profile-editing #hj-photo-upload-row{display:grid!important}
+body.hj-edit-mode .panel.right.profile-editing #profileEditToggle{display:block!important;width:100%!important;margin:14px 0 8px!important;padding:10px 12px!important;cursor:pointer}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;写真の移動は20px間隔で揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -685,6 +693,21 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:1},window.parent.locatio
   if(close)close.addEventListener('click',function(){
     panel.classList.remove('profile-editing');
   });
+})();
+&lt;/script&gt;&lt;script id=&quot;hj-profile-controls-order-script&quot;&gt;
+/* Move existing controls without cloning: preserve native file/change and close handlers. */
+(function(){
+  const panel=document.querySelector('.panel.right');
+  const preview=document.getElementById('preview');
+  const upload=document.getElementById('dogPhoto');
+  const back=document.getElementById('profileEditToggle');
+  const extra=panel?.querySelector('.hj-extra-edit');
+  const save=document.getElementById('saveProfile');
+  if(!panel||!preview||!upload||!back||!save)return;
+  const photoRow=upload.closest('.field');
+  if(photoRow){photoRow.id='hj-photo-upload-row';preview.after(photoRow);}
+  back.textContent='編集を終了して詳細画面へ';
+  (extra||save).after(back);
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図1"></iframe></div></section><section class="card" data-circle="two"><div class="cardhead"><div><b id="familyLabel2">FAMILY CIRCLE 02</b><div class="tag">右側の家系図</div></div><button onclick="fullscreen('frame2')">拡大表示 ↗</button></div><div class="framebox"><iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
@@ -949,6 +972,14 @@ body.hj-edit-mode .panel.right.profile-editing .hj-extra-edit{display:block!impo
 body.hj-edit-mode .panel.right.profile-editing #profileEditToggle{display:block!important}
 body.hj-edit-mode .panel.right.profile-editing #saveProfile{display:block!important}
 body.hj-edit-mode .panel.right.profile-editing #profileEditOpen{display:none!important}
+&lt;/style&gt;&lt;style id=&quot;hj-profile-controls-order-20261025&quot;&gt;
+/* Place photo upload just below its preview; back-to-details at bottom of profile form. */
+.panel.right #hj-photo-upload-row{margin:8px 0 12px!important;padding:0!important}
+.panel.right #hj-photo-upload-row label{display:block!important;font-size:11px!important;margin-bottom:5px!important}
+.panel.right #hj-photo-upload-row input[type=file]{display:block;width:100%;max-width:100%;font-size:11px}
+.panel.right:not(.profile-editing) #hj-photo-upload-row{display:none!important}
+body.hj-edit-mode .panel.right.profile-editing #hj-photo-upload-row{display:grid!important}
+body.hj-edit-mode .panel.right.profile-editing #profileEditToggle{display:block!important;width:100%!important;margin:14px 0 8px!important;padding:10px 12px!important;cursor:pointer}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;写真の移動は20px間隔で揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -1185,6 +1216,21 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:2},window.parent.locatio
   if(close)close.addEventListener('click',function(){
     panel.classList.remove('profile-editing');
   });
+})();
+&lt;/script&gt;&lt;script id=&quot;hj-profile-controls-order-script&quot;&gt;
+/* Move existing controls without cloning: preserve native file/change and close handlers. */
+(function(){
+  const panel=document.querySelector('.panel.right');
+  const preview=document.getElementById('preview');
+  const upload=document.getElementById('dogPhoto');
+  const back=document.getElementById('profileEditToggle');
+  const extra=panel?.querySelector('.hj-extra-edit');
+  const save=document.getElementById('saveProfile');
+  if(!panel||!preview||!upload||!back||!save)return;
+  const photoRow=upload.closest('.field');
+  if(photoRow){photoRow.id='hj-photo-upload-row';preview.after(photoRow);}
+  back.textContent='編集を終了して詳細画面へ';
+  (extra||save).after(back);
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図2"></iframe></div></section></div><p class="note">家系図01・02はそれぞれ独立して編集できます。犬の追加・削除、移動、家族関係、誕生日一致、DOG PROFILE、写真、飼い主情報に対応。変更はオンラインに保存されます。別端末では再読み込みすると最新データを表示します。</p></main><script>function fullscreen(id){const e=document.getElementById(id);if(e.requestFullscreen)e.requestFullscreen();}</script><script>
