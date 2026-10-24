@@ -1,30 +1,37 @@
-# THE HJ WEIMARANER Club — 共有サイト版
+# THE HJ WEIMARANER Club — Supabase + Vercel edition
 
-## 機能
-- URLを知る人はログインなしで犬・家系図を編集（公開URLはランダムな長いパス）
-- 2つの家系図をサーバー上で保存、写真アップロード
-- 管理者パスワードでデザイン（サイト名・色）と機能ON/OFFを設定
-- 管理者によるJSONバックアップ
+This version preserves the original two-family editor, profile design and administrator settings.
 
-## 起動
-Node.js 20以上が必要です。
+## 1. Supabase
 
-```bash
-npm install
-export ADMIN_PASSWORD='12文字以上の強力な管理者パスワード'
-export SHARE_PATH='ここに英数字20文字以上のランダム文字列'
-export DATA_DIR='./data'
-npm start
-```
+In your existing Supabase project's SQL Editor, run `supabase-setup.sql` once. This creates `public.family_documents` (RLS enabled, no anonymous access policy) and seeds two independent circles without overwriting existing records. Your existing `site_settings` table is also used.
 
-ブラウザで `http://localhost:3000/s/<SHARE_PATH>` を開きます。
+Create a **public** Storage bucket named `dog-photos` with 4 MB max file size, allowing `image/jpeg`, `image/png`, `image/webp`. No anonymous upload policy is required. The Vercel server uploads using the private service-role key.
 
-## 公開
-HTTPS対応のNode.jsホスティングにデプロイし、環境変数 `ADMIN_PASSWORD`, `SHARE_PATH`, `DATA_DIR` を設定してください。`DATA_DIR` には**永続ディスク**を割り当ててください（ディスクが一時的なホスティングではデータ・写真が消失します）。管理者ログインのCookieは Secure 属性のため、公開環境ではHTTPSが必要です。初期データはサンプルの犬7匹です。
+## 2. GitHub
 
-## 注意事項
-- URLを知っている全員が編集可能です。URLが転送された場合も同様です。
-- 他端末の変更は「最新データを再読み込み」で反映します。**同時編集時は最後に保存した内容が優先**されます。
-- 管理画面で行える機能管理は既存機能のON/OFFです。新機能の追加や画面構造の変更にはコード改修と再デプロイが必要です。
-- SQLiteデータベースと `uploads` ディレクトリを定期的にバックアップしてください。写真ファイルはJSONバックアップに含まれません。
-- 本構成は小規模・信頼できる共有メンバー向けの初期版です。無制限公開に適した権限制御・監査・荒らし対策は未実装です。
+Replace the old root `server.js`, `index.html`, `package.json`, and `README.md` with these files. Add `vercel.json`, `supabase-setup.sql`, `.env.example`. **Never commit actual `.env` secrets or your Supabase service-role key.**
+
+## 3. Vercel (Hobby, personal/noncommercial use)
+
+Import the GitHub repository and leave Framework Preset as **Express**. Root Directory `./`. Add these environment variables in Vercel (Production, Preview as needed):
+
+- `SUPABASE_URL`: your Supabase Project URL (no `/rest/v1/` suffix)
+- `SUPABASE_SERVICE_ROLE_KEY`: Supabase **service_role** key, never the anon/publishable key; private server-side only
+- `ADMIN_PASSWORD`: administrator password (12+ characters)
+- `SHARE_PATH`: random URL-safe secret (20+ characters; letters, digits, hyphen, underscore)
+- `SESSION_SECRET`: random 32+ character secret for signed administrator cookies
+
+Redeploy after setting the variables. Open `https://YOUR-VERCEL-DOMAIN.vercel.app/s/YOUR_SHARE_PATH` (not the domain root). Test `.../health` first. Do not share your service-role key, administrator password, or session secret in chat.
+
+## Features and limitations
+
+- Two separately editable family trees, online JSON documents, dog profiles, links, image upload, administrator settings, administrator JSON backup.
+- Saving uses an optimistic timestamp check: if another person edited the same family first, a conflict warning appears instead of silently overwriting their edits. Reload to resolve; automatic merging is not implemented.
+- This is a **shared-edit-by-link** site, not a fully authenticated user/role system. Anyone who knows the link can modify shared data and view owner fields. Do not enter sensitive personal information. A secret URL is not strong access control.
+- The admin cookie is HMAC-signed and expires after 24 hours. Logout clears the browser cookie but does not revoke a previously copied token server-side.
+- Photo storage is public. Uploaded photos remain in the bucket when removed from the family tree; delete unused photos in Supabase Storage if necessary.
+- Admin JSON backup includes references to photos, not the photo bytes. Supabase backup/Storage export is required for a complete backup.
+- Server-side request rate limiting is per serverless instance; it is **not** a robust global abuse-prevention control. Consider CAPTCHA and stricter controls before wide sharing.
+- Family JSON documents are stored in `family_documents`; existing normalized `dogs`/`family_links` tables are not populated by this version.
+- For local development, use Node 20+, `npm install`, set the environment variables, then `npm start`.
