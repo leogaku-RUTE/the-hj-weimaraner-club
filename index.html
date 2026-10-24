@@ -405,8 +405,9 @@ html,body{background:#cdd8e5!important;min-height:100%!important}
 .workspace svg#canvas{top:calc(var(--hj-title-space,88px) + 34px)!important;height:calc(100% - var(--hj-title-space,88px) - 34px)!important}
 @media(max-width:900px){.workspace svg#canvas{top:calc(var(--hj-title-space,76px) + 20px)!important;height:calc(100% - var(--hj-title-space,76px) - 20px)!important}}
 /* Profile editing is available to authenticated administrators only. */
-body:not(.hj-edit-mode) .panel.right #profileEditOpen{display:block!important}
-body:not(.hj-edit-mode) .panel.right #profileEditOpen[hidden]{display:none!important}
+body:not(.hj-edit-mode) .panel.right #profileEditOpen{display:none!important}
+body.hj-admin-ready:not(.hj-edit-mode) .panel.right #profileEditOpen{display:block!important}
+body:not(.hj-admin-ready) .panel.right #profileEditOpen{display:none!important}
 body.hj-edit-mode .panel.right.profile-editing .field,
 body.hj-edit-mode .panel.right.profile-editing .owner-heading,
 body.hj-edit-mode .panel.right.profile-editing #birthdayMatches,
@@ -663,6 +664,9 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:1},window.parent.locatio
   const mode=document.getElementById('hjModeBtn');
   const close=document.getElementById('profileEditToggle');
   if(!edit||!panel)return;
+  function adminVisibility(){document.body.classList.toggle('hj-admin-ready',window.isHJAdmin===true)}
+  window.addEventListener('message',e=>{if(e.origin!==window.parent.location.origin)return;if(e.data?.type==='HJ_INIT'||e.data?.type==='HJ_SETTINGS')setTimeout(adminVisibility,0)});
+  adminVisibility();
   edit.addEventListener('click',function(){
     if(window.isHJAdmin!==true)return;
     if(!document.body.classList.contains('hj-edit-mode')){
@@ -920,8 +924,9 @@ html,body{background:#cdd8e5!important;min-height:100%!important}
 .workspace svg#canvas{top:calc(var(--hj-title-space,88px) + 34px)!important;height:calc(100% - var(--hj-title-space,88px) - 34px)!important}
 @media(max-width:900px){.workspace svg#canvas{top:calc(var(--hj-title-space,76px) + 20px)!important;height:calc(100% - var(--hj-title-space,76px) - 20px)!important}}
 /* Profile editing is available to authenticated administrators only. */
-body:not(.hj-edit-mode) .panel.right #profileEditOpen{display:block!important}
-body:not(.hj-edit-mode) .panel.right #profileEditOpen[hidden]{display:none!important}
+body:not(.hj-edit-mode) .panel.right #profileEditOpen{display:none!important}
+body.hj-admin-ready:not(.hj-edit-mode) .panel.right #profileEditOpen{display:block!important}
+body:not(.hj-admin-ready) .panel.right #profileEditOpen{display:none!important}
 body.hj-edit-mode .panel.right.profile-editing .field,
 body.hj-edit-mode .panel.right.profile-editing .owner-heading,
 body.hj-edit-mode .panel.right.profile-editing #birthdayMatches,
@@ -1154,6 +1159,9 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:2},window.parent.locatio
   const mode=document.getElementById('hjModeBtn');
   const close=document.getElementById('profileEditToggle');
   if(!edit||!panel)return;
+  function adminVisibility(){document.body.classList.toggle('hj-admin-ready',window.isHJAdmin===true)}
+  window.addEventListener('message',e=>{if(e.origin!==window.parent.location.origin)return;if(e.data?.type==='HJ_INIT'||e.data?.type==='HJ_SETTINGS')setTimeout(adminVisibility,0)});
+  adminVisibility();
   edit.addEventListener('click',function(){
     if(window.isHJAdmin!==true)return;
     if(!document.body.classList.contains('hj-edit-mode')){
