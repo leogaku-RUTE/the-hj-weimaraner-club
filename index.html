@@ -39,7 +39,7 @@ document.getElementById('importFile').onchange=async(ev)=&gt;{const file=ev.targ
 selectDog(dogs[0]?.id);
 &lt;/script&gt;&lt;script&gt;
 let sharedReady=false,sharedTimer=null,sharedConfig=null,sharedUpdated='';
-const base=location.pathname;
+const base=window.parent.location.pathname.replace(/\/$/,'');
 function applyFeatures(){if(!sharedConfig)return;const f=sharedConfig.features;for(const [key,id] of Object.entries({add:'addBtn',delete:'deleteBtn',connect:'connectBtn',photo:'dogPhoto',owner:'ownerName',birthday:'dogBirthday',import:'importBtn'})){const el=document.getElementById(id);if(el)el.disabled=!f[key]&amp;&amp;!window.isHJAdmin;}for(const id of ['ownerPref','ownerCity'])document.getElementById(id).disabled=!f.owner&amp;&amp;!window.isHJAdmin;}
 window.addEventListener('message',ev=&gt;{if(ev.origin!==location.origin||ev.data?.type!=='HJ_INIT'||ev.data.family!==1)return;const data=ev.data.data;sharedConfig=ev.data.settings;window.isHJAdmin=ev.data.isAdmin;dogs=data.dogs;links=data.links;sharedUpdated=data.updated_at;selected=null;selectedEdge=-1;sharedReady=false;render();if(dogs.length)selectDog(dogs[0].id);applyFeatures();sharedReady=true;});
 const localRender=render;
