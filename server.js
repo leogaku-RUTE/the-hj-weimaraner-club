@@ -28,7 +28,7 @@ app.use(express.json({limit:'1mb'}));app.use((req,res,next)=>{res.set({'X-Conten
 const loginLimiter=rateLimit({windowMs:15*60*1000,limit:10,standardHeaders:'draft-7',legacyHeaders:false});
 const editLimiter=rateLimit({windowMs:60*1000,limit:100,standardHeaders:'draft-7',legacyHeaders:false});
 const uploadLimiter=rateLimit({windowMs:60*60*1000,limit:30,standardHeaders:'draft-7',legacyHeaders:false});
-app.get('/',(req,res)=>res.status(404).send('Not found'));app.get('/health',(req,res)=>res.json({ok:true}));
+app.get('/',(req,res)=>res.redirect(302,share));app.get('/health',(req,res)=>res.json({ok:true}));
 app.post(share+'/api/login',loginLimiter,(req,res)=>{const a=Buffer.from(String(req.body?.password||'')),b=Buffer.from(ADMIN_PASSWORD);if(a.length!==b.length||!crypto.timingSafeEqual(a,b))return res.status(401).json({error:'パスワードが違います'});const expiry=String(Date.now()+86400000);res.cookie('hj_admin',expiry+'.'+sign(expiry),{httpOnly:true,secure:process.env.NODE_ENV==='production',sameSite:'strict',path:share,maxAge:86400000});res.json({ok:true})});
 app.post(share+'/api/logout',(req,res)=>{res.clearCookie('hj_admin',{path:share,sameSite:'strict',secure:process.env.NODE_ENV==='production'});res.json({ok:true})});
 app.get(share+'/api/state',async(req,res,next)=>{try{const [a,b,settings]=await Promise.all([getFamily(1),getFamily(2),getSettings()]);res.json({families:[a,b],settings,isAdmin:admin(req)})}catch(e){next(e)}});
