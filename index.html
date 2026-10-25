@@ -604,6 +604,18 @@ body.hj-edit-mode .panel.right .profilepic{
     max-width:215px!important;
   }
 }
+&lt;/style&gt;&lt;style id=&quot;hj-birthday-yellow-and-photo-position&quot;&gt;/* Yellow ring only when dog's month and day match today's date. */
+.node .outer.birthday-today,.node.selected .outer.birthday-today{
+  stroke:#f4c72e!important;stroke-width:5.5px!important;
+  filter:drop-shadow(0 0 6px rgba(255,215,53,.65))!important;
+}
+.panel.right .hj-photo-position{display:none;margin:4px 0 12px;padding:9px;border:1px solid #c2d0df;border-radius:8px;background:#eaf0f7}
+.panel.right.profile-editing .hj-photo-position{display:block}
+.hj-photo-position .hj-photo-title{font-size:11px;font-weight:700;color:#294565;margin-bottom:7px}
+.hj-photo-position .hj-photo-directions{display:grid;grid-template-columns:repeat(3,40px);justify-content:center;gap:5px}
+.hj-photo-position button{padding:7px!important;min-height:32px!important;background:#dce6f1!important;color:#294765!important;border:1px solid #9db3c9!important;border-radius:5px!important;cursor:pointer}
+.hj-photo-position .hj-photo-reset{display:block;margin:7px auto 0!important;font-size:11px!important;padding:5px 12px!important}
+.hj-photo-position .hj-photo-hint{font-size:10px;color:#5d7389;text-align:center;margin-top:5px}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;写真の移動は20px間隔で揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -849,7 +861,54 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:1},window.parent.locatio
   back.textContent='編集を終了して詳細画面へ';
   save.after(back);
 })();
-&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+&lt;/script&gt;&lt;script id=&quot;hj-photo-position-controls&quot;&gt;(() =&gt; {
+  const panel=document.querySelector('.panel.right'),preview=document.getElementById('preview'),photo=document.getElementById('dogPhoto');
+  if(!panel||!preview||!photo)return;
+  const wrap=document.createElement('div');wrap.className='hj-photo-position';
+  const title=document.createElement('div');title.className='hj-photo-title';title.textContent='プロフィール写真の位置調整';wrap.append(title);
+  const grid=document.createElement('div');grid.className='hj-photo-directions';wrap.append(grid);
+  const actions=[
+    [null,''],['up','↑'],[null,''],
+    ['left','←'],['center','◎'],['right','→'],
+    [null,''],['down','↓'],[null,'']
+  ];
+  let buttons=[];
+  for(const [dir,label] of actions){
+    if(!dir){grid.append(document.createElement('span'));continue}
+    const b=document.createElement('button');b.type='button';b.textContent=label;b.title=dir==='center'?'中央へ戻す':({up:'上',down:'下',left:'左',right:'右'}[dir]+'に移動');b.dataset.direction=dir;grid.append(b);buttons.push(b);
+  }
+  const reset=document.createElement('button');reset.type='button';reset.className='hj-photo-reset';reset.textContent='位置をリセット';wrap.append(reset);
+  const hint=document.createElement('div');hint.className='hj-photo-hint';hint.textContent='矢印を押すたびに5%移動・自動保存';wrap.append(hint);
+  const uploadRow=photo.closest('.field');
+  if(uploadRow)uploadRow.after(wrap);else preview.after(wrap);
+  const dog=()=&gt;typeof getDog==='function'?getDog(selected):null;
+  const clamp=n=&gt;Math.max(0,Math.min(100,n));
+  function update(){
+    const d=dog(),img=preview.querySelector('img');
+    if(img&amp;&amp;d){img.style.objectPosition=(Number.isFinite(d.photoPosX)?d.photoPosX:50)+'% '+(Number.isFinite(d.photoPosY)?d.photoPosY:50)+'%'}
+    wrap.style.opacity=d?.photo?'1':'.55';
+    for(const b of buttons)b.disabled=!d?.photo;
+    reset.disabled=!d?.photo;
+  }
+  function move(dir){
+    const d=dog();if(!d?.photo)return;
+    let x=Number.isFinite(d.photoPosX)?d.photoPosX:50;
+    let y=Number.isFinite(d.photoPosY)?d.photoPosY:50;
+    if(dir==='up')y-=5;if(dir==='down')y+=5;
+    if(dir==='left')x-=5;if(dir==='right')x+=5;
+    if(dir==='center')x=y=50;
+    d.photoPosX=clamp(x);d.photoPosY=clamp(y);
+    update();if(typeof render==='function')render();
+  }
+  for(const b of buttons)b.addEventListener('click',()=&gt;move(b.dataset.direction));
+  reset.addEventListener('click',()=&gt;move('center'));
+  const previousSelect=selectDog;
+  selectDog=function(id){previousSelect(id);update()};
+  const originalUpload=photo.onchange;
+  if(originalUpload){photo.onchange=async function(ev){await originalUpload.call(this,ev);update()}}
+  window.addEventListener('message',e=&gt;{if(e.origin!==window.parent.location.origin)return;if(e.data?.type==='HJ_INIT'||e.data?.type==='HJ_SETTINGS')setTimeout(update,25)});
+  update();
+})();&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図1"></iframe></div></section><section class="card" data-circle="two"><div class="cardhead"><div><b id="familyLabel2">FAMILY CIRCLE 02</b><div class="tag">右側の家系図</div></div><button onclick="fullscreen('frame2')">拡大表示 ↗</button></div><div class="framebox"><iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
 &lt;html lang=&quot;ja&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;/&gt;&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;&lt;title&gt;THE HJ WEIMARANER Club FAMILY NETWORK&lt;/title&gt;&lt;style&gt;
@@ -1298,6 +1357,18 @@ body.hj-edit-mode .panel.right .profilepic{
     max-width:215px!important;
   }
 }
+&lt;/style&gt;&lt;style id=&quot;hj-birthday-yellow-and-photo-position&quot;&gt;/* Yellow ring only when dog's month and day match today's date. */
+.node .outer.birthday-today,.node.selected .outer.birthday-today{
+  stroke:#f4c72e!important;stroke-width:5.5px!important;
+  filter:drop-shadow(0 0 6px rgba(255,215,53,.65))!important;
+}
+.panel.right .hj-photo-position{display:none;margin:4px 0 12px;padding:9px;border:1px solid #c2d0df;border-radius:8px;background:#eaf0f7}
+.panel.right.profile-editing .hj-photo-position{display:block}
+.hj-photo-position .hj-photo-title{font-size:11px;font-weight:700;color:#294565;margin-bottom:7px}
+.hj-photo-position .hj-photo-directions{display:grid;grid-template-columns:repeat(3,40px);justify-content:center;gap:5px}
+.hj-photo-position button{padding:7px!important;min-height:32px!important;background:#dce6f1!important;color:#294765!important;border:1px solid #9db3c9!important;border-radius:5px!important;cursor:pointer}
+.hj-photo-position .hj-photo-reset{display:block;margin:7px auto 0!important;font-size:11px!important;padding:5px 12px!important}
+.hj-photo-position .hj-photo-hint{font-size:10px;color:#5d7389;text-align:center;margin-top:5px}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;写真の移動は20px間隔で揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -1519,7 +1590,54 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:2},window.parent.locatio
   back.textContent='編集を終了して詳細画面へ';
   save.after(back);
 })();
-&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+&lt;/script&gt;&lt;script id=&quot;hj-photo-position-controls&quot;&gt;(() =&gt; {
+  const panel=document.querySelector('.panel.right'),preview=document.getElementById('preview'),photo=document.getElementById('dogPhoto');
+  if(!panel||!preview||!photo)return;
+  const wrap=document.createElement('div');wrap.className='hj-photo-position';
+  const title=document.createElement('div');title.className='hj-photo-title';title.textContent='プロフィール写真の位置調整';wrap.append(title);
+  const grid=document.createElement('div');grid.className='hj-photo-directions';wrap.append(grid);
+  const actions=[
+    [null,''],['up','↑'],[null,''],
+    ['left','←'],['center','◎'],['right','→'],
+    [null,''],['down','↓'],[null,'']
+  ];
+  let buttons=[];
+  for(const [dir,label] of actions){
+    if(!dir){grid.append(document.createElement('span'));continue}
+    const b=document.createElement('button');b.type='button';b.textContent=label;b.title=dir==='center'?'中央へ戻す':({up:'上',down:'下',left:'左',right:'右'}[dir]+'に移動');b.dataset.direction=dir;grid.append(b);buttons.push(b);
+  }
+  const reset=document.createElement('button');reset.type='button';reset.className='hj-photo-reset';reset.textContent='位置をリセット';wrap.append(reset);
+  const hint=document.createElement('div');hint.className='hj-photo-hint';hint.textContent='矢印を押すたびに5%移動・自動保存';wrap.append(hint);
+  const uploadRow=photo.closest('.field');
+  if(uploadRow)uploadRow.after(wrap);else preview.after(wrap);
+  const dog=()=&gt;typeof getDog==='function'?getDog(selected):null;
+  const clamp=n=&gt;Math.max(0,Math.min(100,n));
+  function update(){
+    const d=dog(),img=preview.querySelector('img');
+    if(img&amp;&amp;d){img.style.objectPosition=(Number.isFinite(d.photoPosX)?d.photoPosX:50)+'% '+(Number.isFinite(d.photoPosY)?d.photoPosY:50)+'%'}
+    wrap.style.opacity=d?.photo?'1':'.55';
+    for(const b of buttons)b.disabled=!d?.photo;
+    reset.disabled=!d?.photo;
+  }
+  function move(dir){
+    const d=dog();if(!d?.photo)return;
+    let x=Number.isFinite(d.photoPosX)?d.photoPosX:50;
+    let y=Number.isFinite(d.photoPosY)?d.photoPosY:50;
+    if(dir==='up')y-=5;if(dir==='down')y+=5;
+    if(dir==='left')x-=5;if(dir==='right')x+=5;
+    if(dir==='center')x=y=50;
+    d.photoPosX=clamp(x);d.photoPosY=clamp(y);
+    update();if(typeof render==='function')render();
+  }
+  for(const b of buttons)b.addEventListener('click',()=&gt;move(b.dataset.direction));
+  reset.addEventListener('click',()=&gt;move('center'));
+  const previousSelect=selectDog;
+  selectDog=function(id){previousSelect(id);update()};
+  const originalUpload=photo.onchange;
+  if(originalUpload){photo.onchange=async function(ev){await originalUpload.call(this,ev);update()}}
+  window.addEventListener('message',e=&gt;{if(e.origin!==window.parent.location.origin)return;if(e.data?.type==='HJ_INIT'||e.data?.type==='HJ_SETTINGS')setTimeout(update,25)});
+  update();
+})();&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図2"></iframe></div></section></div><p class="note">家系図01・02はそれぞれ独立して編集できます。犬の追加・削除、移動、家族関係、誕生日一致、DOG PROFILE、写真、飼い主情報に対応。変更はオンラインに保存されます。別端末では再読み込みすると最新データを表示します。</p></main><script>function fullscreen(id){const e=document.getElementById(id);if(e.requestFullscreen)e.requestFullscreen();}</script><script>
 (function(){
  const tabs=[...document.querySelectorAll('.viewtab')];const grid=document.getElementById('familyGrid');
