@@ -270,6 +270,70 @@ body.hj-single-expanded .framebox.hj-fullscreen-family iframe{
 @media(hover:none){#familyGrid[data-view="both"] .framebox .hj-top-open span{opacity:1;transform:none}}
 .framebox:fullscreen .hj-top-open,
 body.hj-single-expanded .framebox .hj-top-open{display:none!important}
+</style><style id="hj-equal-pedigree-size-20261025-shell">
+/* Final layout authority for matching family01/family02 sizes in TOP and fullscreen. */
+#familyGrid[data-view="both"]{
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-auto-rows:minmax(0,auto)!important;
+ align-items:stretch!important;
+ gap:12px!important;
+ width:100%!important;max-width:100%!important;
+}
+#familyGrid[data-view="both"]>.card[data-circle="one"],
+#familyGrid[data-view="both"]>.card[data-circle="two"]{
+ display:flex!important;flex-direction:column!important;
+ box-sizing:border-box!important;min-width:0!important;
+ width:100%!important;max-width:100%!important;
+ min-height:0!important;align-self:stretch!important;
+ margin:0!important;padding:0!important;
+}
+#familyGrid[data-view="both"]>.card[data-circle]>.framebox{
+ display:block!important;
+ position:relative!important;
+ box-sizing:border-box!important;
+ flex:0 0 auto!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ height:clamp(610px,calc(100dvh - 205px),940px)!important;
+ min-height:610px!important;max-height:940px!important;
+ margin:0!important;padding:0!important;
+ overflow:hidden!important;
+}
+#familyGrid[data-view="both"]>.card[data-circle]>.framebox>iframe{
+ display:block!important;
+ box-sizing:border-box!important;
+ width:100%!important;height:100%!important;
+ min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;
+ border:0!important;margin:0!important;padding:0!important;
+}
+@media(max-width:850px){
+ #familyGrid[data-view="both"]{grid-template-columns:minmax(0,1fr)!important}
+ #familyGrid[data-view="both"]>.card[data-circle]>.framebox{
+  height:680px!important;min-height:680px!important;max-height:680px!important;
+ }
+}
+#familyGrid[data-view="one"],
+#familyGrid[data-view="two"]{width:100%!important;min-width:0!important}
+#familyGrid[data-view="one"]>.card[data-circle="one"],
+#familyGrid[data-view="two"]>.card[data-circle="two"]{
+ box-sizing:border-box!important;width:100%!important;min-width:0!important;
+}
+#familyGrid[data-view="one"]>.card[data-circle="one"]>.framebox,
+#familyGrid[data-view="two"]>.card[data-circle="two"]>.framebox{
+ box-sizing:border-box!important;width:100%!important;min-width:0!important;
+}
+.framebox:fullscreen,
+body.hj-single-expanded .framebox.hj-fullscreen-family{
+ width:100vw!important;height:100dvh!important;min-width:0!important;
+ min-height:0!important;max-width:100vw!important;max-height:100dvh!important;
+}
+.framebox:fullscreen>iframe,
+body.hj-single-expanded .framebox.hj-fullscreen-family>iframe{
+ box-sizing:border-box!important;flex:1 1 auto!important;
+ width:100%!important;min-width:0!important;
+ height:auto!important;min-height:0!important;
+ margin:0!important;padding:0!important;
+}
 </style></head><body><header><div><h1>THE HJ WEIMARANER Club</h1><div class="sub">FAMILY NETWORK / DUAL FAMILY CIRCLE</div></div><span class="hint">2つの家系図を同時表示・個別編集</span></header><div class="adminbar"><span class="state" id="sharedStatus">共有データを読み込み中…</span><button id="refreshShared">最新データを再読み込み</button><button id="adminOpen">管理者ログイン / 管理画面</button></div><main><nav aria-label="家系図の表示切り替え" class="viewtabs"><button aria-pressed="false" class="viewtab active" data-view="both" aria-pressed="true">◫ TOP</button><button aria-pressed="false" class="viewtab" data-view="one">◎ <span id="tabLabel1">家系図 01</span></button><button aria-pressed="false" class="viewtab" data-view="two">◎ <span id="tabLabel2">家系図 02</span></button></nav><div class="grid" data-view="both" id="familyGrid"><section class="card" data-circle="one"><div class="cardhead"><div><b id="familyLabel1">FAMILY CIRCLE 01</b><div class="tag">左側の家系図</div></div></div><div class="framebox"><iframe id="frame1" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
 &lt;html lang=&quot;ja&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;/&gt;&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;&lt;title&gt;THE HJ WEIMARANER Club FAMILY NETWORK&lt;/title&gt;&lt;style&gt;
@@ -1060,6 +1124,40 @@ body.hj-edit-mode #edges line.connection.selected{stroke-width:4.5!important}
 .panel.left #hjSafeRelationTypes button:not(:disabled):hover{filter:brightness(.94)}
 .panel.left #hjSafeRelationTypes button:disabled{opacity:.5!important;cursor:not-allowed!important}
 .panel.left #hjSafeRelationTabs button[aria-selected=&quot;true&quot;]{box-shadow:inset 0 0 0 2px currentColor!important}
+&lt;/style&gt;&lt;style id=&quot;hj-equal-pedigree-size-20261025-frame&quot;&gt;
+/* Each pedigree uses the same viewBox-sized drawing stage and identical TOP sizing. */
+html:has(body.hj-dual-preview),
+body.hj-dual-preview{
+ width:100%!important;height:100%!important;
+ min-width:0!important;min-height:0!important;
+ margin:0!important;overflow:hidden!important;
+}
+body.hj-dual-preview .layout{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr)!important;
+ grid-template-rows:minmax(0,1fr)!important;
+ box-sizing:border-box!important;
+ width:100%!important;height:100%!important;
+ min-width:0!important;min-height:0!important;
+ margin:0!important;padding:0!important;
+}
+body.hj-dual-preview .workspace{
+ display:block!important;position:relative!important;
+ box-sizing:border-box!important;
+ grid-column:1!important;grid-row:1!important;
+ width:100%!important;height:100%!important;
+ min-width:0!important;min-height:0!important;
+ max-width:100%!important;max-height:100%!important;
+ margin:0!important;padding:0!important;overflow:hidden!important;
+}
+body.hj-dual-preview .workspace svg#canvas{
+ display:block!important;position:absolute!important;
+ left:0!important;right:0!important;
+ top:calc(var(--hj-title-space,88px) + 4px)!important;
+ width:100%!important;
+ height:calc(100% - var(--hj-title-space,88px) - 4px)!important;
+ margin:0!important;padding:0!important;
+}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;犬の配置は5px間隔で細かく調整できます。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -2261,6 +2359,40 @@ body.hj-edit-mode #edges line.connection.selected{stroke-width:4.5!important}
 .panel.left #hjSafeRelationTypes button:not(:disabled):hover{filter:brightness(.94)}
 .panel.left #hjSafeRelationTypes button:disabled{opacity:.5!important;cursor:not-allowed!important}
 .panel.left #hjSafeRelationTabs button[aria-selected=&quot;true&quot;]{box-shadow:inset 0 0 0 2px currentColor!important}
+&lt;/style&gt;&lt;style id=&quot;hj-equal-pedigree-size-20261025-frame&quot;&gt;
+/* Each pedigree uses the same viewBox-sized drawing stage and identical TOP sizing. */
+html:has(body.hj-dual-preview),
+body.hj-dual-preview{
+ width:100%!important;height:100%!important;
+ min-width:0!important;min-height:0!important;
+ margin:0!important;overflow:hidden!important;
+}
+body.hj-dual-preview .layout{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr)!important;
+ grid-template-rows:minmax(0,1fr)!important;
+ box-sizing:border-box!important;
+ width:100%!important;height:100%!important;
+ min-width:0!important;min-height:0!important;
+ margin:0!important;padding:0!important;
+}
+body.hj-dual-preview .workspace{
+ display:block!important;position:relative!important;
+ box-sizing:border-box!important;
+ grid-column:1!important;grid-row:1!important;
+ width:100%!important;height:100%!important;
+ min-width:0!important;min-height:0!important;
+ max-width:100%!important;max-height:100%!important;
+ margin:0!important;padding:0!important;overflow:hidden!important;
+}
+body.hj-dual-preview .workspace svg#canvas{
+ display:block!important;position:absolute!important;
+ left:0!important;right:0!important;
+ top:calc(var(--hj-title-space,88px) + 4px)!important;
+ width:100%!important;
+ height:calc(100% - var(--hj-title-space,88px) - 4px)!important;
+ margin:0!important;padding:0!important;
+}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;犬の配置は5px間隔で細かく調整できます。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
