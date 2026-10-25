@@ -814,6 +814,72 @@ body.hj-dual-preview .workspace .toolbar{
   font-size:9px!important;
   margin-top:3px!important;
 }
+&lt;/style&gt;&lt;style id=&quot;hj-stable-profile-instagram-link-20261025&quot;&gt;
+/* Stable profile detail rows, including long values and social links. */
+body:not(.hj-edit-mode) .panel.right .profile-readonly{
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:0 12px!important;
+ width:100%!important;
+ min-width:0!important;
+ align-items:start!important;
+}
+body:not(.hj-edit-mode) .panel.right .profile-readonly .item{
+ box-sizing:border-box!important;
+ display:grid!important;
+ grid-template-columns:minmax(0,40%) minmax(0,60%)!important;
+ align-items:start!important;
+ min-width:0!important;
+ min-height:61px!important;
+ padding:10px 0!important;
+ gap:8px!important;
+ margin:0!important;
+ border-bottom:1px solid #becbda!important;
+}
+body:not(.hj-edit-mode) .panel.right .profile-readonly .key{
+ box-sizing:border-box!important;
+ min-width:0!important;
+ width:auto!important;
+ padding:0 8px 0 0!important;
+ margin:0!important;
+ line-height:1.45!important;
+ white-space:normal!important;
+ overflow-wrap:break-word!important;
+ word-break:normal!important;
+ border-right:1px solid #becbda!important;
+}
+body:not(.hj-edit-mode) .panel.right .profile-readonly .value{
+ box-sizing:border-box!important;
+ min-width:0!important;
+ width:auto!important;
+ margin:0!important;
+ padding:0!important;
+ line-height:1.45!important;
+ overflow-wrap:anywhere!important;
+ word-break:normal!important;
+ white-space:normal!important;
+}
+body:not(.hj-edit-mode) .panel.right .profile-readonly .item:has(#viewDogAddress){
+ grid-column:1/-1!important;
+ grid-template-columns:minmax(0,40%) minmax(0,60%)!important;
+}
+body:not(.hj-edit-mode) .panel.right #viewDogInstagram a{
+ display:inline-block!important;
+ max-width:100%!important;
+ font-weight:700!important;
+ text-decoration:underline!important;
+ text-underline-offset:3px!important;
+ white-space:nowrap!important;
+ overflow-wrap:normal!important;
+ color:#276297!important;
+}
+@media(max-width:610px){
+ body:not(.hj-edit-mode) .panel.right .profile-readonly{grid-template-columns:minmax(0,1fr)!important}
+ body:not(.hj-edit-mode) .panel.right .profile-readonly .item,
+ body:not(.hj-edit-mode) .panel.right .profile-readonly .item:has(#viewDogAddress){
+  grid-column:1!important;grid-template-columns:minmax(0,40%) minmax(0,60%)!important;
+ }
+}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;写真の移動は20px間隔で揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -919,7 +985,7 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:1},window.parent.locatio
   const insta=$('viewDogInstagram');insta.replaceChildren();
   if(d?.instagram){const a=document.createElement('a');const raw=d.instagram.trim();const handle=raw.replace(/^@/,'');
     const safe=/^[a-zA-Z0-9._]{1,30}$/.test(handle)?'https://www.instagram.com/'+handle+'/':/^https:\/\/((www\.)?instagram\.com)\//i.test(raw)?raw:null;
-    if(safe){a.href=safe;a.target='_blank';a.rel='noopener noreferrer';a.textContent=raw;insta.appendChild(a)}else insta.textContent=raw;
+    if(safe){a.href=safe;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Instagram';a.setAttribute('aria-label','Instagramを開く');insta.appendChild(a)}else insta.textContent='リンク未設定';
   }else insta.textContent='未登録';
   value('viewDogAddress',[d?.ownerPref,d?.ownerCity].filter(Boolean).join(' '));
   const toggle=$('profileEditToggle');toggle.style.display=window.isHJAdmin?'block':'none';
@@ -1682,6 +1748,72 @@ body.hj-dual-preview .workspace .toolbar{
   font-size:9px!important;
   margin-top:3px!important;
 }
+&lt;/style&gt;&lt;style id=&quot;hj-stable-profile-instagram-link-20261025&quot;&gt;
+/* Stable profile detail rows, including long values and social links. */
+body:not(.hj-edit-mode) .panel.right .profile-readonly{
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:0 12px!important;
+ width:100%!important;
+ min-width:0!important;
+ align-items:start!important;
+}
+body:not(.hj-edit-mode) .panel.right .profile-readonly .item{
+ box-sizing:border-box!important;
+ display:grid!important;
+ grid-template-columns:minmax(0,40%) minmax(0,60%)!important;
+ align-items:start!important;
+ min-width:0!important;
+ min-height:61px!important;
+ padding:10px 0!important;
+ gap:8px!important;
+ margin:0!important;
+ border-bottom:1px solid #becbda!important;
+}
+body:not(.hj-edit-mode) .panel.right .profile-readonly .key{
+ box-sizing:border-box!important;
+ min-width:0!important;
+ width:auto!important;
+ padding:0 8px 0 0!important;
+ margin:0!important;
+ line-height:1.45!important;
+ white-space:normal!important;
+ overflow-wrap:break-word!important;
+ word-break:normal!important;
+ border-right:1px solid #becbda!important;
+}
+body:not(.hj-edit-mode) .panel.right .profile-readonly .value{
+ box-sizing:border-box!important;
+ min-width:0!important;
+ width:auto!important;
+ margin:0!important;
+ padding:0!important;
+ line-height:1.45!important;
+ overflow-wrap:anywhere!important;
+ word-break:normal!important;
+ white-space:normal!important;
+}
+body:not(.hj-edit-mode) .panel.right .profile-readonly .item:has(#viewDogAddress){
+ grid-column:1/-1!important;
+ grid-template-columns:minmax(0,40%) minmax(0,60%)!important;
+}
+body:not(.hj-edit-mode) .panel.right #viewDogInstagram a{
+ display:inline-block!important;
+ max-width:100%!important;
+ font-weight:700!important;
+ text-decoration:underline!important;
+ text-underline-offset:3px!important;
+ white-space:nowrap!important;
+ overflow-wrap:normal!important;
+ color:#276297!important;
+}
+@media(max-width:610px){
+ body:not(.hj-edit-mode) .panel.right .profile-readonly{grid-template-columns:minmax(0,1fr)!important}
+ body:not(.hj-edit-mode) .panel.right .profile-readonly .item,
+ body:not(.hj-edit-mode) .panel.right .profile-readonly .item:has(#viewDogAddress){
+  grid-column:1!important;grid-template-columns:minmax(0,40%) minmax(0,60%)!important;
+ }
+}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;写真の移動は20px間隔で揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -1787,7 +1919,7 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:2},window.parent.locatio
   const insta=$('viewDogInstagram');insta.replaceChildren();
   if(d?.instagram){const a=document.createElement('a');const raw=d.instagram.trim();const handle=raw.replace(/^@/,'');
     const safe=/^[a-zA-Z0-9._]{1,30}$/.test(handle)?'https://www.instagram.com/'+handle+'/':/^https:\/\/((www\.)?instagram\.com)\//i.test(raw)?raw:null;
-    if(safe){a.href=safe;a.target='_blank';a.rel='noopener noreferrer';a.textContent=raw;insta.appendChild(a)}else insta.textContent=raw;
+    if(safe){a.href=safe;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Instagram';a.setAttribute('aria-label','Instagramを開く');insta.appendChild(a)}else insta.textContent='リンク未設定';
   }else insta.textContent='未登録';
   value('viewDogAddress',[d?.ownerPref,d?.ownerCity].filter(Boolean).join(' '));
   const toggle=$('profileEditToggle');toggle.style.display=window.isHJAdmin?'block':'none';
