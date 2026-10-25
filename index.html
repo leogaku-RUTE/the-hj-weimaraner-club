@@ -360,6 +360,27 @@ body.hj-single-expanded .framebox.hj-fullscreen-family>iframe{
 body>header h1::after{content:attr(data-hj-display-title)!important}
 body>header h1[data-hj-has-brand="no"]::before{content:none!important;display:none!important}
 body>header .sub::after{content:attr(data-hj-display-subtitle)!important}
+/* The administrator-defined site name appears once, on a single line. */
+body>header h1::before,body>header h1::after{content:none!important;display:none!important}
+body>header h1{
+ font-family:Georgia,'Times New Roman',serif!important;
+ font-size:clamp(17px,3vw,40px)!important;
+ letter-spacing:.04em!important;
+ font-weight:400!important;
+ line-height:1.2!important;
+ white-space:nowrap!important;
+ overflow-wrap:normal!important;
+ overflow:hidden!important;
+ text-overflow:ellipsis!important;
+ width:100%!important;
+ max-width:100%!important;
+ margin:0!important;
+}
+body>header>div:first-child{min-width:0!important}
+@media(max-width:760px){
+ body>header{padding-top:58px!important;padding-right:16px!important}
+ body>header h1{font-size:clamp(15px,4vw,28px)!important;letter-spacing:0!important}
+}
 </style></head><body><header><div><h1>THE HJ WEIMARANER Club</h1><div class="sub">FAMILY NETWORK / DUAL FAMILY CIRCLE</div></div><span class="hint">2つの家系図を同時表示・個別編集</span></header><div class="adminbar"><span class="state" id="sharedStatus">共有データを読み込み中…</span><button id="refreshShared">最新データを再読み込み</button><button id="adminOpen">管理者ログイン / 管理画面</button></div><main><nav aria-label="家系図の表示切り替え" class="viewtabs"><button aria-pressed="false" class="viewtab active" data-view="both" aria-pressed="true">◫ TOP</button><button aria-pressed="false" class="viewtab" data-view="one">◎ <span id="tabLabel1">家系図 01</span></button><button aria-pressed="false" class="viewtab" data-view="two">◎ <span id="tabLabel2">家系図 02</span></button></nav><div class="grid" data-view="both" id="familyGrid"><section class="card" data-circle="one"><div class="cardhead"><div><b id="familyLabel1">FAMILY CIRCLE 01</b><div class="tag">左側の家系図</div></div></div><div class="framebox"><iframe id="frame1" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
 &lt;html lang=&quot;ja&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;/&gt;&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;&lt;title&gt;THE HJ WEIMARANER Club FAMILY NETWORK&lt;/title&gt;&lt;style&gt;
@@ -2946,5 +2967,25 @@ function populate(){if(!state)return;$('loginSection').style.display=state.isAdm
 $('saveSettings').onclick=async()=>{const features={};document.querySelectorAll('[data-feature]').forEach(x=>features[x.dataset.feature]=x.checked);const data={title:$('siteTitle').value,subtitle:$('siteSubtitle').value,familyNames:[$('familyName1').value,$('familyName2').value],accent:$('siteAccent').value,background:$('siteBackground').value,features};const r=await fetch(base+'/api/settings',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});$('adminMessage').textContent=r.ok?'設定を保存しました':'設定の保存に失敗しました';if(r.ok){state.settings=data;theme();frames.forEach(f=>f.contentWindow.postMessage({type:'HJ_SETTINGS',settings:data,isAdmin:true},location.origin))}};
 $('backupBtn').onclick=()=>{location.href=base+'/api/backup'};
 load();
+})();
+</script><script id="hj-fit-site-title-one-line">
+/* Fit the saved title within its actual available width; keep it on one line. */
+(()=>{
+ const title=document.querySelector('body>header h1');
+ if(!title)return;
+ const fit=()=>{
+  title.style.removeProperty('font-size');
+  let px=parseFloat(getComputedStyle(title).fontSize)||32;
+  const available=title.clientWidth;
+  if(!available)return;
+  title.style.setProperty('font-size',px+'px','important');
+  while(px>10&&title.scrollWidth>available+1){
+   px-=1;title.style.setProperty('font-size',px+'px','important');
+  }
+ };
+ if(typeof ResizeObserver!=='undefined')new ResizeObserver(fit).observe(title.parentElement);
+ new MutationObserver(fit).observe(title,{childList:true,characterData:true,subtree:true});
+ if(document.fonts?.ready)document.fonts.ready.then(fit);
+ fit();
 })();
 </script></body></html>
