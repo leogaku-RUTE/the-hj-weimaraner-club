@@ -2942,40 +2942,4 @@ $('saveSettings').onclick=async()=>{const features={};document.querySelectorAll(
 $('backupBtn').onclick=()=>{location.href=base+'/api/backup'};
 load();
 })();
-</script><style id="hj-preview-diagnostic-20261025">
-#hjPreviewStatus{position:fixed;right:12px;bottom:12px;z-index:2147483000;max-width:min(430px,calc(100vw - 24px));background:#142738;color:#f4f7fc;border:2px solid #9ab5ca;border-radius:9px;padding:12px 15px;font:12px/1.5 system-ui,sans-serif;box-shadow:0 8px 35px #0019}
-#hjPreviewStatus strong{display:block;font-size:13px;margin-bottom:5px;color:#d8eeff}#hjPreviewStatus .hj-diagnostic-family{margin:5px 0}#hjPreviewStatus .hj-problem{color:#ffd0cd}#hjPreviewStatus .hj-good{color:#bdf1d1}
-</style>
-<script id="hj-preview-diagnostic-20261025-script">
-(function(){
- try{
-  const status=document.createElement('div');status.id='hjPreviewStatus';status.setAttribute('role','status');
-  const head=document.createElement('strong');head.textContent='TEST環境：家系図の描画診断';
-  const info=document.createElement('div');info.textContent='フレームの読み込み待機中…';
-  const note=document.createElement('div');note.textContent='この表示は検証環境限定。公開サイトには表示されません。';
-  note.style.cssText='font-size:10px;color:#aabed2;margin-top:8px';
-  status.append(head,info,note);document.body.appendChild(status);
-  function check(){
-   const lines=[];
-   for(let i=1;i<=2;i++){
-    const frame=document.getElementById('frame'+i),doc=frame?.contentDocument;
-    if(!doc){lines.push({ok:false,text:'家系図0'+i+'：フレームが読み込めません'});continue}
-    const canvas=doc.getElementById('canvas'),nodes=doc.getElementById('nodes'),edges=doc.getElementById('edges');
-    const count=nodes?.querySelectorAll('g.node').length||0;
-    const links=edges?.querySelectorAll('line.connection').length||0;
-    const bounds=canvas?.getBoundingClientRect();
-    const w=Math.round(bounds?.width||0),h=Math.round(bounds?.height||0);
-    const view=document.getElementById('familyGrid')?.dataset.view||'one';
-    const visible=view==='both'||(view==='one'&&i===1)||(view==='two'&&i===2);
-    const ok=count>0&&(!visible||(w>20&&h>20));
-    const detail=visible?'描画領域 '+w+'×'+h+'px':'現在は別タブに非表示';
-    lines.push({ok,text:'家系図0'+i+'：犬 '+count+'匹／線 '+links+'本／'+detail+(ok?' ✓':' ※表示要確認')});
-   }
-   info.replaceChildren();
-   for(const row of lines){const div=document.createElement('div');div.className='hj-diagnostic-family '+(row.ok?'hj-good':'hj-problem');div.textContent=row.text;info.appendChild(div)}
-  }
-  for(let i=1;i<=2;i++)document.getElementById('frame'+i)?.addEventListener('load',check);
-  check();setInterval(check,1500);
- }catch(e){console.error('Preview diagnostic failed:',e)}
-})();
 </script></body></html>
