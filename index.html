@@ -2524,8 +2524,11 @@ load();
     const links=edges?.querySelectorAll('line.connection').length||0;
     const bounds=canvas?.getBoundingClientRect();
     const w=Math.round(bounds?.width||0),h=Math.round(bounds?.height||0);
-    const ok=count>0&&w>20&&h>20;
-    lines.push({ok,text:'家系図0'+i+'：犬 '+count+'匹／線 '+links+'本／描画領域 '+w+'×'+h+'px'+(ok?' ✓':' ※表示要確認')});
+    const view=document.getElementById('familyGrid')?.dataset.view||'one';
+    const visible=view==='both'||(view==='one'&&i===1)||(view==='two'&&i===2);
+    const ok=count>0&&(!visible||(w>20&&h>20));
+    const detail=visible?'描画領域 '+w+'×'+h+'px':'現在は別タブに非表示';
+    lines.push({ok,text:'家系図0'+i+'：犬 '+count+'匹／線 '+links+'本／'+detail+(ok?' ✓':' ※表示要確認')});
    }
    info.replaceChildren();
    for(const row of lines){const div=document.createElement('div');div.className='hj-diagnostic-family '+(row.ok?'hj-good':'hj-problem');div.textContent=row.text;info.appendChild(div)}
