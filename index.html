@@ -1026,7 +1026,7 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:1},window.parent.locatio
  function refresh(){
   const d=typeof getDog==='function'?getDog(selected):null;
   value('viewDogName',d?.name);value('viewDogSex',d?.sex==='Male'?'オス':d?.sex==='Female'?'メス':d?.sex==='Unknown'?'不明':null);
-  const birthday=$('viewDogBirthday');birthday.replaceChildren();if(typeof d?.birthday==='string' &amp;&amp; /^\d{4}-\d{2}-\d{2}$/.test(d.birthday)){const [year,month,day]=d.birthday.split('-');const yearLine=document.createElement('span');yearLine.className='hj-birthday-year';yearLine.textContent=year+'/';const dateLine=document.createElement('span');dateLine.className='hj-birthday-month-day';dateLine.textContent=month+'/'+day;birthday.append(yearLine,dateLine)}else birthday.textContent=d?.birthday||'未登録';
+  const birthday=$('viewDogBirthday');birthday.replaceChildren();if(typeof d?.birthday==='string' &amp;&amp; /^\d{4}-\d{2}-\d{2}$/.test(d.birthday)){const [year,month,day]=d.birthday.split('-');const yearLine=document.createElement('span');yearLine.className='hj-birthday-year';yearLine.textContent=year.slice(-2)+'/';const dateLine=document.createElement('span');dateLine.className='hj-birthday-month-day';dateLine.textContent=month+'/'+day;birthday.append(yearLine,dateLine)}else birthday.textContent=d?.birthday||'未登録';
   const insta=$('viewDogInstagram');insta.replaceChildren();
   if(d?.instagram){const a=document.createElement('a');const raw=d.instagram.trim();const handle=raw.replace(/^@/,'');
     const safe=/^[a-zA-Z0-9._]{1,30}$/.test(handle)?'https://www.instagram.com/'+handle+'/':/^https:\/\/((www\.)?instagram\.com)\//i.test(raw)?raw:null;
@@ -2005,7 +2005,7 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:2},window.parent.locatio
  function refresh(){
   const d=typeof getDog==='function'?getDog(selected):null;
   value('viewDogName',d?.name);value('viewDogSex',d?.sex==='Male'?'オス':d?.sex==='Female'?'メス':d?.sex==='Unknown'?'不明':null);
-  const birthday=$('viewDogBirthday');birthday.replaceChildren();if(typeof d?.birthday==='string' &amp;&amp; /^\d{4}-\d{2}-\d{2}$/.test(d.birthday)){const [year,month,day]=d.birthday.split('-');const yearLine=document.createElement('span');yearLine.className='hj-birthday-year';yearLine.textContent=year+'/';const dateLine=document.createElement('span');dateLine.className='hj-birthday-month-day';dateLine.textContent=month+'/'+day;birthday.append(yearLine,dateLine)}else birthday.textContent=d?.birthday||'未登録';
+  const birthday=$('viewDogBirthday');birthday.replaceChildren();if(typeof d?.birthday==='string' &amp;&amp; /^\d{4}-\d{2}-\d{2}$/.test(d.birthday)){const [year,month,day]=d.birthday.split('-');const yearLine=document.createElement('span');yearLine.className='hj-birthday-year';yearLine.textContent=year.slice(-2)+'/';const dateLine=document.createElement('span');dateLine.className='hj-birthday-month-day';dateLine.textContent=month+'/'+day;birthday.append(yearLine,dateLine)}else birthday.textContent=d?.birthday||'未登録';
   const insta=$('viewDogInstagram');insta.replaceChildren();
   if(d?.instagram){const a=document.createElement('a');const raw=d.instagram.trim();const handle=raw.replace(/^@/,'');
     const safe=/^[a-zA-Z0-9._]{1,30}$/.test(handle)?'https://www.instagram.com/'+handle+'/':/^https:\/\/((www\.)?instagram\.com)\//i.test(raw)?raw:null;
