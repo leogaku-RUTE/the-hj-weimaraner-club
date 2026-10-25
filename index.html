@@ -433,6 +433,49 @@ body.hj-edit-mode .panel.right.profile-editing #profileEditOpen{display:none!imp
 .panel.right:not(.profile-editing) #hj-photo-upload-row{display:none!important}
 body.hj-edit-mode .panel.right.profile-editing #hj-photo-upload-row{display:grid!important}
 body.hj-edit-mode .panel.right.profile-editing #profileEditToggle{display:block!important;width:100%!important;margin:14px 0 8px!important;padding:10px 12px!important;cursor:pointer}
+&lt;/style&gt;&lt;style id=&quot;hj-fixed-pedigree-while-editing-20261025&quot;&gt;
+/* Profile editing: a stationary pedigree canvas and independently scrolling form. */
+@media(min-width:680px){
+  html:has(.panel.right.profile-editing),
+  body:has(.panel.right.profile-editing){height:100%!important;max-height:100%!important;overflow:hidden!important}
+  body:has(.panel.right.profile-editing){display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important}
+  body:has(.panel.right.profile-editing)>header{position:relative!important;flex:0 0 auto!important;min-height:0!important}
+  body:has(.panel.right.profile-editing) .layout{
+    display:grid!important;flex:1 1 auto!important;
+    grid-template-columns:minmax(0,1fr) clamp(265px,27vw,340px)!important;
+    grid-template-rows:minmax(0,1fr)!important;
+    height:auto!important;min-height:0!important;max-height:none!important;
+    overflow:hidden!important;align-items:stretch!important;
+  }
+  body:has(.panel.right.profile-editing) .panel.left{display:none!important}
+  body:has(.panel.right.profile-editing) .workspace{
+    display:block!important;grid-column:1!important;grid-row:1!important;
+    order:0!important;position:relative!important;
+    width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;
+    overflow:hidden!important;flex:none!important;
+  }
+  body:has(.panel.right.profile-editing) .panel.right{
+    display:block!important;grid-column:2!important;grid-row:1!important;order:0!important;
+    width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;
+    overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;
+    border-top:0!important;border-left:1px solid #b9c7d6!important;
+    flex:none!important;
+  }
+  body:has(.panel.right.profile-editing) .workspace svg#canvas{
+    top:calc(var(--hj-title-space,88px) + 5px)!important;
+    height:calc(100% - var(--hj-title-space,88px) - 5px)!important;
+  }
+}
+@media(max-width:679px){
+  body:has(.panel.right.profile-editing) .workspace{
+    position:sticky!important;top:0!important;z-index:2!important;
+    height:clamp(280px,46dvh,400px)!important;min-height:280px!important;
+  }
+  body:has(.panel.right.profile-editing) .workspace svg#canvas{
+    top:calc(var(--hj-title-space,76px) + 2px)!important;
+    height:calc(100% - var(--hj-title-space,76px) - 2px)!important;
+  }
+}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;写真の移動は20px間隔で揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -949,6 +992,49 @@ body.hj-edit-mode .panel.right.profile-editing #profileEditOpen{display:none!imp
 .panel.right:not(.profile-editing) #hj-photo-upload-row{display:none!important}
 body.hj-edit-mode .panel.right.profile-editing #hj-photo-upload-row{display:grid!important}
 body.hj-edit-mode .panel.right.profile-editing #profileEditToggle{display:block!important;width:100%!important;margin:14px 0 8px!important;padding:10px 12px!important;cursor:pointer}
+&lt;/style&gt;&lt;style id=&quot;hj-fixed-pedigree-while-editing-20261025&quot;&gt;
+/* Profile editing: a stationary pedigree canvas and independently scrolling form. */
+@media(min-width:680px){
+  html:has(.panel.right.profile-editing),
+  body:has(.panel.right.profile-editing){height:100%!important;max-height:100%!important;overflow:hidden!important}
+  body:has(.panel.right.profile-editing){display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important}
+  body:has(.panel.right.profile-editing)>header{position:relative!important;flex:0 0 auto!important;min-height:0!important}
+  body:has(.panel.right.profile-editing) .layout{
+    display:grid!important;flex:1 1 auto!important;
+    grid-template-columns:minmax(0,1fr) clamp(265px,27vw,340px)!important;
+    grid-template-rows:minmax(0,1fr)!important;
+    height:auto!important;min-height:0!important;max-height:none!important;
+    overflow:hidden!important;align-items:stretch!important;
+  }
+  body:has(.panel.right.profile-editing) .panel.left{display:none!important}
+  body:has(.panel.right.profile-editing) .workspace{
+    display:block!important;grid-column:1!important;grid-row:1!important;
+    order:0!important;position:relative!important;
+    width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;
+    overflow:hidden!important;flex:none!important;
+  }
+  body:has(.panel.right.profile-editing) .panel.right{
+    display:block!important;grid-column:2!important;grid-row:1!important;order:0!important;
+    width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;
+    overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;
+    border-top:0!important;border-left:1px solid #b9c7d6!important;
+    flex:none!important;
+  }
+  body:has(.panel.right.profile-editing) .workspace svg#canvas{
+    top:calc(var(--hj-title-space,88px) + 5px)!important;
+    height:calc(100% - var(--hj-title-space,88px) - 5px)!important;
+  }
+}
+@media(max-width:679px){
+  body:has(.panel.right.profile-editing) .workspace{
+    position:sticky!important;top:0!important;z-index:2!important;
+    height:clamp(280px,46dvh,400px)!important;min-height:280px!important;
+  }
+  body:has(.panel.right.profile-editing) .workspace svg#canvas{
+    top:calc(var(--hj-title-space,76px) + 2px)!important;
+    height:calc(100% - var(--hj-title-space,76px) - 2px)!important;
+  }
+}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;写真の移動は20px間隔で揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
