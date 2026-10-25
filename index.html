@@ -334,6 +334,27 @@ body.hj-single-expanded .framebox.hj-fullscreen-family>iframe{
  height:auto!important;min-height:0!important;
  margin:0!important;padding:0!important;
 }
+</style><style id="hj-single-pedigree-sizes-match-20261025">
+/* Keep Family Circle 1 and 2 identical in standalone layout; dual/fullscreen sizes retain the existing tested rules. */
+#familyGrid[data-view="one"]>.card[data-circle="one"]>.framebox,
+#familyGrid[data-view="two"]>.card[data-circle="two"]>.framebox{
+ width:100%!important;min-width:0!important;box-sizing:border-box!important;
+ height:clamp(700px,calc(100dvh - 220px),1200px)!important;min-height:700px!important;
+}
+#familyGrid[data-view="one"]>.card[data-circle="one"]>.framebox>iframe,
+#familyGrid[data-view="two"]>.card[data-circle="two"]>.framebox>iframe{
+ width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+}
+@media(max-width:760px){
+ #familyGrid[data-view="one"]>.card[data-circle="one"]>.framebox,
+ #familyGrid[data-view="two"]>.card[data-circle="two"]>.framebox{
+  height:1200px!important;min-height:0!important;
+ }
+}
+@media(max-width:480px){
+ #familyGrid[data-view="one"]>.card[data-circle="one"]>.framebox,
+ #familyGrid[data-view="two"]>.card[data-circle="two"]>.framebox{height:1350px!important}
+}
 </style></head><body><header><div><h1>THE HJ WEIMARANER Club</h1><div class="sub">FAMILY NETWORK / DUAL FAMILY CIRCLE</div></div><span class="hint">2つの家系図を同時表示・個別編集</span></header><div class="adminbar"><span class="state" id="sharedStatus">共有データを読み込み中…</span><button id="refreshShared">最新データを再読み込み</button><button id="adminOpen">管理者ログイン / 管理画面</button></div><main><nav aria-label="家系図の表示切り替え" class="viewtabs"><button aria-pressed="false" class="viewtab active" data-view="both" aria-pressed="true">◫ TOP</button><button aria-pressed="false" class="viewtab" data-view="one">◎ <span id="tabLabel1">家系図 01</span></button><button aria-pressed="false" class="viewtab" data-view="two">◎ <span id="tabLabel2">家系図 02</span></button></nav><div class="grid" data-view="both" id="familyGrid"><section class="card" data-circle="one"><div class="cardhead"><div><b id="familyLabel1">FAMILY CIRCLE 01</b><div class="tag">左側の家系図</div></div></div><div class="framebox"><iframe id="frame1" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
 &lt;html lang=&quot;ja&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;/&gt;&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;&lt;title&gt;THE HJ WEIMARANER Club FAMILY NETWORK&lt;/title&gt;&lt;style&gt;
@@ -2549,6 +2570,30 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:2},window.parent.locatio
     }
   });
   viewMode();syncAdmin();
+})();
+&lt;/script&gt;&lt;script&gt;
+/* Pure presentation: sync the read-only heading with existing profile data. */
+(()=&gt;{
+ const panel=document.querySelector('.panel.right');
+ const h=document.createElement('div');h.id='hjProfileName';h.setAttribute('aria-live','polite');
+ const profile=document.getElementById('readonlyProfile');profile?.before(h);
+ function update(){
+   const name=document.getElementById('viewDogName')?.textContent||'';
+   const sex=document.getElementById('viewDogSex')?.textContent||'';
+   h.replaceChildren(document.createTextNode(name==='犬を選択してください'?'DOG PROFILE':name));
+   if(sex==='オス'||sex==='メス'){
+     const g=document.createElement('span');g.className='hj-sex '+(sex==='オス'?'male':'female');g.textContent=sex==='オス'?'♂':'♀';h.appendChild(g);
+   }
+ }
+ const target=document.getElementById('viewDogName');
+ if(target){new MutationObserver(update).observe(target,{childList:true,characterData:true,subtree:true});}
+ const sex=document.getElementById('viewDogSex');
+ if(sex){new MutationObserver(update).observe(sex,{childList:true,characterData:true,subtree:true});}
+ update();
+ // In view mode, disable node drag without altering the editor's handlers.
+ document.getElementById('canvas')?.addEventListener('pointermove',e=&gt;{
+   if(!document.body.classList.contains('hj-edit-mode') &amp;&amp; typeof drag!=='undefined' &amp;&amp; drag){drag=null;}
+ },true);
 })();
 &lt;/script&gt;&lt;script id=&quot;hj-2026-complete-profile&quot;&gt;(()=&gt;{
   const $=id=&gt;document.getElementById(id);
