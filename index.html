@@ -695,7 +695,7 @@ body.hj-edit-mode .panel.right.profile-editing #profileEditToggle{display:block!
   html:has(.panel.right.profile-editing),
   body:has(.panel.right.profile-editing){height:100%!important;max-height:100%!important;overflow:hidden!important}
   body:has(.panel.right.profile-editing){display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important}
-  body:has(.panel.right.profile-editing)>header{position:relative!important;flex:0 0 auto!important;min-height:0!important}
+  body:has(.panel.right.profile-editing)&gt;header{position:relative!important;flex:0 0 auto!important;min-height:0!important}
   body:has(.panel.right.profile-editing) .layout{
     display:grid!important;flex:1 1 auto!important;
     grid-template-columns:minmax(0,1fr) clamp(265px,27vw,340px)!important;
@@ -895,7 +895,7 @@ body.hj-edit-mode .panel.right .profilepic{
 html:has(body.hj-dual-preview),body.hj-dual-preview{
   height:100%!important;min-height:0!important;overflow:hidden!important;
 }
-body.hj-dual-preview>header{display:none!important}
+body.hj-dual-preview&gt;header{display:none!important}
 body.hj-dual-preview .layout,
 body.hj-dual-preview.hj-edit-mode .layout,
 body.hj-dual-preview:has(.panel.right.profile-editing) .layout{
@@ -1421,7 +1421,7 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:1},window.parent.locatio
   const close=document.getElementById('profileEditToggle');
   if(!edit||!panel)return;
   function adminVisibility(){document.body.classList.toggle('hj-admin-ready',window.isHJAdmin===true)}
-  window.addEventListener('message',e=>{if(e.origin!==window.parent.location.origin)return;if(e.data?.type==='HJ_INIT'||e.data?.type==='HJ_SETTINGS')setTimeout(adminVisibility,0)});
+  window.addEventListener('message',e=&gt;{if(e.origin!==window.parent.location.origin)return;if(e.data?.type==='HJ_INIT'||e.data?.type==='HJ_SETTINGS')setTimeout(adminVisibility,0)});
   adminVisibility();
   edit.addEventListener('click',function(){
     if(!document.body.classList.contains('hj-edit-mode')){
@@ -1675,6 +1675,45 @@ body.hj-edit-mode .workspace .toolbar{
  controls.prepend(button);
  const snap=n=&gt;Math.round(n/10)*10;
  let viewPositions=null;
+ let familyId=null;
+ let familyVersion=null;
+ const storagePrefix='hj-pedigree-circle-v1-';
+ function saveLocalLayout(placement){
+  if(!familyId||!familyVersion)return;
+  try{
+   localStorage.setItem(storagePrefix+familyId,JSON.stringify({
+    updatedAt:familyVersion,
+    viewBox:placement.viewBox,
+    positions:[...placement.positions].map(([id,p])=&gt;[id,p.x,p.y])
+   }));
+  }catch(error){console.warn('円形配列のブラウザ保存を利用できません',error);}
+ }
+ function clearLocalLayout(){
+  if(!familyId)return;
+  try{localStorage.removeItem(storagePrefix+familyId)}catch(error){}
+ }
+ function restoreLocalLayout(){
+  if(!familyId||!familyVersion||document.body.classList.contains('hj-edit-mode'))return;
+  try{
+   const stored=JSON.parse(localStorage.getItem(storagePrefix+familyId)||'null');
+   if(!stored||stored.updatedAt!==familyVersion||!Array.isArray(stored.positions))return;
+   const vb=String(stored.viewBox||'').trim().split(/\s+/).map(Number);
+   if(vb.length!==4||vb.some(n=&gt;!Number.isFinite(n))||vb[2]&lt;=0||vb[3]&lt;=0)return;
+   const available=new Set(dogs.map(d=&gt;d.id));
+   const positions=new Map();
+   for(const entry of stored.positions){
+    if(!Array.isArray(entry)||entry.length!==3) return;
+    const [id,x,y]=entry;
+    if(!Number.isSafeInteger(id)||!available.has(id)||!Number.isFinite(x)||!Number.isFinite(y))return;
+    positions.set(id,{x,y});
+   }
+   if(!positions.size)return;
+   viewPositions=positions;
+   canvas.setAttribute('viewBox',vb.join(' '));
+   zoom=1;offset={x:0,y:0};drag=null;
+   render();
+  }catch(error){console.warn('円形配列の復元をスキップしました',error);}
+ }
  const originalRender=render;
  /* A visitor can rearrange the *view* without modifying shared dog data. */
  render=function(){
@@ -1801,10 +1840,13 @@ body.hj-edit-mode .workspace .toolbar{
   }
   viewPositions=persistent?null:placement.positions;
   if(persistent){
+   clearLocalLayout();
    for(const d of dogs){
     const pos=placement.positions.get(d.id);
     if(pos){d.x=pos.x;d.y=pos.y;}
    }
+  }else{
+   saveLocalLayout(placement);
   }
   canvas.setAttribute('viewBox',placement.viewBox);
   zoom=1;offset={x:0,y:0};drag=null;selectedEdge=-1;
@@ -1818,7 +1860,11 @@ body.hj-edit-mode .workspace .toolbar{
  window.addEventListener('message',event=&gt;{
   if(event.origin!==window.parent.location.origin)return;
   if(event.data?.type==='HJ_INIT'){
-   if(viewPositions){viewPositions=null;render();}
+   if(![1,2].includes(event.data.family))return;
+   familyId=event.data.family;
+   familyVersion=event.data.data?.updated_at||null;
+   viewPositions=null;
+   restoreLocalLayout();
   }
  });
 })();
@@ -2157,7 +2203,7 @@ body.hj-edit-mode .panel.right.profile-editing #profileEditToggle{display:block!
   html:has(.panel.right.profile-editing),
   body:has(.panel.right.profile-editing){height:100%!important;max-height:100%!important;overflow:hidden!important}
   body:has(.panel.right.profile-editing){display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important}
-  body:has(.panel.right.profile-editing)>header{position:relative!important;flex:0 0 auto!important;min-height:0!important}
+  body:has(.panel.right.profile-editing)&gt;header{position:relative!important;flex:0 0 auto!important;min-height:0!important}
   body:has(.panel.right.profile-editing) .layout{
     display:grid!important;flex:1 1 auto!important;
     grid-template-columns:minmax(0,1fr) clamp(265px,27vw,340px)!important;
@@ -2357,7 +2403,7 @@ body.hj-edit-mode .panel.right .profilepic{
 html:has(body.hj-dual-preview),body.hj-dual-preview{
   height:100%!important;min-height:0!important;overflow:hidden!important;
 }
-body.hj-dual-preview>header{display:none!important}
+body.hj-dual-preview&gt;header{display:none!important}
 body.hj-dual-preview .layout,
 body.hj-dual-preview.hj-edit-mode .layout,
 body.hj-dual-preview:has(.panel.right.profile-editing) .layout{
@@ -2883,7 +2929,7 @@ window.parent.postMessage({type:'HJ_FRAME_READY',family:2},window.parent.locatio
   const close=document.getElementById('profileEditToggle');
   if(!edit||!panel)return;
   function adminVisibility(){document.body.classList.toggle('hj-admin-ready',window.isHJAdmin===true)}
-  window.addEventListener('message',e=>{if(e.origin!==window.parent.location.origin)return;if(e.data?.type==='HJ_INIT'||e.data?.type==='HJ_SETTINGS')setTimeout(adminVisibility,0)});
+  window.addEventListener('message',e=&gt;{if(e.origin!==window.parent.location.origin)return;if(e.data?.type==='HJ_INIT'||e.data?.type==='HJ_SETTINGS')setTimeout(adminVisibility,0)});
   adminVisibility();
   edit.addEventListener('click',function(){
     if(!document.body.classList.contains('hj-edit-mode')){
@@ -3137,6 +3183,45 @@ body.hj-edit-mode .workspace .toolbar{
  controls.prepend(button);
  const snap=n=&gt;Math.round(n/10)*10;
  let viewPositions=null;
+ let familyId=null;
+ let familyVersion=null;
+ const storagePrefix='hj-pedigree-circle-v1-';
+ function saveLocalLayout(placement){
+  if(!familyId||!familyVersion)return;
+  try{
+   localStorage.setItem(storagePrefix+familyId,JSON.stringify({
+    updatedAt:familyVersion,
+    viewBox:placement.viewBox,
+    positions:[...placement.positions].map(([id,p])=&gt;[id,p.x,p.y])
+   }));
+  }catch(error){console.warn('円形配列のブラウザ保存を利用できません',error);}
+ }
+ function clearLocalLayout(){
+  if(!familyId)return;
+  try{localStorage.removeItem(storagePrefix+familyId)}catch(error){}
+ }
+ function restoreLocalLayout(){
+  if(!familyId||!familyVersion||document.body.classList.contains('hj-edit-mode'))return;
+  try{
+   const stored=JSON.parse(localStorage.getItem(storagePrefix+familyId)||'null');
+   if(!stored||stored.updatedAt!==familyVersion||!Array.isArray(stored.positions))return;
+   const vb=String(stored.viewBox||'').trim().split(/\s+/).map(Number);
+   if(vb.length!==4||vb.some(n=&gt;!Number.isFinite(n))||vb[2]&lt;=0||vb[3]&lt;=0)return;
+   const available=new Set(dogs.map(d=&gt;d.id));
+   const positions=new Map();
+   for(const entry of stored.positions){
+    if(!Array.isArray(entry)||entry.length!==3) return;
+    const [id,x,y]=entry;
+    if(!Number.isSafeInteger(id)||!available.has(id)||!Number.isFinite(x)||!Number.isFinite(y))return;
+    positions.set(id,{x,y});
+   }
+   if(!positions.size)return;
+   viewPositions=positions;
+   canvas.setAttribute('viewBox',vb.join(' '));
+   zoom=1;offset={x:0,y:0};drag=null;
+   render();
+  }catch(error){console.warn('円形配列の復元をスキップしました',error);}
+ }
  const originalRender=render;
  /* A visitor can rearrange the *view* without modifying shared dog data. */
  render=function(){
@@ -3263,10 +3348,13 @@ body.hj-edit-mode .workspace .toolbar{
   }
   viewPositions=persistent?null:placement.positions;
   if(persistent){
+   clearLocalLayout();
    for(const d of dogs){
     const pos=placement.positions.get(d.id);
     if(pos){d.x=pos.x;d.y=pos.y;}
    }
+  }else{
+   saveLocalLayout(placement);
   }
   canvas.setAttribute('viewBox',placement.viewBox);
   zoom=1;offset={x:0,y:0};drag=null;selectedEdge=-1;
@@ -3280,7 +3368,11 @@ body.hj-edit-mode .workspace .toolbar{
  window.addEventListener('message',event=&gt;{
   if(event.origin!==window.parent.location.origin)return;
   if(event.data?.type==='HJ_INIT'){
-   if(viewPositions){viewPositions=null;render();}
+   if(![1,2].includes(event.data.family))return;
+   familyId=event.data.family;
+   familyVersion=event.data.data?.updated_at||null;
+   viewPositions=null;
+   restoreLocalLayout();
   }
  });
 })();
@@ -3316,6 +3408,7 @@ body.hj-edit-mode .workspace .toolbar{
      tab.setAttribute('aria-pressed',String(active));
    });
    Object.values(frames).forEach(syncFrame);
+   try{sessionStorage.setItem('hj-pedigree-active-view-v1',v)}catch(error){}
  }
  async function closeFullscreen(){
    if(document.fullscreenElement){
@@ -3383,7 +3476,9 @@ body.hj-edit-mode .workspace .toolbar{
      activeBox=null;activeFamily=null;
    }
  });
- choose('both');
+ let remembered='both';
+ try{remembered=sessionStorage.getItem('hj-pedigree-active-view-v1')||'both'}catch(error){}
+ choose(remembered);
 })();
 </script><style id="sharedStyle">.adminbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 20px;background:#25333c;border-bottom:1px solid #465762}.adminbar button{font-size:12px}.adminbar .state{font-size:12px;color:#c1d3dd}.adminmodal{position:fixed;inset:0;background:#000b;z-index:999;display:none;align-items:center;justify-content:center;padding:16px}.adminmodal.open{display:flex}.adminpanel{width:min(550px,100%);max-height:90vh;overflow:auto;background:#202d35;border:1px solid #61717a;border-radius:14px;padding:25px;color:#edf3f5}.adminpanel h2{font-size:20px}.adminpanel label{display:block;margin:13px 0 5px;font-size:13px}.adminpanel input[type=text],.adminpanel input[type=password]{width:100%;padding:10px;background:#121a20;color:white;border:1px solid #536773;border-radius:5px}.adminpanel .check{display:flex;align-items:center;gap:10px}.adminpanel .check input{width:18px;height:18px}.adminpanel .actions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}.adminpanel .note{line-height:1.7}</style>
 <div class="adminmodal" id="adminModal"><div class="adminpanel"><h2>サイト管理</h2><div id="loginSection"><p class="note">管理者パスワードを入力してください。</p><label>管理者パスワード</label><input id="adminPassword" type="password"/><div class="actions"><button id="adminLogin">ログイン</button></div></div><div id="settingsSection" style="display:none"><label>サイト名</label><input id="siteTitle" type="text"/><label>サブタイトル</label><input id="siteSubtitle" type="text"/><label>家系図01の名前</label><input id="familyName1" maxlength="60" type="text"/><label>家系図02の名前</label><input id="familyName2" maxlength="60" type="text"/><label>アクセントカラー</label><input id="siteAccent" type="color"/><label>背景色</label><input id="siteBackground" type="color"/><h3>一般ユーザーに許可する機能</h3><div id="featureChecks"></div><p class="note">ここでは既存機能の有効・無効を設定できます。新機能の開発にはコードの更新が必要です。</p><div class="actions"><button id="saveSettings">設定を保存</button><button id="backupBtn">全データをバックアップ</button><button id="adminLogout">ログアウト</button></div></div><p class="note" id="adminMessage"></p><div class="actions"><button id="adminClose">閉じる</button></div></div></div>
