@@ -1643,136 +1643,183 @@ body.hj-dual-preview #hjPlacementGrid{display:none!important}
  scene.insertBefore(layer,scene.firstChild);
 })();
 &lt;/script&gt;&lt;style id=&quot;hj-circular-layout-20261026-style&quot;&gt;
-#hjCircularLayoutBtn{font-size:12px;font-weight:700;border:1px solid #6486a4;background:#d9e7f4;color:#23445d;white-space:nowrap}
-#hjCircularLayoutBtn:hover{background:#bcd6ea}
-body:not(.hj-edit-mode) #hjCircularLayoutBtn,body.hj-dual-preview #hjCircularLayoutBtn{display:none!important}
-@media(max-width:650px){#hjCircularLayoutBtn{padding:8px 10px;font-size:11px}}
+/* The circle layout is available to all viewers in the top-right canvas toolbar. */
+#hjCircularLayoutBtn{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ color:#244762!important;background:#d9e8f5!important;border:1px solid #9db7cd!important;
+ font-size:12px!important;font-weight:700!important;white-space:nowrap!important;
+ padding:9px 12px!important;border-radius:5px!important;cursor:pointer!important
+}
+#hjCircularLayoutBtn:hover{background:#bdd8ec!important}
+body.hj-dual-preview #hjCircularLayoutBtn{display:none!important}
+.workspace .toolbar{z-index:15!important}
+body.hj-edit-mode .workspace .toolbar{
+ top:14px!important;right:14px!important;bottom:auto!important;
+ left:auto!important;transform:none!important;max-width:calc(100% - 28px)
+}
+@media(max-width:700px){
+ #hjCircularLayoutBtn{font-size:11px!important;padding:8px!important}
+ .workspace .toolbar{right:8px!important;max-width:calc(100% - 16px)!important}
+ .workspace .toolbar button{padding:8px!important}
+}
 &lt;/style&gt;&lt;script id=&quot;hj-circular-layout-20261026-script&quot;&gt;
 (()=&gt;{
- const nav=document.querySelector('.topnav');
  const canvas=document.getElementById('canvas');
- if(!nav||!canvas||document.getElementById('hjCircularLayoutBtn'))return;
+ const controls=document.querySelector('.workspace .toolbar');
+ if(!canvas||!controls||document.getElementById('hjCircularLayoutBtn'))return;
  const button=document.createElement('button');
  button.type='button';
  button.id='hjCircularLayoutBtn';
  button.textContent='◉ 円形配列';
- button.title='親犬を中心に、子犬・兄弟姉妹の順で同心円に自動配置';
- const mode=document.getElementById('hjModeBtn');
- if(mode)mode.after(button);else nav.prepend(button);
- const snap=value=&gt;Math.round(value/10)*10;
- const byId=id=&gt;dogs.find(d=&gt;d.id===id);
- const uniqueList=(arr,assigned)=&gt;{
-  const result=[];
-  for(const id of arr){
-   if(!byId(id)||assigned.has(id))continue;
-   assigned.add(id);
-   result.push(id);
+ button.title='夫婦を横並びの中心に、子犬→兄弟・姉妹の順に放射状に配置';
+ controls.prepend(button);
+ const snap=n=&gt;Math.round(n/10)*10;
+ let viewPositions=null;
+ const originalRender=render;
+ /* A visitor can rearrange the *view* without modifying shared dog data. */
+ render=function(){
+  if(!viewPositions||document.body.classList.contains('hj-edit-mode')){
+   originalRender();return;
   }
-  return result;
+  const saved=dogs.map(d=&gt;({d,x:d.x,y:d.y}));
+  for(const d of dogs){
+   const pos=viewPositions.get(d.id);
+   if(pos){d.x=pos.x;d.y=pos.y;}
+  }
+  const previousReady=sharedReady;
+  sharedReady=false;
+  try{originalRender();}
+  finally{
+   for(const row of saved){row.d.x=row.x;row.d.y=row.y;}
+   sharedReady=previousReady;
+  }
  };
- button.addEventListener('click',()=&gt;{
-  if(window.isHJAdmin!==true||!document.body.classList.contains('hj-edit-mode'))return;
-  if(!Array.isArray(dogs)||!dogs.length)return;
-  const ids=new Set(dogs.map(d=&gt;d.id));
-  const edges=links.filter(e=&gt;ids.has(e.a)&amp;&amp;ids.has(e.b));
-  const getParents=e=&gt;{
-   if(e.type!=='Parent / Child')return [];
-   const parents=Array.isArray(e.fromPair)&amp;&amp;e.fromPair.length===2?e.fromPair:[e.a];
-   return parents.filter(id=&gt;ids.has(id)&amp;&amp;id!==e.b);
+ function calculate(){
+  if(!Array.isArray(dogs)||dogs.length&lt;2)return null;
+  const dogMap=new Map(dogs.map(d=&gt;[d.id,d]));
+  const edges=links.filter(e=&gt;dogMap.has(e.a)&amp;&amp;dogMap.has(e.b));
+  const couples=edges.filter(e=&gt;e.type==='Partner');
+  if(!couples.length)return null;
+  const getParents=edge=&gt;{
+   if(edge.type!=='Parent / Child')return [];
+   const pair=Array.isArray(edge.fromPair)&amp;&amp;edge.fromPair.length===2?edge.fromPair:[edge.a];
+   return pair.filter(id=&gt;dogMap.has(id)&amp;&amp;id!==edge.b);
   };
-  const childrenOf=id=&gt;{
-   const out=[];
-   for(const e of edges)if(getParents(e).includes(id))out.push(e.b);
-   return [...new Set(out)];
+  const childList=pair=&gt;{
+   const parents=new Set(pair);
+   return [...new Set(edges.filter(e=&gt;getParents(e).some(id=&gt;parents.has(id))).map(e=&gt;e.b))]
+    .filter(id=&gt;dogMap.has(id)&amp;&amp;!parents.has(id));
   };
-  const childCount=new Map(dogs.map(d=&gt;[d.id,childrenOf(d.id).length]));
-  const hasChildren=id=&gt;(childCount.get(id)||0)&gt;0;
-  let centerId=null;
-  if(ids.has(selected)&amp;&amp;hasChildren(selected))centerId=selected;
-  if(centerId===null&amp;&amp;ids.has(selected)){
-   const parentEdge=edges.find(e=&gt;getParents(e).length&amp;&amp;e.b===selected);
-   if(parentEdge)centerId=getParents(parentEdge)[0];
+  function score(e){return childList([e.a,e.b]).length;}
+  let couple=couples.find(e=&gt;e.a===selected||e.b===selected);
+  if(!couple&amp;&amp;selected!=null){
+   couple=couples.find(e=&gt;childList([e.a,e.b]).includes(selected));
   }
-  if(centerId===null){
-   const incoming=new Set(edges.flatMap(e=&gt;getParents(e).length?[e.b]:[]));
-   const candidates=dogs.filter(d=&gt;hasChildren(d.id)).sort((a,b)=&gt;{
-    const aRoot=incoming.has(a.id)?0:1,bRoot=incoming.has(b.id)?0:1;
-    return bRoot-aRoot||(childCount.get(b.id)||0)-(childCount.get(a.id)||0);
-   });
-   centerId=candidates[0]?.id??(ids.has(selected)?selected:dogs[0].id);
-  }
-  const center=byId(centerId);
-  if(!center)return;
-  const assigned=new Set([centerId]);
-  const children=uniqueList(childrenOf(centerId),assigned);
+  if(!couple)couple=[...couples].sort((a,b)=&gt;score(b)-score(a))[0];
+  const pair=[couple.a,couple.b];
+  const assigned=new Set(pair);
+  const unique=ids=&gt;{
+   const result=[];
+   for(const id of ids){
+    if(!dogMap.has(id)||assigned.has(id))continue;
+    assigned.add(id);result.push(id);
+   }
+   return result;
+  };
+  const children=unique(childList(pair));
+  const close=new Set([...pair,...children]);
   const siblingIds=[];
   for(const edge of edges){
    if(edge.type!=='Siblings')continue;
-   const targets=new Set([centerId,...children]);
-   if(targets.has(edge.a))siblingIds.push(edge.b);
-   if(targets.has(edge.b))siblingIds.push(edge.a);
+   if(close.has(edge.a))siblingIds.push(edge.b);
+   if(close.has(edge.b))siblingIds.push(edge.a);
   }
-  const siblings=uniqueList(siblingIds,assigned);
+  const siblings=unique(siblingIds);
   const rings=[];
-  if(children.length)rings.push({label:'子犬',members:children});
-  if(siblings.length)rings.push({label:'兄弟・姉妹',members:siblings});
-  let frontier=[centerId,...children,...siblings];
-  while(frontier.length){
-   const next=[];
-   for(const priority of ['Parent / Child','Siblings','Partner','Other']){
+  if(children.length)rings.push({kind:'children',members:children});
+  if(siblings.length)rings.push({kind:'siblings',members:siblings});
+  let frontier=[...pair,...children,...siblings];
+  for(let depth=0;frontier.length&amp;&amp;depth&lt;dogs.length;depth++){
+   const seen=new Set(frontier),next=[];
+   for(const kind of ['Parent / Child','Siblings','Partner','Other']){
     for(const edge of edges){
-     if(edge.type!==priority)continue;
+     if(edge.type!==kind)continue;
      const participants=Array.isArray(edge.fromPair)&amp;&amp;edge.fromPair.length===2
       ?[...edge.fromPair,edge.b]:[edge.a,edge.b];
-     if(!participants.some(id=&gt;frontier.includes(id)))continue;
-     for(const id of participants)if(ids.has(id)&amp;&amp;!assigned.has(id)){
+     if(!participants.some(id=&gt;seen.has(id)))continue;
+     for(const id of participants){
+      if(!dogMap.has(id)||assigned.has(id))continue;
       assigned.add(id);next.push(id);
      }
     }
    }
    if(!next.length)break;
-   rings.push({label:'つながり',members:next});
+   rings.push({kind:'connections',members:next});
    frontier=next;
   }
-  if(!rings.length){
-   alert('中心となる犬に家族関係の線がありません。まず犬同士をつないでください。');
+  let radius=0;
+  const measured=rings.map((ring,index)=&gt;{
+   radius=Math.max(index===0?260:radius+170,260+index*170,
+    Math.ceil(ring.members.length*150/(2*Math.PI)/10)*10);
+   return {...ring,radius};
+  });
+  const extent=Math.max(440,radius+145);
+  const centerX=snap(extent+30),centerY=snap(extent+30);
+  const positions=new Map();
+  positions.set(pair[0],{x:snap(centerX-85),y:centerY});
+  positions.set(pair[1],{x:snap(centerX+85),y:centerY});
+  measured.forEach((ring,i)=&gt;{
+   const n=ring.members.length;
+   const start=-Math.PI/2+(i%2&amp;&amp;n&gt;1?Math.PI/n:0);
+   ring.members.forEach((id,j)=&gt;{
+    const angle=start+2*Math.PI*j/n;
+    positions.set(id,{x:snap(centerX+ring.radius*Math.cos(angle)),
+     y:snap(centerY+ring.radius*Math.sin(angle))});
+   });
+  });
+  const all=dogs.map(d=&gt;({x:positions.get(d.id)?.x??d.x,y:positions.get(d.id)?.y??d.y}));
+  const minX=Math.min(0,...all.map(d=&gt;d.x-100));
+  const minY=Math.min(0,...all.map(d=&gt;d.y-100));
+  const maxX=Math.max(900,...all.map(d=&gt;d.x+100));
+  const maxY=Math.max(700,...all.map(d=&gt;d.y+100));
+  const left=snap(Math.floor(minX/10)*10),top=snap(Math.floor(minY/10)*10);
+  return {pair,children,siblings,positions,
+   viewBox:[left,top,Math.max(900,Math.ceil((maxX-left)/10)*10),
+    Math.max(700,Math.ceil((maxY-top)/10)*10)].join(' ')};
+ }
+ button.addEventListener('click',()=&gt;{
+  const placement=calculate();
+  if(!placement){
+   alert('円形配列には「夫婦」の関係が設定された犬2匹が必要です。');
    return;
   }
-  const msg='「'+center.name+'」を中心に円形配列します。\n'+
-   '子犬 '+children.length+'匹 ／ 兄弟・姉妹 '+siblings.length+'匹 ／ その他 '+(assigned.size-1-children.length-siblings.length)+'匹\n'+
-   '配置のみ変更します。未接続の犬と家族関係の線は変更しません。実行しますか？';
-  if(!confirm(msg))return;
-  let radius=0;
-  const placed=[];
-  for(let i=0;i&lt;rings.length;i++){
-   const ring=rings[i];
-   radius=Math.max(i===0?155:radius+155,ring.members.length*130/(2*Math.PI),155+i*155);
-   placed.push({radius,members:ring.members});
+  const persistent=window.isHJAdmin===true&amp;&amp;document.body.classList.contains('hj-edit-mode');
+  if(persistent){
+   const a=dogs.find(d=&gt;d.id===placement.pair[0]);
+   const b=dogs.find(d=&gt;d.id===placement.pair[1]);
+   if(!confirm('「'+a.name+'」と「'+b.name+'」を中心に、子犬→兄弟・姉妹の順で円形に配置します。保存される位置だけを変更します。実行しますか？'))return;
   }
-  const extent=Math.max(350,radius+125);
-  const centerX=snap(extent+30),centerY=snap(extent+30);
-  center.x=centerX;center.y=centerY;
-  for(let i=0;i&lt;placed.length;i++){
-   const ring=placed[i];
-   const n=ring.members.length;
-   const rotation=-Math.PI/2+(i%2&amp;&amp;n&gt;1?Math.PI/n:0);
-   ring.members.forEach((id,j)=&gt;{
-    const dog=byId(id);if(!dog)return;
-    const angle=rotation+2*Math.PI*j/n;
-    dog.x=snap(centerX+ring.radius*Math.cos(angle));
-    dog.y=snap(centerY+ring.radius*Math.sin(angle));
-   });
+  viewPositions=persistent?null:placement.positions;
+  if(persistent){
+   for(const d of dogs){
+    const pos=placement.positions.get(d.id);
+    if(pos){d.x=pos.x;d.y=pos.y;}
+   }
   }
-  const minX=Math.min(0,...dogs.map(d=&gt;d.x-110));
-  const minY=Math.min(0,...dogs.map(d=&gt;d.y-110));
-  const maxX=Math.max(900,...dogs.map(d=&gt;d.x+110));
-  const maxY=Math.max(700,...dogs.map(d=&gt;d.y+110));
-  const x=snap(Math.floor(minX/10)*10);
-  const y=snap(Math.floor(minY/10)*10);
-  canvas.setAttribute('viewBox',[x,y,Math.ceil((maxX-x)/10)*10,Math.ceil((maxY-y)/10)*10].join(' '));
-  zoom=1;offset={x:0,y:0};
-  selectedEdge=-1;
-  selectDog(centerId);
+  canvas.setAttribute('viewBox',placement.viewBox);
+  zoom=1;offset={x:0,y:0};drag=null;selectedEdge=-1;
+  if(typeof selectDog==='function')selectDog(placement.pair[0]);
+  else render();
+ });
+ const mode=document.getElementById('hjModeBtn');
+ if(mode)mode.addEventListener('click',()=&gt;{
+  if(viewPositions){viewPositions=null;render();}
+ });
+ window.addEventListener('message',event=&gt;{
+  if(event.origin!==window.parent.location.origin)return;
+  if(event.data?.type==='HJ_INIT'){
+   if(viewPositions){viewPositions=null;render();}
+  }
  });
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
@@ -3037,136 +3084,183 @@ body.hj-dual-preview #hjPlacementGrid{display:none!important}
  scene.insertBefore(layer,scene.firstChild);
 })();
 &lt;/script&gt;&lt;style id=&quot;hj-circular-layout-20261026-style&quot;&gt;
-#hjCircularLayoutBtn{font-size:12px;font-weight:700;border:1px solid #6486a4;background:#d9e7f4;color:#23445d;white-space:nowrap}
-#hjCircularLayoutBtn:hover{background:#bcd6ea}
-body:not(.hj-edit-mode) #hjCircularLayoutBtn,body.hj-dual-preview #hjCircularLayoutBtn{display:none!important}
-@media(max-width:650px){#hjCircularLayoutBtn{padding:8px 10px;font-size:11px}}
+/* The circle layout is available to all viewers in the top-right canvas toolbar. */
+#hjCircularLayoutBtn{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ color:#244762!important;background:#d9e8f5!important;border:1px solid #9db7cd!important;
+ font-size:12px!important;font-weight:700!important;white-space:nowrap!important;
+ padding:9px 12px!important;border-radius:5px!important;cursor:pointer!important
+}
+#hjCircularLayoutBtn:hover{background:#bdd8ec!important}
+body.hj-dual-preview #hjCircularLayoutBtn{display:none!important}
+.workspace .toolbar{z-index:15!important}
+body.hj-edit-mode .workspace .toolbar{
+ top:14px!important;right:14px!important;bottom:auto!important;
+ left:auto!important;transform:none!important;max-width:calc(100% - 28px)
+}
+@media(max-width:700px){
+ #hjCircularLayoutBtn{font-size:11px!important;padding:8px!important}
+ .workspace .toolbar{right:8px!important;max-width:calc(100% - 16px)!important}
+ .workspace .toolbar button{padding:8px!important}
+}
 &lt;/style&gt;&lt;script id=&quot;hj-circular-layout-20261026-script&quot;&gt;
 (()=&gt;{
- const nav=document.querySelector('.topnav');
  const canvas=document.getElementById('canvas');
- if(!nav||!canvas||document.getElementById('hjCircularLayoutBtn'))return;
+ const controls=document.querySelector('.workspace .toolbar');
+ if(!canvas||!controls||document.getElementById('hjCircularLayoutBtn'))return;
  const button=document.createElement('button');
  button.type='button';
  button.id='hjCircularLayoutBtn';
  button.textContent='◉ 円形配列';
- button.title='親犬を中心に、子犬・兄弟姉妹の順で同心円に自動配置';
- const mode=document.getElementById('hjModeBtn');
- if(mode)mode.after(button);else nav.prepend(button);
- const snap=value=&gt;Math.round(value/10)*10;
- const byId=id=&gt;dogs.find(d=&gt;d.id===id);
- const uniqueList=(arr,assigned)=&gt;{
-  const result=[];
-  for(const id of arr){
-   if(!byId(id)||assigned.has(id))continue;
-   assigned.add(id);
-   result.push(id);
+ button.title='夫婦を横並びの中心に、子犬→兄弟・姉妹の順に放射状に配置';
+ controls.prepend(button);
+ const snap=n=&gt;Math.round(n/10)*10;
+ let viewPositions=null;
+ const originalRender=render;
+ /* A visitor can rearrange the *view* without modifying shared dog data. */
+ render=function(){
+  if(!viewPositions||document.body.classList.contains('hj-edit-mode')){
+   originalRender();return;
   }
-  return result;
+  const saved=dogs.map(d=&gt;({d,x:d.x,y:d.y}));
+  for(const d of dogs){
+   const pos=viewPositions.get(d.id);
+   if(pos){d.x=pos.x;d.y=pos.y;}
+  }
+  const previousReady=sharedReady;
+  sharedReady=false;
+  try{originalRender();}
+  finally{
+   for(const row of saved){row.d.x=row.x;row.d.y=row.y;}
+   sharedReady=previousReady;
+  }
  };
- button.addEventListener('click',()=&gt;{
-  if(window.isHJAdmin!==true||!document.body.classList.contains('hj-edit-mode'))return;
-  if(!Array.isArray(dogs)||!dogs.length)return;
-  const ids=new Set(dogs.map(d=&gt;d.id));
-  const edges=links.filter(e=&gt;ids.has(e.a)&amp;&amp;ids.has(e.b));
-  const getParents=e=&gt;{
-   if(e.type!=='Parent / Child')return [];
-   const parents=Array.isArray(e.fromPair)&amp;&amp;e.fromPair.length===2?e.fromPair:[e.a];
-   return parents.filter(id=&gt;ids.has(id)&amp;&amp;id!==e.b);
+ function calculate(){
+  if(!Array.isArray(dogs)||dogs.length&lt;2)return null;
+  const dogMap=new Map(dogs.map(d=&gt;[d.id,d]));
+  const edges=links.filter(e=&gt;dogMap.has(e.a)&amp;&amp;dogMap.has(e.b));
+  const couples=edges.filter(e=&gt;e.type==='Partner');
+  if(!couples.length)return null;
+  const getParents=edge=&gt;{
+   if(edge.type!=='Parent / Child')return [];
+   const pair=Array.isArray(edge.fromPair)&amp;&amp;edge.fromPair.length===2?edge.fromPair:[edge.a];
+   return pair.filter(id=&gt;dogMap.has(id)&amp;&amp;id!==edge.b);
   };
-  const childrenOf=id=&gt;{
-   const out=[];
-   for(const e of edges)if(getParents(e).includes(id))out.push(e.b);
-   return [...new Set(out)];
+  const childList=pair=&gt;{
+   const parents=new Set(pair);
+   return [...new Set(edges.filter(e=&gt;getParents(e).some(id=&gt;parents.has(id))).map(e=&gt;e.b))]
+    .filter(id=&gt;dogMap.has(id)&amp;&amp;!parents.has(id));
   };
-  const childCount=new Map(dogs.map(d=&gt;[d.id,childrenOf(d.id).length]));
-  const hasChildren=id=&gt;(childCount.get(id)||0)&gt;0;
-  let centerId=null;
-  if(ids.has(selected)&amp;&amp;hasChildren(selected))centerId=selected;
-  if(centerId===null&amp;&amp;ids.has(selected)){
-   const parentEdge=edges.find(e=&gt;getParents(e).length&amp;&amp;e.b===selected);
-   if(parentEdge)centerId=getParents(parentEdge)[0];
+  function score(e){return childList([e.a,e.b]).length;}
+  let couple=couples.find(e=&gt;e.a===selected||e.b===selected);
+  if(!couple&amp;&amp;selected!=null){
+   couple=couples.find(e=&gt;childList([e.a,e.b]).includes(selected));
   }
-  if(centerId===null){
-   const incoming=new Set(edges.flatMap(e=&gt;getParents(e).length?[e.b]:[]));
-   const candidates=dogs.filter(d=&gt;hasChildren(d.id)).sort((a,b)=&gt;{
-    const aRoot=incoming.has(a.id)?0:1,bRoot=incoming.has(b.id)?0:1;
-    return bRoot-aRoot||(childCount.get(b.id)||0)-(childCount.get(a.id)||0);
-   });
-   centerId=candidates[0]?.id??(ids.has(selected)?selected:dogs[0].id);
-  }
-  const center=byId(centerId);
-  if(!center)return;
-  const assigned=new Set([centerId]);
-  const children=uniqueList(childrenOf(centerId),assigned);
+  if(!couple)couple=[...couples].sort((a,b)=&gt;score(b)-score(a))[0];
+  const pair=[couple.a,couple.b];
+  const assigned=new Set(pair);
+  const unique=ids=&gt;{
+   const result=[];
+   for(const id of ids){
+    if(!dogMap.has(id)||assigned.has(id))continue;
+    assigned.add(id);result.push(id);
+   }
+   return result;
+  };
+  const children=unique(childList(pair));
+  const close=new Set([...pair,...children]);
   const siblingIds=[];
   for(const edge of edges){
    if(edge.type!=='Siblings')continue;
-   const targets=new Set([centerId,...children]);
-   if(targets.has(edge.a))siblingIds.push(edge.b);
-   if(targets.has(edge.b))siblingIds.push(edge.a);
+   if(close.has(edge.a))siblingIds.push(edge.b);
+   if(close.has(edge.b))siblingIds.push(edge.a);
   }
-  const siblings=uniqueList(siblingIds,assigned);
+  const siblings=unique(siblingIds);
   const rings=[];
-  if(children.length)rings.push({label:'子犬',members:children});
-  if(siblings.length)rings.push({label:'兄弟・姉妹',members:siblings});
-  let frontier=[centerId,...children,...siblings];
-  while(frontier.length){
-   const next=[];
-   for(const priority of ['Parent / Child','Siblings','Partner','Other']){
+  if(children.length)rings.push({kind:'children',members:children});
+  if(siblings.length)rings.push({kind:'siblings',members:siblings});
+  let frontier=[...pair,...children,...siblings];
+  for(let depth=0;frontier.length&amp;&amp;depth&lt;dogs.length;depth++){
+   const seen=new Set(frontier),next=[];
+   for(const kind of ['Parent / Child','Siblings','Partner','Other']){
     for(const edge of edges){
-     if(edge.type!==priority)continue;
+     if(edge.type!==kind)continue;
      const participants=Array.isArray(edge.fromPair)&amp;&amp;edge.fromPair.length===2
       ?[...edge.fromPair,edge.b]:[edge.a,edge.b];
-     if(!participants.some(id=&gt;frontier.includes(id)))continue;
-     for(const id of participants)if(ids.has(id)&amp;&amp;!assigned.has(id)){
+     if(!participants.some(id=&gt;seen.has(id)))continue;
+     for(const id of participants){
+      if(!dogMap.has(id)||assigned.has(id))continue;
       assigned.add(id);next.push(id);
      }
     }
    }
    if(!next.length)break;
-   rings.push({label:'つながり',members:next});
+   rings.push({kind:'connections',members:next});
    frontier=next;
   }
-  if(!rings.length){
-   alert('中心となる犬に家族関係の線がありません。まず犬同士をつないでください。');
+  let radius=0;
+  const measured=rings.map((ring,index)=&gt;{
+   radius=Math.max(index===0?260:radius+170,260+index*170,
+    Math.ceil(ring.members.length*150/(2*Math.PI)/10)*10);
+   return {...ring,radius};
+  });
+  const extent=Math.max(440,radius+145);
+  const centerX=snap(extent+30),centerY=snap(extent+30);
+  const positions=new Map();
+  positions.set(pair[0],{x:snap(centerX-85),y:centerY});
+  positions.set(pair[1],{x:snap(centerX+85),y:centerY});
+  measured.forEach((ring,i)=&gt;{
+   const n=ring.members.length;
+   const start=-Math.PI/2+(i%2&amp;&amp;n&gt;1?Math.PI/n:0);
+   ring.members.forEach((id,j)=&gt;{
+    const angle=start+2*Math.PI*j/n;
+    positions.set(id,{x:snap(centerX+ring.radius*Math.cos(angle)),
+     y:snap(centerY+ring.radius*Math.sin(angle))});
+   });
+  });
+  const all=dogs.map(d=&gt;({x:positions.get(d.id)?.x??d.x,y:positions.get(d.id)?.y??d.y}));
+  const minX=Math.min(0,...all.map(d=&gt;d.x-100));
+  const minY=Math.min(0,...all.map(d=&gt;d.y-100));
+  const maxX=Math.max(900,...all.map(d=&gt;d.x+100));
+  const maxY=Math.max(700,...all.map(d=&gt;d.y+100));
+  const left=snap(Math.floor(minX/10)*10),top=snap(Math.floor(minY/10)*10);
+  return {pair,children,siblings,positions,
+   viewBox:[left,top,Math.max(900,Math.ceil((maxX-left)/10)*10),
+    Math.max(700,Math.ceil((maxY-top)/10)*10)].join(' ')};
+ }
+ button.addEventListener('click',()=&gt;{
+  const placement=calculate();
+  if(!placement){
+   alert('円形配列には「夫婦」の関係が設定された犬2匹が必要です。');
    return;
   }
-  const msg='「'+center.name+'」を中心に円形配列します。\n'+
-   '子犬 '+children.length+'匹 ／ 兄弟・姉妹 '+siblings.length+'匹 ／ その他 '+(assigned.size-1-children.length-siblings.length)+'匹\n'+
-   '配置のみ変更します。未接続の犬と家族関係の線は変更しません。実行しますか？';
-  if(!confirm(msg))return;
-  let radius=0;
-  const placed=[];
-  for(let i=0;i&lt;rings.length;i++){
-   const ring=rings[i];
-   radius=Math.max(i===0?155:radius+155,ring.members.length*130/(2*Math.PI),155+i*155);
-   placed.push({radius,members:ring.members});
+  const persistent=window.isHJAdmin===true&amp;&amp;document.body.classList.contains('hj-edit-mode');
+  if(persistent){
+   const a=dogs.find(d=&gt;d.id===placement.pair[0]);
+   const b=dogs.find(d=&gt;d.id===placement.pair[1]);
+   if(!confirm('「'+a.name+'」と「'+b.name+'」を中心に、子犬→兄弟・姉妹の順で円形に配置します。保存される位置だけを変更します。実行しますか？'))return;
   }
-  const extent=Math.max(350,radius+125);
-  const centerX=snap(extent+30),centerY=snap(extent+30);
-  center.x=centerX;center.y=centerY;
-  for(let i=0;i&lt;placed.length;i++){
-   const ring=placed[i];
-   const n=ring.members.length;
-   const rotation=-Math.PI/2+(i%2&amp;&amp;n&gt;1?Math.PI/n:0);
-   ring.members.forEach((id,j)=&gt;{
-    const dog=byId(id);if(!dog)return;
-    const angle=rotation+2*Math.PI*j/n;
-    dog.x=snap(centerX+ring.radius*Math.cos(angle));
-    dog.y=snap(centerY+ring.radius*Math.sin(angle));
-   });
+  viewPositions=persistent?null:placement.positions;
+  if(persistent){
+   for(const d of dogs){
+    const pos=placement.positions.get(d.id);
+    if(pos){d.x=pos.x;d.y=pos.y;}
+   }
   }
-  const minX=Math.min(0,...dogs.map(d=&gt;d.x-110));
-  const minY=Math.min(0,...dogs.map(d=&gt;d.y-110));
-  const maxX=Math.max(900,...dogs.map(d=&gt;d.x+110));
-  const maxY=Math.max(700,...dogs.map(d=&gt;d.y+110));
-  const x=snap(Math.floor(minX/10)*10);
-  const y=snap(Math.floor(minY/10)*10);
-  canvas.setAttribute('viewBox',[x,y,Math.ceil((maxX-x)/10)*10,Math.ceil((maxY-y)/10)*10].join(' '));
-  zoom=1;offset={x:0,y:0};
-  selectedEdge=-1;
-  selectDog(centerId);
+  canvas.setAttribute('viewBox',placement.viewBox);
+  zoom=1;offset={x:0,y:0};drag=null;selectedEdge=-1;
+  if(typeof selectDog==='function')selectDog(placement.pair[0]);
+  else render();
+ });
+ const mode=document.getElementById('hjModeBtn');
+ if(mode)mode.addEventListener('click',()=&gt;{
+  if(viewPositions){viewPositions=null;render();}
+ });
+ window.addEventListener('message',event=&gt;{
+  if(event.origin!==window.parent.location.origin)return;
+  if(event.data?.type==='HJ_INIT'){
+   if(viewPositions){viewPositions=null;render();}
+  }
  });
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
