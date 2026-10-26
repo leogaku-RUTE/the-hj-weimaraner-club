@@ -1822,6 +1822,27 @@ body.hj-edit-mode .workspace .toolbar{
   }
  });
 })();
+&lt;/script&gt;&lt;script id=&quot;hj-demo-autofit-20261026&quot;&gt;
+(()=&gt;{
+ const svg=document.getElementById('canvas');
+ if(!svg)return;
+ function fitDemo(){
+  if(typeof dogs==='undefined'||!Array.isArray(dogs))return;
+  const demo=dogs.filter(d=&gt;d.demoGroup==='hj-dummy-one-pair-seven-20261026');
+  if(demo.length!==9)return;
+  const finite=dogs.filter(d=&gt;Number.isFinite(d.x)&amp;&amp;Number.isFinite(d.y));
+  if(!finite.length)return;
+  const x0=Math.floor((Math.min(...finite.map(d=&gt;d.x))-130)/10)*10;
+  const x1=Math.ceil((Math.max(...finite.map(d=&gt;d.x))+130)/10)*10;
+  const y0=Math.floor((Math.min(...finite.map(d=&gt;d.y))-125)/10)*10;
+  const y1=Math.ceil((Math.max(...finite.map(d=&gt;d.y))+135)/10)*10;
+  svg.setAttribute('viewBox',[x0,y0,Math.max(900,x1-x0),Math.max(700,y1-y0)].join(' '));
+ }
+ window.addEventListener('message',e=&gt;{
+  if(e.origin!==window.parent.location.origin||e.data?.type!=='HJ_INIT'||e.data.family!==1)return;
+  requestAnimationFrame(fitDemo);
+ });
+})();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図1"></iframe><button type="button" class="hj-fullscreen-return">← 1つ表示に戻る</button></div></section><section class="card" data-circle="two"><div class="cardhead"><div><b id="familyLabel2">FAMILY CIRCLE 02</b><div class="tag">右側の家系図</div></div></div><div class="framebox"><iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
