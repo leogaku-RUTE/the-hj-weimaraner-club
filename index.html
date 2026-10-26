@@ -1642,6 +1642,139 @@ body.hj-dual-preview #hjPlacementGrid{display:none!important}
  create('rect',{x:-2000,y:-2000,width:12000,height:12000,fill:'url(#hjGrid50)'},layer);
  scene.insertBefore(layer,scene.firstChild);
 })();
+&lt;/script&gt;&lt;style id=&quot;hj-circular-layout-20261026-style&quot;&gt;
+#hjCircularLayoutBtn{font-size:12px;font-weight:700;border:1px solid #6486a4;background:#d9e7f4;color:#23445d;white-space:nowrap}
+#hjCircularLayoutBtn:hover{background:#bcd6ea}
+body:not(.hj-edit-mode) #hjCircularLayoutBtn,body.hj-dual-preview #hjCircularLayoutBtn{display:none!important}
+@media(max-width:650px){#hjCircularLayoutBtn{padding:8px 10px;font-size:11px}}
+&lt;/style&gt;&lt;script id=&quot;hj-circular-layout-20261026-script&quot;&gt;
+(()=&gt;{
+ const nav=document.querySelector('.topnav');
+ const canvas=document.getElementById('canvas');
+ if(!nav||!canvas||document.getElementById('hjCircularLayoutBtn'))return;
+ const button=document.createElement('button');
+ button.type='button';
+ button.id='hjCircularLayoutBtn';
+ button.textContent='◉ 円形配列';
+ button.title='親犬を中心に、子犬・兄弟姉妹の順で同心円に自動配置';
+ const mode=document.getElementById('hjModeBtn');
+ if(mode)mode.after(button);else nav.prepend(button);
+ const snap=value=&gt;Math.round(value/10)*10;
+ const byId=id=&gt;dogs.find(d=&gt;d.id===id);
+ const uniqueList=(arr,assigned)=&gt;{
+  const result=[];
+  for(const id of arr){
+   if(!byId(id)||assigned.has(id))continue;
+   assigned.add(id);
+   result.push(id);
+  }
+  return result;
+ };
+ button.addEventListener('click',()=&gt;{
+  if(window.isHJAdmin!==true||!document.body.classList.contains('hj-edit-mode'))return;
+  if(!Array.isArray(dogs)||!dogs.length)return;
+  const ids=new Set(dogs.map(d=&gt;d.id));
+  const edges=links.filter(e=&gt;ids.has(e.a)&amp;&amp;ids.has(e.b));
+  const getParents=e=&gt;{
+   if(e.type!=='Parent / Child')return [];
+   const parents=Array.isArray(e.fromPair)&amp;&amp;e.fromPair.length===2?e.fromPair:[e.a];
+   return parents.filter(id=&gt;ids.has(id)&amp;&amp;id!==e.b);
+  };
+  const childrenOf=id=&gt;{
+   const out=[];
+   for(const e of edges)if(getParents(e).includes(id))out.push(e.b);
+   return [...new Set(out)];
+  };
+  const childCount=new Map(dogs.map(d=&gt;[d.id,childrenOf(d.id).length]));
+  const hasChildren=id=&gt;(childCount.get(id)||0)&gt;0;
+  let centerId=null;
+  if(ids.has(selected)&amp;&amp;hasChildren(selected))centerId=selected;
+  if(centerId===null&amp;&amp;ids.has(selected)){
+   const parentEdge=edges.find(e=&gt;getParents(e).length&amp;&amp;e.b===selected);
+   if(parentEdge)centerId=getParents(parentEdge)[0];
+  }
+  if(centerId===null){
+   const incoming=new Set(edges.flatMap(e=&gt;getParents(e).length?[e.b]:[]));
+   const candidates=dogs.filter(d=&gt;hasChildren(d.id)).sort((a,b)=&gt;{
+    const aRoot=incoming.has(a.id)?0:1,bRoot=incoming.has(b.id)?0:1;
+    return bRoot-aRoot||(childCount.get(b.id)||0)-(childCount.get(a.id)||0);
+   });
+   centerId=candidates[0]?.id??(ids.has(selected)?selected:dogs[0].id);
+  }
+  const center=byId(centerId);
+  if(!center)return;
+  const assigned=new Set([centerId]);
+  const children=uniqueList(childrenOf(centerId),assigned);
+  const siblingIds=[];
+  for(const edge of edges){
+   if(edge.type!=='Siblings')continue;
+   const targets=new Set([centerId,...children]);
+   if(targets.has(edge.a))siblingIds.push(edge.b);
+   if(targets.has(edge.b))siblingIds.push(edge.a);
+  }
+  const siblings=uniqueList(siblingIds,assigned);
+  const rings=[];
+  if(children.length)rings.push({label:'子犬',members:children});
+  if(siblings.length)rings.push({label:'兄弟・姉妹',members:siblings});
+  let frontier=[centerId,...children,...siblings];
+  while(frontier.length){
+   const next=[];
+   for(const priority of ['Parent / Child','Siblings','Partner','Other']){
+    for(const edge of edges){
+     if(edge.type!==priority)continue;
+     const participants=Array.isArray(edge.fromPair)&amp;&amp;edge.fromPair.length===2
+      ?[...edge.fromPair,edge.b]:[edge.a,edge.b];
+     if(!participants.some(id=&gt;frontier.includes(id)))continue;
+     for(const id of participants)if(ids.has(id)&amp;&amp;!assigned.has(id)){
+      assigned.add(id);next.push(id);
+     }
+    }
+   }
+   if(!next.length)break;
+   rings.push({label:'つながり',members:next});
+   frontier=next;
+  }
+  if(!rings.length){
+   alert('中心となる犬に家族関係の線がありません。まず犬同士をつないでください。');
+   return;
+  }
+  const msg='「'+center.name+'」を中心に円形配列します。\n'+
+   '子犬 '+children.length+'匹 ／ 兄弟・姉妹 '+siblings.length+'匹 ／ その他 '+(assigned.size-1-children.length-siblings.length)+'匹\n'+
+   '配置のみ変更します。未接続の犬と家族関係の線は変更しません。実行しますか？';
+  if(!confirm(msg))return;
+  let radius=0;
+  const placed=[];
+  for(let i=0;i&lt;rings.length;i++){
+   const ring=rings[i];
+   radius=Math.max(i===0?155:radius+155,ring.members.length*130/(2*Math.PI),155+i*155);
+   placed.push({radius,members:ring.members});
+  }
+  const extent=Math.max(350,radius+125);
+  const centerX=snap(extent+30),centerY=snap(extent+30);
+  center.x=centerX;center.y=centerY;
+  for(let i=0;i&lt;placed.length;i++){
+   const ring=placed[i];
+   const n=ring.members.length;
+   const rotation=-Math.PI/2+(i%2&amp;&amp;n&gt;1?Math.PI/n:0);
+   ring.members.forEach((id,j)=&gt;{
+    const dog=byId(id);if(!dog)return;
+    const angle=rotation+2*Math.PI*j/n;
+    dog.x=snap(centerX+ring.radius*Math.cos(angle));
+    dog.y=snap(centerY+ring.radius*Math.sin(angle));
+   });
+  }
+  const minX=Math.min(0,...dogs.map(d=&gt;d.x-110));
+  const minY=Math.min(0,...dogs.map(d=&gt;d.y-110));
+  const maxX=Math.max(900,...dogs.map(d=&gt;d.x+110));
+  const maxY=Math.max(700,...dogs.map(d=&gt;d.y+110));
+  const x=snap(Math.floor(minX/10)*10);
+  const y=snap(Math.floor(minY/10)*10);
+  canvas.setAttribute('viewBox',[x,y,Math.ceil((maxX-x)/10)*10,Math.ceil((maxY-y)/10)*10].join(' '));
+  zoom=1;offset={x:0,y:0};
+  selectedEdge=-1;
+  selectDog(centerId);
+ });
+})();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図1"></iframe><button type="button" class="hj-fullscreen-return">← 1つ表示に戻る</button></div></section><section class="card" data-circle="two"><div class="cardhead"><div><b id="familyLabel2">FAMILY CIRCLE 02</b><div class="tag">右側の家系図</div></div></div><div class="framebox"><iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
@@ -2902,6 +3035,139 @@ body.hj-dual-preview #hjPlacementGrid{display:none!important}
  create('rect',{x:-2000,y:-2000,width:12000,height:12000,fill:'url(#hjGrid10)'},layer);
  create('rect',{x:-2000,y:-2000,width:12000,height:12000,fill:'url(#hjGrid50)'},layer);
  scene.insertBefore(layer,scene.firstChild);
+})();
+&lt;/script&gt;&lt;style id=&quot;hj-circular-layout-20261026-style&quot;&gt;
+#hjCircularLayoutBtn{font-size:12px;font-weight:700;border:1px solid #6486a4;background:#d9e7f4;color:#23445d;white-space:nowrap}
+#hjCircularLayoutBtn:hover{background:#bcd6ea}
+body:not(.hj-edit-mode) #hjCircularLayoutBtn,body.hj-dual-preview #hjCircularLayoutBtn{display:none!important}
+@media(max-width:650px){#hjCircularLayoutBtn{padding:8px 10px;font-size:11px}}
+&lt;/style&gt;&lt;script id=&quot;hj-circular-layout-20261026-script&quot;&gt;
+(()=&gt;{
+ const nav=document.querySelector('.topnav');
+ const canvas=document.getElementById('canvas');
+ if(!nav||!canvas||document.getElementById('hjCircularLayoutBtn'))return;
+ const button=document.createElement('button');
+ button.type='button';
+ button.id='hjCircularLayoutBtn';
+ button.textContent='◉ 円形配列';
+ button.title='親犬を中心に、子犬・兄弟姉妹の順で同心円に自動配置';
+ const mode=document.getElementById('hjModeBtn');
+ if(mode)mode.after(button);else nav.prepend(button);
+ const snap=value=&gt;Math.round(value/10)*10;
+ const byId=id=&gt;dogs.find(d=&gt;d.id===id);
+ const uniqueList=(arr,assigned)=&gt;{
+  const result=[];
+  for(const id of arr){
+   if(!byId(id)||assigned.has(id))continue;
+   assigned.add(id);
+   result.push(id);
+  }
+  return result;
+ };
+ button.addEventListener('click',()=&gt;{
+  if(window.isHJAdmin!==true||!document.body.classList.contains('hj-edit-mode'))return;
+  if(!Array.isArray(dogs)||!dogs.length)return;
+  const ids=new Set(dogs.map(d=&gt;d.id));
+  const edges=links.filter(e=&gt;ids.has(e.a)&amp;&amp;ids.has(e.b));
+  const getParents=e=&gt;{
+   if(e.type!=='Parent / Child')return [];
+   const parents=Array.isArray(e.fromPair)&amp;&amp;e.fromPair.length===2?e.fromPair:[e.a];
+   return parents.filter(id=&gt;ids.has(id)&amp;&amp;id!==e.b);
+  };
+  const childrenOf=id=&gt;{
+   const out=[];
+   for(const e of edges)if(getParents(e).includes(id))out.push(e.b);
+   return [...new Set(out)];
+  };
+  const childCount=new Map(dogs.map(d=&gt;[d.id,childrenOf(d.id).length]));
+  const hasChildren=id=&gt;(childCount.get(id)||0)&gt;0;
+  let centerId=null;
+  if(ids.has(selected)&amp;&amp;hasChildren(selected))centerId=selected;
+  if(centerId===null&amp;&amp;ids.has(selected)){
+   const parentEdge=edges.find(e=&gt;getParents(e).length&amp;&amp;e.b===selected);
+   if(parentEdge)centerId=getParents(parentEdge)[0];
+  }
+  if(centerId===null){
+   const incoming=new Set(edges.flatMap(e=&gt;getParents(e).length?[e.b]:[]));
+   const candidates=dogs.filter(d=&gt;hasChildren(d.id)).sort((a,b)=&gt;{
+    const aRoot=incoming.has(a.id)?0:1,bRoot=incoming.has(b.id)?0:1;
+    return bRoot-aRoot||(childCount.get(b.id)||0)-(childCount.get(a.id)||0);
+   });
+   centerId=candidates[0]?.id??(ids.has(selected)?selected:dogs[0].id);
+  }
+  const center=byId(centerId);
+  if(!center)return;
+  const assigned=new Set([centerId]);
+  const children=uniqueList(childrenOf(centerId),assigned);
+  const siblingIds=[];
+  for(const edge of edges){
+   if(edge.type!=='Siblings')continue;
+   const targets=new Set([centerId,...children]);
+   if(targets.has(edge.a))siblingIds.push(edge.b);
+   if(targets.has(edge.b))siblingIds.push(edge.a);
+  }
+  const siblings=uniqueList(siblingIds,assigned);
+  const rings=[];
+  if(children.length)rings.push({label:'子犬',members:children});
+  if(siblings.length)rings.push({label:'兄弟・姉妹',members:siblings});
+  let frontier=[centerId,...children,...siblings];
+  while(frontier.length){
+   const next=[];
+   for(const priority of ['Parent / Child','Siblings','Partner','Other']){
+    for(const edge of edges){
+     if(edge.type!==priority)continue;
+     const participants=Array.isArray(edge.fromPair)&amp;&amp;edge.fromPair.length===2
+      ?[...edge.fromPair,edge.b]:[edge.a,edge.b];
+     if(!participants.some(id=&gt;frontier.includes(id)))continue;
+     for(const id of participants)if(ids.has(id)&amp;&amp;!assigned.has(id)){
+      assigned.add(id);next.push(id);
+     }
+    }
+   }
+   if(!next.length)break;
+   rings.push({label:'つながり',members:next});
+   frontier=next;
+  }
+  if(!rings.length){
+   alert('中心となる犬に家族関係の線がありません。まず犬同士をつないでください。');
+   return;
+  }
+  const msg='「'+center.name+'」を中心に円形配列します。\n'+
+   '子犬 '+children.length+'匹 ／ 兄弟・姉妹 '+siblings.length+'匹 ／ その他 '+(assigned.size-1-children.length-siblings.length)+'匹\n'+
+   '配置のみ変更します。未接続の犬と家族関係の線は変更しません。実行しますか？';
+  if(!confirm(msg))return;
+  let radius=0;
+  const placed=[];
+  for(let i=0;i&lt;rings.length;i++){
+   const ring=rings[i];
+   radius=Math.max(i===0?155:radius+155,ring.members.length*130/(2*Math.PI),155+i*155);
+   placed.push({radius,members:ring.members});
+  }
+  const extent=Math.max(350,radius+125);
+  const centerX=snap(extent+30),centerY=snap(extent+30);
+  center.x=centerX;center.y=centerY;
+  for(let i=0;i&lt;placed.length;i++){
+   const ring=placed[i];
+   const n=ring.members.length;
+   const rotation=-Math.PI/2+(i%2&amp;&amp;n&gt;1?Math.PI/n:0);
+   ring.members.forEach((id,j)=&gt;{
+    const dog=byId(id);if(!dog)return;
+    const angle=rotation+2*Math.PI*j/n;
+    dog.x=snap(centerX+ring.radius*Math.cos(angle));
+    dog.y=snap(centerY+ring.radius*Math.sin(angle));
+   });
+  }
+  const minX=Math.min(0,...dogs.map(d=&gt;d.x-110));
+  const minY=Math.min(0,...dogs.map(d=&gt;d.y-110));
+  const maxX=Math.max(900,...dogs.map(d=&gt;d.x+110));
+  const maxY=Math.max(700,...dogs.map(d=&gt;d.y+110));
+  const x=snap(Math.floor(minX/10)*10);
+  const y=snap(Math.floor(minY/10)*10);
+  canvas.setAttribute('viewBox',[x,y,Math.ceil((maxX-x)/10)*10,Math.ceil((maxY-y)/10)*10].join(' '));
+  zoom=1;offset={x:0,y:0};
+  selectedEdge=-1;
+  selectDog(centerId);
+ });
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図2"></iframe><button type="button" class="hj-fullscreen-return">← 1つ表示に戻る</button></div></section></div><p class="note">家系図01・02はそれぞれ独立して編集できます。犬の追加・削除、移動、家族関係、誕生日一致、DOG PROFILE、写真、飼い主情報に対応。変更はオンラインに保存されます。別端末では再読み込みすると最新データを表示します。</p></main><script>function fullscreen(id){const e=document.getElementById(id);if(e.requestFullscreen)e.requestFullscreen();}</script><script>
