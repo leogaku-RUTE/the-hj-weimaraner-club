@@ -1763,11 +1763,11 @@ body.hj-edit-mode .workspace .toolbar{
     Math.ceil(ring.members.length*150/(2*Math.PI)/10)*10);
    return {...ring,radius};
   });
-  const extent=Math.max(440,radius+145);
-  const centerX=snap(extent+30),centerY=snap(extent+30);
+  // Couple midpoint coincides with the center of the decorative circles and SVG viewBox.
+  const centerX=450,centerY=350;
   const positions=new Map();
-  positions.set(pair[0],{x:snap(centerX-85),y:centerY});
-  positions.set(pair[1],{x:snap(centerX+85),y:centerY});
+  positions.set(pair[0],{x:centerX-90,y:centerY});
+  positions.set(pair[1],{x:centerX+90,y:centerY});
   measured.forEach((ring,i)=&gt;{
    const n=ring.members.length;
    const start=-Math.PI/2+(i%2&amp;&amp;n&gt;1?Math.PI/n:0);
@@ -1778,14 +1778,14 @@ body.hj-edit-mode .workspace .toolbar{
    });
   });
   const all=dogs.map(d=&gt;({x:positions.get(d.id)?.x??d.x,y:positions.get(d.id)?.y??d.y}));
-  const minX=Math.min(0,...all.map(d=&gt;d.x-100));
-  const minY=Math.min(0,...all.map(d=&gt;d.y-100));
-  const maxX=Math.max(900,...all.map(d=&gt;d.x+100));
-  const maxY=Math.max(700,...all.map(d=&gt;d.y+100));
-  const left=snap(Math.floor(minX/10)*10),top=snap(Math.floor(minY/10)*10);
+  // Symmetrical bounds keep the two parents visually centered regardless of family size.
+  // Include unconnected dogs so they remain visible without changing their saved positions.
+  const halfWidth=Math.ceil(Math.max(450,radius+130,
+   ...all.map(d=&gt;Math.abs(d.x-centerX)+110))/10)*10;
+  const halfHeight=Math.ceil(Math.max(350,radius+130,
+   ...all.map(d=&gt;Math.abs(d.y-centerY)+110))/10)*10;
   return {pair,children,siblings,positions,
-   viewBox:[left,top,Math.max(900,Math.ceil((maxX-left)/10)*10),
-    Math.max(700,Math.ceil((maxY-top)/10)*10)].join(' ')};
+   viewBox:[centerX-halfWidth,centerY-halfHeight,halfWidth*2,halfHeight*2].join(' ')};
  }
  button.addEventListener('click',()=&gt;{
   const placement=calculate();
@@ -3204,11 +3204,11 @@ body.hj-edit-mode .workspace .toolbar{
     Math.ceil(ring.members.length*150/(2*Math.PI)/10)*10);
    return {...ring,radius};
   });
-  const extent=Math.max(440,radius+145);
-  const centerX=snap(extent+30),centerY=snap(extent+30);
+  // Couple midpoint coincides with the center of the decorative circles and SVG viewBox.
+  const centerX=450,centerY=350;
   const positions=new Map();
-  positions.set(pair[0],{x:snap(centerX-85),y:centerY});
-  positions.set(pair[1],{x:snap(centerX+85),y:centerY});
+  positions.set(pair[0],{x:centerX-90,y:centerY});
+  positions.set(pair[1],{x:centerX+90,y:centerY});
   measured.forEach((ring,i)=&gt;{
    const n=ring.members.length;
    const start=-Math.PI/2+(i%2&amp;&amp;n&gt;1?Math.PI/n:0);
@@ -3219,14 +3219,14 @@ body.hj-edit-mode .workspace .toolbar{
    });
   });
   const all=dogs.map(d=&gt;({x:positions.get(d.id)?.x??d.x,y:positions.get(d.id)?.y??d.y}));
-  const minX=Math.min(0,...all.map(d=&gt;d.x-100));
-  const minY=Math.min(0,...all.map(d=&gt;d.y-100));
-  const maxX=Math.max(900,...all.map(d=&gt;d.x+100));
-  const maxY=Math.max(700,...all.map(d=&gt;d.y+100));
-  const left=snap(Math.floor(minX/10)*10),top=snap(Math.floor(minY/10)*10);
+  // Symmetrical bounds keep the two parents visually centered regardless of family size.
+  // Include unconnected dogs so they remain visible without changing their saved positions.
+  const halfWidth=Math.ceil(Math.max(450,radius+130,
+   ...all.map(d=&gt;Math.abs(d.x-centerX)+110))/10)*10;
+  const halfHeight=Math.ceil(Math.max(350,radius+130,
+   ...all.map(d=&gt;Math.abs(d.y-centerY)+110))/10)*10;
   return {pair,children,siblings,positions,
-   viewBox:[left,top,Math.max(900,Math.ceil((maxX-left)/10)*10),
-    Math.max(700,Math.ceil((maxY-top)/10)*10)].join(' ')};
+   viewBox:[centerX-halfWidth,centerY-halfHeight,halfWidth*2,halfHeight*2].join(' ')};
  }
  button.addEventListener('click',()=&gt;{
   const placement=calculate();
