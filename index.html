@@ -382,7 +382,19 @@ body>header>div:first-child{min-width:0!important}
  body>header{padding-top:58px!important;padding-right:16px!important}
  body>header h1{font-size:clamp(15px,4vw,28px)!important;letter-spacing:0!important}
 }
-</style></head><body><header><div><h1>THE HJ WEIMARANER Club</h1><div class="sub">FAMILY NETWORK / DUAL FAMILY CIRCLE</div></div><span class="hint">2つの家系図を同時表示・個別編集</span></header><div class="adminbar"><span class="state" id="sharedStatus">共有データを読み込み中…</span><button id="refreshShared">最新データを再読み込み</button><button id="adminOpen">管理者ログイン / 管理画面</button></div><main><nav aria-label="家系図の表示切り替え" class="viewtabs"><button aria-pressed="false" class="viewtab active" data-view="both" aria-pressed="true">◫ TOP</button><button aria-pressed="false" class="viewtab" data-view="one">◎ <span id="tabLabel1">家系図 01</span></button><button aria-pressed="false" class="viewtab" data-view="two">◎ <span id="tabLabel2">家系図 02</span></button></nav><div class="grid" data-view="both" id="familyGrid"><section class="card" data-circle="one"><div class="cardhead"><div><b id="familyLabel1">FAMILY CIRCLE 01</b><div class="tag">左側の家系図</div></div></div><div class="framebox"><iframe id="frame1" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
+</style><style id="hj-silver-heritage-visual-outer-20261027">
+/* SILVER HERITAGE | purely visual palette. No geometry or interaction changes. */
+:root{--hj-fog:#e9ebea;--hj-pearl:#f7f7f5;--hj-ink:#293b49;--hj-slate:#667f8b;--hj-gold:#b7a07b}
+body{background:linear-gradient(180deg,#e9ebea 0%,#f2f3f1 100%)!important;color:var(--hj-ink)!important}
+body>header{background:linear-gradient(110deg,#e4e8e8 0%,#f7f7f5 52%,#e1e5e7 100%)!important;border-bottom-color:#cbd1d2!important}
+body>header h1{color:#283c4b!important}
+body>header .sub,body>header .sub:after{color:#788b94!important}
+body>header .hint{color:#627782!important}
+body>.adminbar .state{color:#4e6572!important}
+body #adminOpen{background:#425f70!important;color:#fbfbfa!important;border-color:#425f70!important}
+body .viewtabs{background:#f6f7f5c7!important;border-color:#d2d8d8!important;box-shadow:0 3px 20px #39495712!important}
+body .viewtabs .viewtab{color:#516774!important}
+body .vie<iframe id="frame1" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
 &lt;html lang=&quot;ja&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;/&gt;&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;&lt;title&gt;THE HJ WEIMARANER Club FAMILY NETWORK&lt;/title&gt;&lt;style&gt;
 :root{font-family:Inter,Arial,'Helvetica Neue',sans-serif;color:#e9eef1;background:#12191e}*{box-sizing:border-box}body{margin:0}header{height:70px;border-bottom:1px solid #35424a;display:flex;align-items:center;justify-content:space-between;padding:0 30px;background:#182127}h1{font-size:18px;letter-spacing:3px;margin:0}small{color:#9cafb9;letter-spacing:2px;font-size:10px}.topnav{display:flex;gap:18px;align-items:center}button,input,select{font:inherit}button{cursor:pointer;border:1px solid #60737f;background:#273640;color:#eaf0f3;border-radius:6px;padding:10px 13px}button:hover{background:#3c5361}button.primary{background:#c7d4dc;color:#18242c;border-color:#c7d4dc;font-weight:700}button.danger{border-color:#93686b;color:#ffbfc0}.layout{display:grid;grid-template-columns:245px minmax(0,1fr) 285px;height:calc(100dvh - 70px);min-height:540px}.panel{background:#1b252c;padding:22px;border-right:1px solid #34434d;overflow:auto}.right{border-right:0;border-left:1px solid #34434d}h2{font-size:13px;letter-spacing:2px;font-weight:600;color:#a9bdc8;margin:0 0 20px}.stack{display:grid;gap:9px}.field{display:grid;gap:6px;margin-bottom:13px}.field label{font-size:11px;color:#a8bac5}.field input,.field select{width:100%;background:#121b21;color:#fff;border:1px solid #526571;border-radius:5px;padding:10px}.hint{font-size:12px;line-height:1.6;color:#99abb6}.workspace{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 50%,#2c3e49 0%,#1b2830 58%,#172128 100%)}.workspace svg{width:100%;height:100%;touch-action:none;display:block}.worktitle{position:absolute;top:20px;left:24px;pointer-events:none}.worktitle b{display:block;font-size:20px;letter-spacing:1px}.worktitle span{font-size:10px;letter-spacing:2px;color:#a3b8c3}.toolbar{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:7px;background:#152028dd;padding:8px;border:1px solid #435764;border-radius:10px;z-index:2}.toolbar button{white-space:nowrap}.node{cursor:grab}.node:active{cursor:grabbing}.node text{pointer-events:none}.connection{stroke:#b5c8d2;stroke-width:1.7;opacity:.8;cursor:pointer}.branch-junction{fill:#f0d49b;stroke:#172128;stroke-width:2;pointer-events:none}.connection.selected{stroke:#f0d49b;stroke-width:3}.node.selected .outer{stroke:#f2d7a2;stroke-width:4}.node .outer{fill:#344752;stroke:#c1d0d8;stroke-width:2}.node .initial{fill:#d8e1e6;font-size:16px;font-weight:bold;text-anchor:middle;dominant-baseline:central}.node .name{fill:#eaf0f3;font-size:12px;text-anchor:middle;letter-spacing:1px}.node .sex{fill:#b1c3cd;font-size:9px;text-anchor:middle}.badge{display:inline-block;background:#334750;padding:5px 8px;border-radius:4px;color:#d3e0e7;font-size:11px}.profilepic{width:100%;aspect-ratio:1.5;background:#31424e;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#c6d5de;overflow:hidden}.profilepic img{width:100%;height:100%;object-fit:cover}.divider{height:1px;background:#3d505b;margin:18px 0}.mode{display:flex;gap:8px;flex-wrap:wrap}.mode button.active{background:#aebfc9;color:#16242c}.mobile-note{display:none}@media(max-width:900px){header{padding:0 14px}.topnav small{display:none}.layout{display:flex;flex-direction:column;height:auto}.panel{border:0;padding:14px}.left{order:2}.right{order:3}.workspace{order:1;height:65dvh;min-height:420px}.toolbar{bottom:10px}.toolbar button{padding:8px}.mobile-note{display:block}.worktitle{top:12px;left:14px}.worktitle b{font-size:16px}}@media(min-width:901px){.panel{min-height:0}}
@@ -1206,6 +1218,33 @@ body.hj-dual-preview .workspace svg#canvas{
  height:calc(100% - var(--hj-title-space,88px) - 4px)!important;
  margin:0!important;padding:0!important;
 }
+&lt;/style&gt;&lt;style id=&quot;hj-silver-heritage-visual-inner-20261027&quot;&gt;
+/* SILVER HERITAGE | adjust color, type treatment, surface, and outlines ONLY. */
+:root{--hj-heritage-ink:#2e4352;--hj-heritage-silver:#eef1ef;--hj-heritage-gold:#b7a07b}
+body:not(.hj-edit-mode){background:#e9edeb!important;color:#304756!important}
+body:not(.hj-edit-mode) .workspace,
+body.hj-dual-preview .workspace{background:radial-gradient(circle at 48% 46%,#f3f4f1 0%,#e4e9e8 36%,#cbd6d8 72%,#e6eae9 100%)!important}
+body:not(.hj-edit-mode) .workspace .worktitle b{color:#354c5a!important;font-family:Georgia,'Times New Roman',serif!important;font-weight:400!important}
+body:not(.hj-edit-mode) .workspace .worktitle span{color:#718793!important}
+body:not(.hj-edit-mode) .hj-orbit-art circle{stroke:#fafaf7!important}
+body:not(.hj-edit-mode) .hj-orbit-art .hj-blue{stroke:#879ea9!important}
+body:not(.hj-edit-mode) .hj-orbit-art .hj-ray{stroke:#f8f9f7!important}
+body:not(.hj-edit-mode) #guides circle{stroke:#f7f8f6!important}
+body:not(.hj-edit-mode) .node .outer:not(.birthday-today){stroke:#fcfcfa!important;filter:drop-shadow(0 3px 6px #384d5c38)!important}
+body:not(.hj-edit-mode) .node.selected .outer:not(.birthday-today){stroke:#b7a07b!important;filter:drop-shadow(0 2px 7px #a38b5c6b)!important}
+body:not(.hj-edit-mode) .node .name{fill:#314955!important}
+body:not(.hj-edit-mode) .node .sex{fill:#5c7889!important}
+body:not(.hj-edit-mode) .panel.right{background:linear-gradient(145deg,#f7f7f4 0%,#e5ebeb 100%)!important;border-color:#d0d8d9!important}
+body:not(.hj-edit-mode) .panel.right h2{color:#2d4555!important;border-left-color:#b7a07b!important}
+body:not(.hj-edit-mode) #hjProfileName{color:#304859!important}
+body:not(.hj-edit-mode) #readonlyProfile .item{border-top-color:#cdd7d8!important}
+body:not(.hj-edit-mode) #readonlyProfile .key{color:#657c8a!important}
+body:not(.hj-edit-mode) #readonlyProfile .value{color:#2f4654!important}
+body:not(.hj-edit-mode) .toolbar{background:#f5f7f5e9!important;border-color:#bdcbce!important;box-shadow:0 4px 20px #3c54641e!important}
+body:not(.hj-edit-mode) .toolbar button:not(#hjCircularLayoutBtn){background:#f3f5f3!important;color:#334f60!important;border-color:#ced7d9!important}
+body.hj-edit-mode .panel.left,body.hj-edit-mode .panel.right{border-color:#aebfc7!important}
+body.hj-edit-mode header{background:linear-gradient(110deg,#e9eff0,#d8e3e5)!important}
+body.hj-edit-mode .toolbar{border-color:#b5c6c9!important}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;編集画面には10px間隔の細かいグリッドが表示されます。犬の丸アイコンをドラッグすると、格子点に揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -1890,7 +1929,14 @@ body.hj-edit-mode .workspace .toolbar{
  });
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
-" title="家系図1"></iframe><button type="button" class="hj-fullscreen-return">← 1つ表示に戻る</button></div></section><section class="card" data-circle="two"><div class="cardhead"><div><b id="familyLabel2">FAMILY CIRCLE 02</b><div class="tag">右側の家系図</div></div></div><div class="framebox"><iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
+" title="家系図1">yId('hjModeBtn');
+ if(mode)mode.addEventListener('click',()=&gt;{
+  if(viewPositions){viewPositions=null;render();}
+ });
+ window.addEventListener('message',event=&gt;{
+  if(event.origin!==window.parent.location.origin)return;
+  if(event.data?.type==='HJ_INIT'){
+   <iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
 &lt;html lang=&quot;ja&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;/&gt;&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;&lt;title&gt;THE HJ WEIMARANER Club FAMILY NETWORK&lt;/title&gt;&lt;style&gt;
 :root{font-family:Inter,Arial,'Helvetica Neue',sans-serif;color:#e9eef1;background:#12191e}*{box-sizing:border-box}body{margin:0}header{height:70px;border-bottom:1px solid #35424a;display:flex;align-items:center;justify-content:space-between;padding:0 30px;background:#182127}h1{font-size:18px;letter-spacing:3px;margin:0}small{color:#9cafb9;letter-spacing:2px;font-size:10px}.topnav{display:flex;gap:18px;align-items:center}button,input,select{font:inherit}button{cursor:pointer;border:1px solid #60737f;background:#273640;color:#eaf0f3;border-radius:6px;padding:10px 13px}button:hover{background:#3c5361}button.primary{background:#c7d4dc;color:#18242c;border-color:#c7d4dc;font-weight:700}button.danger{border-color:#93686b;color:#ffbfc0}.layout{display:grid;grid-template-columns:245px minmax(0,1fr) 285px;height:calc(100dvh - 70px);min-height:540px}.panel{background:#1b252c;padding:22px;border-right:1px solid #34434d;overflow:auto}.right{border-right:0;border-left:1px solid #34434d}h2{font-size:13px;letter-spacing:2px;font-weight:600;color:#a9bdc8;margin:0 0 20px}.stack{display:grid;gap:9px}.field{display:grid;gap:6px;margin-bottom:13px}.field label{font-size:11px;color:#a8bac5}.field input,.field select{width:100%;background:#121b21;color:#fff;border:1px solid #526571;border-radius:5px;padding:10px}.hint{font-size:12px;line-height:1.6;color:#99abb6}.workspace{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 50%,#2c3e49 0%,#1b2830 58%,#172128 100%)}.workspace svg{width:100%;height:100%;touch-action:none;display:block}.worktitle{position:absolute;top:20px;left:24px;pointer-events:none}.worktitle b{display:block;font-size:20px;letter-spacing:1px}.worktitle span{font-size:10px;letter-spacing:2px;color:#a3b8c3}.toolbar{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:7px;background:#152028dd;padding:8px;border:1px solid #435764;border-radius:10px;z-index:2}.toolbar button{white-space:nowrap}.node{cursor:grab}.node:active{cursor:grabbing}.node text{pointer-events:none}.connection{stroke:#b5c8d2;stroke-width:1.7;opacity:.8;cursor:pointer}.branch-junction{fill:#f0d49b;stroke:#172128;stroke-width:2;pointer-events:none}.connection.selected{stroke:#f0d49b;stroke-width:3}.node.selected .outer{stroke:#f2d7a2;stroke-width:4}.node .outer{fill:#344752;stroke:#c1d0d8;stroke-width:2}.node .initial{fill:#d8e1e6;font-size:16px;font-weight:bold;text-anchor:middle;dominant-baseline:central}.node .name{fill:#eaf0f3;font-size:12px;text-anchor:middle;letter-spacing:1px}.node .sex{fill:#b1c3cd;font-size:9px;text-anchor:middle}.badge{display:inline-block;background:#334750;padding:5px 8px;border-radius:4px;color:#d3e0e7;font-size:11px}.profilepic{width:100%;aspect-ratio:1.5;background:#31424e;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#c6d5de;overflow:hidden}.profilepic img{width:100%;height:100%;object-fit:cover}.divider{height:1px;background:#3d505b;margin:18px 0}.mode{display:flex;gap:8px;flex-wrap:wrap}.mode button.active{background:#aebfc9;color:#16242c}.mobile-note{display:none}@media(max-width:900px){header{padding:0 14px}.topnav small{display:none}.layout{display:flex;flex-direction:column;height:auto}.panel{border:0;padding:14px}.left{order:2}.right{order:3}.workspace{order:1;height:65dvh;min-height:420px}.toolbar{bottom:10px}.toolbar button{padding:8px}.mobile-note{display:block}.worktitle{top:12px;left:14px}.worktitle b{font-size:16px}}@media(min-width:901px){.panel{min-height:0}}
@@ -2714,6 +2760,33 @@ body.hj-dual-preview .workspace svg#canvas{
  height:calc(100% - var(--hj-title-space,88px) - 4px)!important;
  margin:0!important;padding:0!important;
 }
+&lt;/style&gt;&lt;style id=&quot;hj-silver-heritage-visual-inner-20261027&quot;&gt;
+/* SILVER HERITAGE | adjust color, type treatment, surface, and outlines ONLY. */
+:root{--hj-heritage-ink:#2e4352;--hj-heritage-silver:#eef1ef;--hj-heritage-gold:#b7a07b}
+body:not(.hj-edit-mode){background:#e9edeb!important;color:#304756!important}
+body:not(.hj-edit-mode) .workspace,
+body.hj-dual-preview .workspace{background:radial-gradient(circle at 48% 46%,#f3f4f1 0%,#e4e9e8 36%,#cbd6d8 72%,#e6eae9 100%)!important}
+body:not(.hj-edit-mode) .workspace .worktitle b{color:#354c5a!important;font-family:Georgia,'Times New Roman',serif!important;font-weight:400!important}
+body:not(.hj-edit-mode) .workspace .worktitle span{color:#718793!important}
+body:not(.hj-edit-mode) .hj-orbit-art circle{stroke:#fafaf7!important}
+body:not(.hj-edit-mode) .hj-orbit-art .hj-blue{stroke:#879ea9!important}
+body:not(.hj-edit-mode) .hj-orbit-art .hj-ray{stroke:#f8f9f7!important}
+body:not(.hj-edit-mode) #guides circle{stroke:#f7f8f6!important}
+body:not(.hj-edit-mode) .node .outer:not(.birthday-today){stroke:#fcfcfa!important;filter:drop-shadow(0 3px 6px #384d5c38)!important}
+body:not(.hj-edit-mode) .node.selected .outer:not(.birthday-today){stroke:#b7a07b!important;filter:drop-shadow(0 2px 7px #a38b5c6b)!important}
+body:not(.hj-edit-mode) .node .name{fill:#314955!important}
+body:not(.hj-edit-mode) .node .sex{fill:#5c7889!important}
+body:not(.hj-edit-mode) .panel.right{background:linear-gradient(145deg,#f7f7f4 0%,#e5ebeb 100%)!important;border-color:#d0d8d9!important}
+body:not(.hj-edit-mode) .panel.right h2{color:#2d4555!important;border-left-color:#b7a07b!important}
+body:not(.hj-edit-mode) #hjProfileName{color:#304859!important}
+body:not(.hj-edit-mode) #readonlyProfile .item{border-top-color:#cdd7d8!important}
+body:not(.hj-edit-mode) #readonlyProfile .key{color:#657c8a!important}
+body:not(.hj-edit-mode) #readonlyProfile .value{color:#2f4654!important}
+body:not(.hj-edit-mode) .toolbar{background:#f5f7f5e9!important;border-color:#bdcbce!important;box-shadow:0 4px 20px #3c54641e!important}
+body:not(.hj-edit-mode) .toolbar button:not(#hjCircularLayoutBtn){background:#f3f5f3!important;color:#334f60!important;border-color:#ced7d9!important}
+body.hj-edit-mode .panel.left,body.hj-edit-mode .panel.right{border-color:#aebfc7!important}
+body.hj-edit-mode header{background:linear-gradient(110deg,#e9eff0,#d8e3e5)!important}
+body.hj-edit-mode .toolbar{border-color:#b5c6c9!important}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;編集画面には10px間隔の細かいグリッドが表示されます。犬の丸アイコンをドラッグすると、格子点に揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -3333,6 +3406,51 @@ body.hj-edit-mode .workspace .toolbar{
    ...all.map(d=&gt;Math.abs(d.y-centerY)+110))/10)*10;
   return {pair,children,siblings,positions,
    viewBox:[centerX-halfWidth,centerY-halfHeight,halfWidth*2,halfHeight*2].join(' ')};
+ }
+ button.addEventListener('click',()=&gt;{
+  const placement=calculate();
+  if(!placement){
+   alert('円形配列には「夫婦」の関係が設定された犬2匹が必要です。');
+   return;
+  }
+  const persistent=window.isHJAdmin===true&amp;&amp;document.body.classList.contains('hj-edit-mode');
+  if(persistent){
+   const a=dogs.find(d=&gt;d.id===placement.pair[0]);
+   const b=dogs.find(d=&gt;d.id===placement.pair[1]);
+   if(!confirm('「'+a.name+'」と「'+b.name+'」を中心に、子犬→兄弟・姉妹の順で円形に配置します。保存される位置だけを変更します。実行しますか？'))return;
+  }
+  viewPositions=persistent?null:placement.positions;
+  if(persistent){
+   clearLocalLayout();
+   for(const d of dogs){
+    const pos=placement.positions.get(d.id);
+    if(pos){d.x=pos.x;d.y=pos.y;}
+   }
+  }else{
+   saveLocalLayout(placement);
+  }
+  canvas.setAttribute('viewBox',placement.viewBox);
+  zoom=1;offset={x:0,y:0};drag=null;selectedEdge=-1;
+  if(typeof selectDog==='function')selectDog(placement.pair[0]);
+  else render();
+ });
+ const mode=document.getElementById('hjModeBtn');
+ if(mode)mode.addEventListener('click',()=&gt;{
+  if(viewPositions){viewPositions=null;render();}
+ });
+ window.addEventListener('message',event=&gt;{
+  if(event.origin!==window.parent.location.origin)return;
+  if(event.data?.type==='HJ_INIT'){
+   if(![1,2].includes(event.data.family))return;
+   familyId=event.data.family;
+   familyVersion=event.data.data?.updated_at||null;
+   viewPositions=null;
+   restoreLocalLayout();
+  }
+ });
+})();
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+" title="家系図2">centerY-halfHeight,halfWidth*2,halfHeight*2].join(' ')};
  }
  button.addEventListener('click',()=&gt;{
   const placement=calculate();
