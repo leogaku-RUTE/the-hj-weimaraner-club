@@ -382,6 +382,13 @@ body>header>div:first-child{min-width:0!important}
  body>header{padding-top:58px!important;padding-right:16px!important}
  body>header h1{font-size:clamp(15px,4vw,28px)!important;letter-spacing:0!important}
 }
+</style><style id="hj-global-top-no-browser-fullscreen-20261029">
+/* Remain able to return to TOP from both single-tree screens, including editing. */
+body .viewtabs{position:sticky!important;top:0!important;z-index:100!important}
+#familyGrid[data-view="both"] .framebox .hj-top-open{cursor:pointer!important}
+#familyGrid[data-view="both"] .framebox .hj-top-open span{background:#29475edc!important}
+/* Fullscreen controls were retired; only ordinary single-tree view is available. */
+.framebox .hj-fullscreen-return{display:none!important}
 </style></head><body><header><div><h1>THE HJ WEIMARANER Club</h1><div class="sub">FAMILY NETWORK / DUAL FAMILY CIRCLE</div></div><span class="hint">2つの家系図を同時表示・個別編集</span></header><div class="adminbar"><span class="state" id="sharedStatus">共有データを読み込み中…</span><button id="refreshShared">最新データを再読み込み</button><button id="adminOpen">管理者ログイン / 管理画面</button></div><main><nav aria-label="家系図の表示切り替え" class="viewtabs"><button aria-pressed="false" class="viewtab active" data-view="both" aria-pressed="true">◫ TOP</button><button aria-pressed="false" class="viewtab" data-view="one">◎ <span id="tabLabel1">家系図 01</span></button><button aria-pressed="false" class="viewtab" data-view="two">◎ <span id="tabLabel2">家系図 02</span></button></nav><div class="grid" data-view="both" id="familyGrid"><section class="card" data-circle="one"><div class="cardhead"><div><b id="familyLabel1">FAMILY CIRCLE 01</b><div class="tag">左側の家系図</div></div></div><div class="framebox"><iframe id="frame1" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
 &lt;html lang=&quot;ja&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;/&gt;&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;&lt;title&gt;THE HJ WEIMARANER Club FAMILY NETWORK&lt;/title&gt;&lt;style&gt;
@@ -1958,8 +1965,30 @@ document.body.classList.add('hj-profile-fullscreen')}
 window.hjKeepFullscreenProfile=keepFullscreen;
  edit.addEventListener('click',keepFullscreen,true);
 try{window.parent.document.addEventListener('fullscreenchange',()=&gt;{const box=window.frameElement?.closest('.framebox');if(window.parent.document.fullscreenElement!==box&amp;&amp;!window.parent.document.body.classList.contains('hj-single-expanded'))document.body.classList.remove('hj-profile-fullscreen')})}catch(e){}
-})();&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
-" title="家系図1"></iframe><button type="button" class="hj-fullscreen-return">← 1つ表示に戻る</button></div></section><section class="card" data-circle="two"><div class="cardhead"><div><b id="familyLabel2">FAMILY CIRCLE 02</b><div class="tag">右側の家系図</div></div></div><div class="framebox"><iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
+})();&lt;/script&gt;&lt;style id=&quot;hj-frame-global-top-20261029&quot;&gt;
+/* Access TOP directly in every individual pedigree view and editor. */
+#hjFrameGlobalTop{background:#526e82!important;color:#fff!important;border:1px solid #8ba1b0!important;
+ border-radius:5px!important;font-weight:700!important;font-size:12px!important;
+ line-height:1.2!important;padding:8px 12px!important;white-space:nowrap!important}
+#hjFrameGlobalTop:hover{background:#3d5b70!important}
+body.hj-dual-preview #hjFrameGlobalTop{display:none!important}
+&lt;/style&gt;&lt;script id=&quot;hj-frame-global-top-20261029&quot;&gt;
+(()=&gt;{
+ const nav=document.querySelector('.topnav')||document.querySelector('body&gt;header');
+ if(!nav||document.getElementById('hjFrameGlobalTop'))return;
+ const button=document.createElement('button');
+ button.id='hjFrameGlobalTop';
+ button.type='button';
+ button.textContent='◫ TOP';
+ button.setAttribute('aria-label','TOPの2つ表示に戻る');
+ nav.prepend(button);
+ button.addEventListener('click',()=&gt;{
+  if(window.parent===window)return;
+  window.parent.postMessage({type:'HJ_GO_TOP',family:1},window.parent.location.origin);
+ });
+})();
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+" title="家系図1"></iframe></div></section><section class="card" data-circle="two"><div class="cardhead"><div><b id="familyLabel2">FAMILY CIRCLE 02</b><div class="tag">右側の家系図</div></div></div><div class="framebox"><iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
 
 &lt;html lang=&quot;ja&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;/&gt;&lt;meta content=&quot;width=device-width,initial-scale=1&quot; name=&quot;viewport&quot;/&gt;&lt;title&gt;THE HJ WEIMARANER Club FAMILY NETWORK&lt;/title&gt;&lt;style&gt;
 :root{font-family:Inter,Arial,'Helvetica Neue',sans-serif;color:#e9eef1;background:#12191e}*{box-sizing:border-box}body{margin:0}header{height:70px;border-bottom:1px solid #35424a;display:flex;align-items:center;justify-content:space-between;padding:0 30px;background:#182127}h1{font-size:18px;letter-spacing:3px;margin:0}small{color:#9cafb9;letter-spacing:2px;font-size:10px}.topnav{display:flex;gap:18px;align-items:center}button,input,select{font:inherit}button{cursor:pointer;border:1px solid #60737f;background:#273640;color:#eaf0f3;border-radius:6px;padding:10px 13px}button:hover{background:#3c5361}button.primary{background:#c7d4dc;color:#18242c;border-color:#c7d4dc;font-weight:700}button.danger{border-color:#93686b;color:#ffbfc0}.layout{display:grid;grid-template-columns:245px minmax(0,1fr) 285px;height:calc(100dvh - 70px);min-height:540px}.panel{background:#1b252c;padding:22px;border-right:1px solid #34434d;overflow:auto}.right{border-right:0;border-left:1px solid #34434d}h2{font-size:13px;letter-spacing:2px;font-weight:600;color:#a9bdc8;margin:0 0 20px}.stack{display:grid;gap:9px}.field{display:grid;gap:6px;margin-bottom:13px}.field label{font-size:11px;color:#a8bac5}.field input,.field select{width:100%;background:#121b21;color:#fff;border:1px solid #526571;border-radius:5px;padding:10px}.hint{font-size:12px;line-height:1.6;color:#99abb6}.workspace{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 50%,#2c3e49 0%,#1b2830 58%,#172128 100%)}.workspace svg{width:100%;height:100%;touch-action:none;display:block}.worktitle{position:absolute;top:20px;left:24px;pointer-events:none}.worktitle b{display:block;font-size:20px;letter-spacing:1px}.worktitle span{font-size:10px;letter-spacing:2px;color:#a3b8c3}.toolbar{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:7px;background:#152028dd;padding:8px;border:1px solid #435764;border-radius:10px;z-index:2}.toolbar button{white-space:nowrap}.node{cursor:grab}.node:active{cursor:grabbing}.node text{pointer-events:none}.connection{stroke:#b5c8d2;stroke-width:1.7;opacity:.8;cursor:pointer}.branch-junction{fill:#f0d49b;stroke:#172128;stroke-width:2;pointer-events:none}.connection.selected{stroke:#f0d49b;stroke-width:3}.node.selected .outer{stroke:#f2d7a2;stroke-width:4}.node .outer{fill:#344752;stroke:#c1d0d8;stroke-width:2}.node .initial{fill:#d8e1e6;font-size:16px;font-weight:bold;text-anchor:middle;dominant-baseline:central}.node .name{fill:#eaf0f3;font-size:12px;text-anchor:middle;letter-spacing:1px}.node .sex{fill:#b1c3cd;font-size:9px;text-anchor:middle}.badge{display:inline-block;background:#334750;padding:5px 8px;border-radius:4px;color:#d3e0e7;font-size:11px}.profilepic{width:100%;aspect-ratio:1.5;background:#31424e;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#c6d5de;overflow:hidden}.profilepic img{width:100%;height:100%;object-fit:cover}.divider{height:1px;background:#3d505b;margin:18px 0}.mode{display:flex;gap:8px;flex-wrap:wrap}.mode button.active{background:#aebfc9;color:#16242c}.mobile-note{display:none}@media(max-width:900px){header{padding:0 14px}.topnav small{display:none}.layout{display:flex;flex-direction:column;height:auto}.panel{border:0;padding:14px}.left{order:2}.right{order:3}.workspace{order:1;height:65dvh;min-height:420px}.toolbar{bottom:10px}.toolbar button{padding:8px}.mobile-note{display:block}.worktitle{top:12px;left:14px}.worktitle b{font-size:16px}}@media(min-width:901px){.panel{min-height:0}}
@@ -3514,105 +3543,94 @@ document.body.classList.add('hj-profile-fullscreen')}
 window.hjKeepFullscreenProfile=keepFullscreen;
  edit.addEventListener('click',keepFullscreen,true);
 try{window.parent.document.addEventListener('fullscreenchange',()=&gt;{const box=window.frameElement?.closest('.framebox');if(window.parent.document.fullscreenElement!==box&amp;&amp;!window.parent.document.body.classList.contains('hj-single-expanded'))document.body.classList.remove('hj-profile-fullscreen')})}catch(e){}
-})();&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
-" title="家系図2"></iframe><button type="button" class="hj-fullscreen-return">← 1つ表示に戻る</button></div></section></div><p class="note">家系図01・02はそれぞれ独立して編集できます。犬の追加・削除、移動、家族関係、誕生日一致、DOG PROFILE、写真、飼い主情報に対応。変更はオンラインに保存されます。別端末では再読み込みすると最新データを表示します。</p></main><script>function fullscreen(id){const e=document.getElementById(id);if(e.requestFullscreen)e.requestFullscreen();}</script><script>
+})();&lt;/script&gt;&lt;style id=&quot;hj-frame-global-top-20261029&quot;&gt;
+/* Access TOP directly in every individual pedigree view and editor. */
+#hjFrameGlobalTop{background:#526e82!important;color:#fff!important;border:1px solid #8ba1b0!important;
+ border-radius:5px!important;font-weight:700!important;font-size:12px!important;
+ line-height:1.2!important;padding:8px 12px!important;white-space:nowrap!important}
+#hjFrameGlobalTop:hover{background:#3d5b70!important}
+body.hj-dual-preview #hjFrameGlobalTop{display:none!important}
+&lt;/style&gt;&lt;script id=&quot;hj-frame-global-top-20261029&quot;&gt;
+(()=&gt;{
+ const nav=document.querySelector('.topnav')||document.querySelector('body&gt;header');
+ if(!nav||document.getElementById('hjFrameGlobalTop'))return;
+ const button=document.createElement('button');
+ button.id='hjFrameGlobalTop';
+ button.type='button';
+ button.textContent='◫ TOP';
+ button.setAttribute('aria-label','TOPの2つ表示に戻る');
+ nav.prepend(button);
+ button.addEventListener('click',()=&gt;{
+  if(window.parent===window)return;
+  window.parent.postMessage({type:'HJ_GO_TOP',family:2},window.parent.location.origin);
+ });
+})();
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+" title="家系図2"></iframe></div></section></div><p class="note">家系図01・02はそれぞれ独立して編集できます。犬の追加・削除、移動、家族関係、誕生日一致、DOG PROFILE、写真、飼い主情報に対応。変更はオンラインに保存されます。別端末では再読み込みすると最新データを表示します。</p></main><script>
 (function(){
  const grid=document.getElementById('familyGrid');
  const tabs=[...document.querySelectorAll('.viewtab')];
  const frames={one:document.getElementById('frame1'),two:document.getElementById('frame2')};
- let activeBox=null;
- let activeFamily=null;
  function readOnly(family){
-   const doc=frames[family]?.contentDocument;
-   if(!doc?.body)return;
-   doc.body.classList.remove('hj-edit-mode');
-   doc.querySelector('.panel.right')?.classList.remove('profile-editing');
-   const mode=doc.getElementById('hjModeBtn');
-   if(mode){mode.textContent='家系図を編集する';mode.setAttribute('aria-pressed','false')}
+  const doc=frames[family]?.contentDocument;
+  if(!doc?.body)return;
+  doc.body.classList.remove('hj-edit-mode');
+  doc.querySelector('.panel.right')?.classList.remove('profile-editing');
+  const mode=doc.getElementById('hjModeBtn');
+  if(mode){mode.textContent='家系図を編集する';mode.setAttribute('aria-pressed','false')}
  }
  function syncFrame(frame){
-   const doc=frame?.contentDocument;
-   if(!doc?.body)return;
-   const top=grid.dataset.view==='both';
-   doc.body.classList.toggle('hj-dual-preview',top);
-   if(top)readOnly(frame===frames.two?'two':'one');
+  const doc=frame?.contentDocument;
+  if(!doc?.body)return;
+  const top=grid.dataset.view==='both';
+  doc.body.classList.toggle('hj-dual-preview',top);
+  if(top)readOnly(frame===frames.two?'two':'one');
  }
  function choose(view){
-   const v=['both','one','two'].includes(view)?view:'both';
-   grid.dataset.view=v;
-   tabs.forEach(tab=>{
-     const active=tab.dataset.view===v;
-     tab.classList.toggle('active',active);
-     tab.setAttribute('aria-pressed',String(active));
-   });
-   Object.values(frames).forEach(syncFrame);
-   try{sessionStorage.setItem('hj-pedigree-active-view-v1',v)}catch(error){}
+  const v=['both','one','two'].includes(view)?view:'both';
+  grid.dataset.view=v;
+  tabs.forEach(tab=>{
+   const active=tab.dataset.view===v;
+   tab.classList.toggle('active',active);
+   tab.setAttribute('aria-pressed',String(active));
+  });
+  Object.values(frames).forEach(syncFrame);
+  try{sessionStorage.setItem('hj-pedigree-active-view-v1',v)}catch(error){}
  }
- async function closeFullscreen(){
-   if(document.fullscreenElement){
-     try{await document.exitFullscreen()}catch(e){console.warn('Cannot exit fullscreen',e)}
-   }
-   document.body.classList.remove('hj-single-expanded');
-   if(activeBox)activeBox.classList.remove('hj-fullscreen-family');
-   activeBox=null;
-   activeFamily=null;
+ function showTop(){
+  choose('both');
+  document.querySelector('.viewtabs')?.scrollIntoView({behavior:'smooth',block:'start'});
  }
- async function showReadOnly(family){
-   const v=family==='two'?'two':'one';
-   await closeFullscreen();
-   choose(v);
-   readOnly(v);
- }
- function openFullscreen(family){
-   const v=family==='two'?'two':'one';
-   choose(v);
-   readOnly(v);
-   const box=frames[v]?.closest('.framebox');
-   if(!box)return;
-   activeFamily=v;activeBox=box;
-   box.classList.add('hj-fullscreen-family');
-   if(typeof box.requestFullscreen==='function'){
-     try{
-       const result=box.requestFullscreen();
-       if(result&&typeof result.catch==='function'){
-         result.catch(()=>document.body.classList.add('hj-single-expanded'));
-       }
-     }catch(e){document.body.classList.add('hj-single-expanded')}
-   }else document.body.classList.add('hj-single-expanded');
+ function showFamily(family){
+  const v=family==='two'?'two':'one';
+  choose(v);
+  readOnly(v);
+  document.querySelector('.viewtabs')?.scrollIntoView({behavior:'smooth',block:'start'});
  }
  for(const family of ['one','two']){
-   const frame=frames[family],box=frame?.closest('.framebox');
-   frame?.addEventListener('load',()=>syncFrame(frame));
-   if(!box)continue;
-   const overlay=document.createElement('button');
-   overlay.type='button';
-   overlay.className='hj-top-open';
-   overlay.setAttribute('aria-label',(family==='one'?'家系図01':'家系図02')+'を全画面で開く');
-   const label=document.createElement('span');
-   label.textContent='クリックして全画面表示 ↗';
-   overlay.appendChild(label);
-   overlay.addEventListener('click',()=>openFullscreen(family));
-   box.appendChild(overlay);
+  const frame=frames[family],box=frame?.closest('.framebox');
+  frame?.addEventListener('load',()=>syncFrame(frame));
+  if(!box)continue;
+  const overlay=document.createElement('button');
+  overlay.type='button';
+  overlay.className='hj-top-open';
+  overlay.setAttribute('aria-label',(family==='one'?'家系図01':'家系図02')+'を1つ表示で開く');
+  const label=document.createElement('span');
+  label.textContent=(family==='one'?'家系図01':'家系図02')+'を見る';
+  overlay.appendChild(label);
+  overlay.addEventListener('click',()=>showFamily(family));
+  box.appendChild(overlay);
  }
  tabs.forEach(tab=>tab.addEventListener('click',()=>{
-   if(activeBox)void closeFullscreen();
-   choose(tab.dataset.view);
+  if(tab.dataset.view==='both')showTop();
+  else showFamily(tab.dataset.view);
  }));
- document.querySelectorAll('.hj-fullscreen-return').forEach(b=>{
-   b.addEventListener('click',()=>void showReadOnly(activeFamily||grid.dataset.view));
- });
  window.addEventListener('message',event=>{
-   if(event.origin!==location.origin||event.data?.type!=='HJ_EDIT_FINISHED')return;
-   const family=event.data.family===2?'two':event.data.family===1?'one':null;
-   if(!family||event.source!==frames[family]?.contentWindow)return;
-   void showReadOnly(family);
- });
- document.addEventListener('fullscreenchange',()=>{
-   if(!document.fullscreenElement){
-     document.body.classList.remove('hj-single-expanded');
-     if(activeBox)activeBox.classList.remove('hj-fullscreen-family');
-     activeBox=null;activeFamily=null;
-   }
+  if(event.origin!==location.origin)return;
+  const family=event.data?.family===2?'two':event.data?.family===1?'one':null;
+  if(!family||event.source!==frames[family]?.contentWindow)return;
+  if(event.data?.type==='HJ_GO_TOP'){showTop();return;}
+  if(event.data?.type==='HJ_EDIT_FINISHED'){showFamily(family);}
  });
  let remembered='both';
  try{remembered=sessionStorage.getItem('hj-pedigree-active-view-v1')||'both'}catch(error){}
