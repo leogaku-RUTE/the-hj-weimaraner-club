@@ -1347,8 +1347,91 @@ body.hj-profile-fullscreen:has(.panel.right.profile-editing) .panel.right{displa
   border-top:0!important;
  }
 }
+&lt;/style&gt;&lt;style id=&quot;hj-persistent-editor-eight-rings-20261031&quot;&gt;
+/* Family Editor is persistent throughout edit mode, not just while profile-editing. */
+@media(min-width:900px){
+ html:has(body.hj-edit-mode:not(.hj-dual-preview)),
+ body.hj-edit-mode:not(.hj-dual-preview){
+  height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview){
+  display:flex!important;flex-direction:column!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview)&gt;header{
+  flex:0 0 auto!important;min-height:0!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .layout{
+  display:grid!important;flex:1 1 auto!important;
+  grid-template-columns:clamp(180px,19vw,235px) minmax(0,1fr) clamp(255px,26vw,335px)!important;
+  grid-template-rows:minmax(0,1fr)!important;
+  height:0!important;min-height:0!important;max-height:none!important;
+  width:100%!important;min-width:0!important;overflow:hidden!important;
+  align-items:stretch!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .panel.left{
+  display:block!important;grid-column:1!important;grid-row:1!important;
+  order:0!important;position:relative!important;
+  width:100%!important;height:100%!important;min-height:0!important;min-width:0!important;
+  max-height:none!important;overflow-x:hidden!important;overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  border-right:1px solid #bac9d2!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .workspace{
+  display:block!important;grid-column:2!important;grid-row:1!important;order:0!important;
+  position:relative!important;width:100%!important;height:100%!important;
+  min-width:0!important;min-height:0!important;max-height:none!important;
+  overflow:hidden!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .panel.right{
+  display:block!important;grid-column:3!important;grid-row:1!important;order:0!important;
+  position:relative!important;width:100%!important;height:100%!important;
+  min-height:0!important;min-width:0!important;max-height:none!important;
+  overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+  border-left:1px solid #bac9d2!important;border-top:0!important;
+ }
+}
+/* In narrow viewports: pedigree above, editor left and profile right, each separately scrollable. */
+@media(max-width:899px){
+ body.hj-edit-mode:not(.hj-dual-preview){
+  display:block!important;height:auto!important;max-height:none!important;min-height:100%!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .layout{
+  display:grid!important;
+  grid-template-columns:minmax(145px,44%) minmax(0,1fr)!important;
+  grid-template-rows:clamp(300px,47dvh,450px) minmax(420px,auto)!important;
+  height:auto!important;min-height:0!important;max-height:none!important;
+  overflow:visible!important;align-items:stretch!important;width:100%!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .workspace{
+  display:block!important;position:relative!important;grid-column:1/-1!important;grid-row:1!important;
+  order:0!important;width:100%!important;height:100%!important;min-height:0!important;
+  max-height:none!important;overflow:hidden!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .panel.left{
+  display:block!important;position:relative!important;grid-column:1!important;grid-row:2!important;
+  order:0!important;width:100%!important;min-width:0!important;height:100%!important;
+  min-height:0!important;max-height:none!important;overflow-x:hidden!important;
+  overflow-y:auto!important;overscroll-behavior:contain!important;border-right:1px solid #bac9d2!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .panel.right{
+  display:block!important;position:relative!important;grid-column:2!important;grid-row:2!important;
+  order:0!important;width:100%!important;min-width:0!important;height:100%!important;
+  min-height:0!important;max-height:none!important;overflow-x:hidden!important;
+  overflow-y:auto!important;overscroll-behavior:contain!important;
+  border-left:1px solid #bac9d2!important;border-top:0!important;
+ }
+}
+/* More legible slate-grey concentric rings on the family chart; no dog/connection edits. */
+#hjReferenceOrbits{opacity:.74!important;pointer-events:none!important}
+#hjReferenceOrbits &gt; circle:not(.hj-point):not(.hj-point-blue){
+ fill:none!important;stroke:#5a7080!important;stroke-width:1.6px!important;opacity:.8!important;
+}
+#hjReferenceOrbits &gt; circle.hj-blue{stroke:#476578!important;stroke-width:1.8px!important;opacity:.88!important}
+body.hj-edit-mode #guides circle{stroke:#536a7b!important;stroke-width:1.5px!important;opacity:.75!important}
+body:not(.hj-edit-mode) #guides circle{stroke:#607686!important;stroke-width:1.3px!important;opacity:.65!important}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;編集画面には10px間隔の細かいグリッドが表示されます。犬の丸アイコンをドラッグすると、格子点に揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
-&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
+&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;78&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;112&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;184&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;255&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 202V130 M598 350H670 M450 498V570 M302 350H230&quot;&gt;&lt;/path&gt;
 &lt;path class=&quot;hj-arrow&quot; d=&quot;M450 202l-4 7h8z M598 350l-7 -4v8z M450 498l-4 -7h8z M302 350l7 -4v8z&quot;&gt;&lt;/path&gt;
@@ -3071,8 +3154,91 @@ body.hj-profile-fullscreen:has(.panel.right.profile-editing) .panel.right{displa
   border-top:0!important;
  }
 }
+&lt;/style&gt;&lt;style id=&quot;hj-persistent-editor-eight-rings-20261031&quot;&gt;
+/* Family Editor is persistent throughout edit mode, not just while profile-editing. */
+@media(min-width:900px){
+ html:has(body.hj-edit-mode:not(.hj-dual-preview)),
+ body.hj-edit-mode:not(.hj-dual-preview){
+  height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview){
+  display:flex!important;flex-direction:column!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview)&gt;header{
+  flex:0 0 auto!important;min-height:0!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .layout{
+  display:grid!important;flex:1 1 auto!important;
+  grid-template-columns:clamp(180px,19vw,235px) minmax(0,1fr) clamp(255px,26vw,335px)!important;
+  grid-template-rows:minmax(0,1fr)!important;
+  height:0!important;min-height:0!important;max-height:none!important;
+  width:100%!important;min-width:0!important;overflow:hidden!important;
+  align-items:stretch!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .panel.left{
+  display:block!important;grid-column:1!important;grid-row:1!important;
+  order:0!important;position:relative!important;
+  width:100%!important;height:100%!important;min-height:0!important;min-width:0!important;
+  max-height:none!important;overflow-x:hidden!important;overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  border-right:1px solid #bac9d2!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .workspace{
+  display:block!important;grid-column:2!important;grid-row:1!important;order:0!important;
+  position:relative!important;width:100%!important;height:100%!important;
+  min-width:0!important;min-height:0!important;max-height:none!important;
+  overflow:hidden!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .panel.right{
+  display:block!important;grid-column:3!important;grid-row:1!important;order:0!important;
+  position:relative!important;width:100%!important;height:100%!important;
+  min-height:0!important;min-width:0!important;max-height:none!important;
+  overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+  border-left:1px solid #bac9d2!important;border-top:0!important;
+ }
+}
+/* In narrow viewports: pedigree above, editor left and profile right, each separately scrollable. */
+@media(max-width:899px){
+ body.hj-edit-mode:not(.hj-dual-preview){
+  display:block!important;height:auto!important;max-height:none!important;min-height:100%!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .layout{
+  display:grid!important;
+  grid-template-columns:minmax(145px,44%) minmax(0,1fr)!important;
+  grid-template-rows:clamp(300px,47dvh,450px) minmax(420px,auto)!important;
+  height:auto!important;min-height:0!important;max-height:none!important;
+  overflow:visible!important;align-items:stretch!important;width:100%!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .workspace{
+  display:block!important;position:relative!important;grid-column:1/-1!important;grid-row:1!important;
+  order:0!important;width:100%!important;height:100%!important;min-height:0!important;
+  max-height:none!important;overflow:hidden!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .panel.left{
+  display:block!important;position:relative!important;grid-column:1!important;grid-row:2!important;
+  order:0!important;width:100%!important;min-width:0!important;height:100%!important;
+  min-height:0!important;max-height:none!important;overflow-x:hidden!important;
+  overflow-y:auto!important;overscroll-behavior:contain!important;border-right:1px solid #bac9d2!important;
+ }
+ body.hj-edit-mode:not(.hj-dual-preview) .panel.right{
+  display:block!important;position:relative!important;grid-column:2!important;grid-row:2!important;
+  order:0!important;width:100%!important;min-width:0!important;height:100%!important;
+  min-height:0!important;max-height:none!important;overflow-x:hidden!important;
+  overflow-y:auto!important;overscroll-behavior:contain!important;
+  border-left:1px solid #bac9d2!important;border-top:0!important;
+ }
+}
+/* More legible slate-grey concentric rings on the family chart; no dog/connection edits. */
+#hjReferenceOrbits{opacity:.74!important;pointer-events:none!important}
+#hjReferenceOrbits &gt; circle:not(.hj-point):not(.hj-point-blue){
+ fill:none!important;stroke:#5a7080!important;stroke-width:1.6px!important;opacity:.8!important;
+}
+#hjReferenceOrbits &gt; circle.hj-blue{stroke:#476578!important;stroke-width:1.8px!important;opacity:.88!important}
+body.hj-edit-mode #guides circle{stroke:#536a7b!important;stroke-width:1.5px!important;opacity:.75!important}
+body:not(.hj-edit-mode) #guides circle{stroke:#607686!important;stroke-width:1.3px!important;opacity:.65!important}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;編集画面には10px間隔の細かいグリッドが表示されます。犬の丸アイコンをドラッグすると、格子点に揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
-&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
+&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;78&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;112&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;184&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;255&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 202V130 M598 350H670 M450 498V570 M302 350H230&quot;&gt;&lt;/path&gt;
 &lt;path class=&quot;hj-arrow&quot; d=&quot;M450 202l-4 7h8z M598 350l-7 -4v8z M450 498l-4 -7h8z M302 350l7 -4v8z&quot;&gt;&lt;/path&gt;
