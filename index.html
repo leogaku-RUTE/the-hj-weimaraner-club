@@ -1450,6 +1450,27 @@ body.hj-edit-mode:not(.hj-dual-preview) #nodes .node{
  cursor:grab!important;pointer-events:all!important;touch-action:none!important;
 }
 body.hj-edit-mode:not(.hj-dual-preview) #nodes .node:active{cursor:grabbing!important}
+&lt;/style&gt;&lt;style id=&quot;hj-year-circle-layout-20261122-css&quot;&gt;
+/* Optional adaptive circular pedigree: concentric rings remain, birth years become readable bands. */
+#hjYearCircleBtn{color:#214b66!important;background:#e4edf6!important;border:1px solid #98b4cb!important;
+ display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;min-width:0;
+ font-size:12px;font-weight:700;padding:9px 12px;border-radius:5px;cursor:pointer}
+body.hj-dual-preview #hjYearCircleBtn{display:none!important}
+body:not(.hj-edit-mode) #hjYearCircleBtn{display:none!important}
+#hjYearCircleBtn:hover{background:#c7ddef!important}
+#hjYearCircleBanner{display:none}
+body.hj-edit-mode #hjYearCircleBanner{
+ display:block;position:relative;top:auto;left:auto;background:#dbe8f3;
+ font-size:11px;padding:7px 10px;color:#36526a;border-bottom:1px solid #a9bfd1;
+ letter-spacing:.02em;line-height:1.45;
+}
+#hjYearBands{pointer-events:none!important}
+#hjYearBands .hj-extended-circle{stroke:#68879d;stroke-width:1.15;fill:none;opacity:.35}
+#hjYearBands .hj-year-band-line{fill:none;stroke:#7596ad;stroke-dasharray:7 7;stroke-width:1.3;opacity:.7}
+#hjYearBands .hj-year-band-label{font:700 17px Arial,sans-serif;letter-spacing:1.4px;fill:#365b78;stroke:#edf3fa;stroke-width:3px;paint-order:stroke}
+#hjYearBands .hj-year-band-sub{font:11px Arial,sans-serif;fill:#58748b;stroke:#edf3fa;stroke-width:2px;paint-order:stroke}
+#nodes .hj-dog-birthyear{font:10px Arial,sans-serif;letter-spacing:.8px;fill:#3d6380;text-anchor:middle;pointer-events:none}
+body.hj-dual-preview #nodes .hj-dog-birthyear{display:none!important}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;編集画面には10px間隔の細かいグリッドが表示されます。犬の丸アイコンをドラッグすると、格子点に揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;78&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;112&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;184&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;255&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -2154,7 +2175,7 @@ body.hj-edit-mode .workspace .toolbar{
    alert('円形配列には「夫婦」の関係が設定された犬2匹が必要です。');
    return;
   }
-  const persistent=window.isHJAdmin===true&amp;&amp;document.body.classList.contains('hj-edit-mode');
+  const persistent=document.body.classList.contains('hj-edit-mode')&amp;&amp;!document.body.classList.contains('hj-dual-preview');
   if(persistent){
    const a=dogs.find(d=&gt;d.id===placement.pair[0]);
    const b=dogs.find(d=&gt;d.id===placement.pair[1]);
@@ -2416,6 +2437,232 @@ body.hj-dual-preview #hjFrameGlobalTop{display:none!important}
   const existing=links.find(e=&gt;(e.a===a&amp;&amp;e.b===b)||(e.a===b&amp;&amp;e.b===a));
   registerSibling(a,b,existing);
  },true);
+})();
+&lt;/script&gt;&lt;script id=&quot;hj-year-circle-layout-20261122&quot;&gt;
+(()=&gt;{
+ const canvas=document.getElementById('canvas'),scene=document.getElementById('scene'),nodes=document.getElementById('nodes');
+ const toolbar=document.querySelector('.workspace .toolbar'),workspace=document.querySelector('.workspace');
+ if(!canvas||!scene||!nodes||!toolbar||typeof render!=='function')return;
+ const NS='http://www.w3.org/2000/svg';
+ const button=document.createElement('button');
+ button.id='hjYearCircleBtn';button.type='button';
+ button.textContent='◎ 生年順の円形配列';
+ button.title='同じ親の犬を生まれた年順に上下へグループ化。多数の兄弟も重なりにくく配置します';
+ toolbar.appendChild(button);
+ const banner=document.createElement('div');
+ banner.id='hjYearCircleBanner';banner.textContent='生年順の円形配列：年齢の古い兄弟が上、新しい兄弟が下。配置は後からドラッグで調整できます。';
+ workspace.insertBefore(banner,canvas);
+ const layer=document.createElementNS(NS,'g');
+ layer.id='hjYearBands';layer.setAttribute('aria-hidden','true');layer.setAttribute('pointer-events','none');
+ const edges=document.getElementById('edges');
+ scene.insertBefore(layer,edges||scene.firstChild);
+ let familyId=null,yearBands=[],yearLayout=false;
+ const storageKey=id=&gt;'hj-year-circle-bands-v1-'+id;
+ const birthYear=d=&gt;typeof d?.birthday==='string'&amp;&amp;/^(19|20)\d{2}-\d{2}-\d{2}$/.test(d.birthday)?Number(d.birthday.slice(0,4)):null;
+ const getParents=id=&gt;{
+  const parents=new Set();
+  for(const e of links){
+   if(e.type!=='Parent / Child'||e.b!==id)continue;
+   const ids=Array.isArray(e.fromPair)&amp;&amp;e.fromPair.length===2?e.fromPair:[e.a];
+   for(const p of ids)if(dogs.some(d=&gt;d.id===p))parents.add(p);
+  }
+  return parents;
+ };
+ const allChildren=parentId=&gt;dogs.filter(d=&gt;getParents(d.id).has(parentId)).map(d=&gt;d.id);
+ function chooseRoot(){
+  const available=new Set(dogs.map(d=&gt;d.id));
+  const spouses=links.filter(e=&gt;e.type==='Partner'&amp;&amp;available.has(e.a)&amp;&amp;available.has(e.b));
+  const candidates=spouses.map(e=&gt;{
+   const p=[e.a,e.b],children=dogs.filter(d=&gt;{const parents=getParents(d.id);return p.some(id=&gt;parents.has(id))}).map(d=&gt;d.id);
+   const focus=p.includes(selected)?50:children.includes(selected)?30:0;
+   return {parents:p,children,score:children.length*10+focus};
+  });
+  if(candidates.length){candidates.sort((a,b)=&gt;b.score-a.score);return candidates[0];}
+  const parents=dogs.map(d=&gt;({id:d.id,kids:allChildren(d.id)})).sort((a,b)=&gt;b.kids.length-a.kids.length);
+  if(parents.length&amp;&amp;parents[0].kids.length)return {parents:[parents[0].id],children:parents[0].kids,score:parents[0].kids.length};
+  return null;
+ }
+ function calculate(){
+  const root=chooseRoot();
+  if(!root)return null;
+  const map=new Map(dogs.map(d=&gt;[d.id,d]));
+  const pos=new Map(),bands=[];
+  const baseX=450,snap=x=&gt;Math.round(x/10)*10;
+  const rootParents=root.parents;
+  const parentY=140;
+  if(rootParents.length===2){
+   pos.set(rootParents[0],{x:baseX-100,y:parentY});
+   pos.set(rootParents[1],{x:baseX+100,y:parentY});
+  }else pos.set(rootParents[0],{x:baseX,y:parentY});
+  const assigned=new Set(rootParents);
+  let frontier=[...rootParents],baseY=345,gen=1;
+  const cap=6,colSpacing=168,rowSpacing=150,groupGap=95,genGap=125;
+  // Up to six visible generations, with distinct dates inside each generation.
+  while(frontier.length&amp;&amp;gen&lt;=Math.min(6,dogs.length)){
+   const source=new Set(frontier),next=[];
+   for(const d of dogs){
+    if(assigned.has(d.id))continue;
+    const known=getParents(d.id);
+    if([...known].some(id=&gt;source.has(id))){assigned.add(d.id);next.push(d.id)}
+   }
+   // Only for the first cohort, unparented siblings are shown as unconfirmed connections
+   // instead of being assigned invented biological parents.
+   if(gen===1){
+    for(const e of links.filter(e=&gt;e.type==='Siblings')){
+     if(next.includes(e.a)&amp;&amp;!assigned.has(e.b)&amp;&amp;getParents(e.b).size===0){assigned.add(e.b);next.push(e.b)}
+     else if(next.includes(e.b)&amp;&amp;!assigned.has(e.a)&amp;&amp;getParents(e.a).size===0){assigned.add(e.a);next.push(e.a)}
+    }
+   }
+   if(!next.length)break;
+   const groupMap=new Map();
+   for(const id of next){
+    const d=map.get(id),year=birthYear(d);
+    const p=[...getParents(id)].filter(x=&gt;source.has(x)).sort((a,b)=&gt;a-b).join('-')||'unknown';
+    const key=p+'|'+(year||'unknown');
+    if(!groupMap.has(key))groupMap.set(key,{year,parents:p,ids:[]});
+    groupMap.get(key).ids.push(id);
+   }
+   const sorted=[...groupMap.values()].sort((a,b)=&gt;
+    (a.year===null?Infinity:a.year)-(b.year===null?Infinity:b.year)||
+    a.parents.localeCompare(b.parents)||a.ids[0]-b.ids[0]);
+   for(const group of sorted){
+    const count=group.ids.length,rows=Math.ceil(count/cap),startY=baseY;
+    let minX=Infinity,maxX=-Infinity;
+    for(let row=0;row&lt;rows;row++){
+     const rowIds=group.ids.slice(row*cap,(row+1)*cap),n=rowIds.length;
+     rowIds.forEach((id,i)=&gt;{
+      const dist=n&lt;=1?0:Math.abs((i-(n-1)/2)/((n-1)/2));
+      const x=snap(baseX+(i-(n-1)/2)*colSpacing);
+      const y=snap(baseY+row*rowSpacing+28*dist*dist);
+      pos.set(id,{x,y});minX=Math.min(minX,x);maxX=Math.max(maxX,x);
+     });
+    }
+    const label=group.year?String(group.year)+' BORN':'YEAR UNKNOWN';
+    const subtitle=gen+' GENERATION · '+count+' DOG'+(count===1?'':'S');
+    bands.push({label,subtitle,y:startY-76,x:Math.min(70,minX-120),minX,maxX,groupIds:group.ids.slice(),gen});
+    baseY+=rows*rowSpacing+groupGap;
+   }
+   frontier=next;
+   baseY+=genGap;
+   gen++;
+  }
+  // Never hide unconnected relatives. Keep them in a separate, clearly marked zone.
+  const leftovers=dogs.filter(d=&gt;!assigned.has(d.id));
+  if(leftovers.length){
+   const groups=new Map();
+   for(const d of leftovers){
+    const year=birthYear(d)||'unknown';
+    if(!groups.has(year))groups.set(year,[]);
+    groups.get(year).push(d.id);
+   }
+   for(const [year,ids] of [...groups.entries()].sort((a,b)=&gt;(a[0]==='unknown'?Infinity:Number(a[0]))-(b[0]==='unknown'?Infinity:Number(b[0])))){
+    const rows=Math.ceil(ids.length/cap);
+    ids.forEach((id,index)=&gt;{
+     const row=Math.floor(index/cap),rowLength=Math.min(cap,ids.length-row*cap),col=index%cap;
+     pos.set(id,{x:snap(baseX+(col-(rowLength-1)/2)*colSpacing),y:snap(baseY+row*rowSpacing)});
+    });
+    bands.push({label:year==='unknown'?'YEAR UNKNOWN':year+' BORN',subtitle:'OTHER RELATIVES · '+ids.length+' DOGS',
+      x:60,y:baseY-75,minX:baseX-420,maxX:baseX+420,groupIds:ids.slice(),gen:gen+1});
+    baseY+=rows*rowSpacing+groupGap;
+   }
+  }
+  const pts=[...pos.values()];
+  const minX=Math.min(0,...pts.map(p=&gt;p.x))-165;
+  const maxX=Math.max(900,...pts.map(p=&gt;p.x))+165;
+  const minY=Math.min(0,...pts.map(p=&gt;p.y))-150;
+  const maxY=Math.max(700,...pts.map(p=&gt;p.y))+135;
+  const box=[snap(minX),snap(minY),snap(maxX-minX),snap(maxY-minY)];
+  return {positions:pos,bands,viewBox:box.join(' '),root};
+ }
+ function drawYearBands(){
+  layer.replaceChildren();
+  if(!yearLayout||document.body.classList.contains('hj-dual-preview'))return;
+  if(!yearBands.length)return;
+  const lastY=Math.max(...yearBands.map(b=&gt;b.y));
+  const needed=Math.max(500,lastY-350+130);
+  for(let r=420;r&lt;needed;r+=165){
+   const circle=document.createElementNS(NS,'circle');
+   circle.setAttribute('cx',450);circle.setAttribute('cy',350);circle.setAttribute('r',r);
+   circle.setAttribute('class','hj-extended-circle');layer.appendChild(circle);
+  }
+  for(const band of yearBands){
+   const line=document.createElementNS(NS,'path');
+   line.setAttribute('class','hj-year-band-line');
+   line.setAttribute('d','M '+(band.minX-65)+' '+band.y+' H '+(band.maxX+65));
+   layer.appendChild(line);
+   for(const [text,cls,delta] of [[band.label,'hj-year-band-label',-11],[band.subtitle,'hj-year-band-sub',12]]){
+    const el=document.createElementNS(NS,'text');
+    el.setAttribute('x',band.x);el.setAttribute('y',band.y+delta);
+    el.setAttribute('class',cls);el.textContent=text;layer.appendChild(el);
+   }
+  }
+ }
+ function drawDOB(){
+  if(document.body.classList.contains('hj-dual-preview'))return;
+  const groups=[...nodes.children].filter(x=&gt;x.classList?.contains('node'));
+  dogs.forEach((d,i)=&gt;{
+   const year=birthYear(d),g=groups[i];
+   if(!g||!year||g.querySelector('.hj-dog-birthyear'))return;
+   const text=document.createElementNS(NS,'text');
+   text.setAttribute('y','82');text.setAttribute('class','hj-dog-birthyear');
+   text.textContent='DOB '+String(year).slice(2);
+   g.appendChild(text);
+  });
+ }
+ const prior=render;
+ render=function(){const out=prior();drawDOB();drawYearBands();return out};
+ button.onclick=()=&gt;{
+  if(!document.body.classList.contains('hj-edit-mode'))return;
+  const placement=calculate();
+  if(!placement){
+   alert('生年順配置には、少なくとも1件の親子関係が必要です。');
+   return;
+  }
+  const count=placement.positions.size;
+  if(!confirm(count+'匹を生年別の弧状レイヤーに整理します。現在の手動配置は変更されますが、写真・家族関係はそのままです。実行しますか？'))return;
+  const old=new Map(dogs.map(d=&gt;[d.id,{x:d.x,y:d.y}]));
+  yearBands=placement.bands;yearLayout=true;
+  for(const d of dogs){
+   const pos=placement.positions.get(d.id);
+   if(pos){d.x=pos.x;d.y=pos.y}
+  }
+  canvas.setAttribute('viewBox',placement.viewBox);
+  zoom=1;offset={x:0,y:0};drag=null;
+  try{
+   if(familyId)localStorage.setItem(storageKey(familyId),JSON.stringify({bands:yearBands,viewBox:placement.viewBox}));
+   render();
+  }catch(error){
+   for(const d of dogs){const prev=old.get(d.id);if(prev){d.x=prev.x;d.y=prev.y}}
+   console.error('Year layout failed',error);
+   alert('配置を完了できなかったため、以前の位置に戻しました。');
+   render();
+  }
+ };
+ function restore(){
+  if(!familyId)return;
+  try{
+   const saved=JSON.parse(localStorage.getItem(storageKey(familyId))||'null');
+   if(!saved||!Array.isArray(saved.bands)||saved.bands.length&gt;300)return;
+   if(saved.bands.some(b=&gt;typeof b.y!=='number'||!Array.isArray(b.groupIds)))return;
+   yearBands=saved.bands;yearLayout=true;
+  }catch(error){console.warn('Birth-year overlay state not available',error)}
+  drawYearBands();
+ }
+ for(const id of ['hjCircularLayoutBtn','autoLayoutBtn','resetBtn']){
+  const el=document.getElementById(id);
+  if(!el)continue;
+  el.addEventListener('click',()=&gt;{
+   yearLayout=false;yearBands=[];drawYearBands();
+   if(familyId)try{localStorage.removeItem(storageKey(familyId))}catch(error){}
+  },true);
+ }
+ window.addEventListener('message',e=&gt;{
+  if(e.origin!==window.parent.location.origin||e.data?.type!=='HJ_INIT')return;
+  if(![1,2].includes(e.data.family))return;
+  familyId=e.data.family;
+  yearLayout=false;yearBands=[];
+  setTimeout(restore,25);
+ });
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図1"></iframe></div></section><section class="card" data-circle="two"><div class="cardhead"><div><b id="familyLabel2">FAMILY CIRCLE 02</b><div class="tag">右側の家系図</div></div></div><div class="framebox"><iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
@@ -3479,6 +3726,27 @@ body.hj-edit-mode:not(.hj-dual-preview) #nodes .node{
  cursor:grab!important;pointer-events:all!important;touch-action:none!important;
 }
 body.hj-edit-mode:not(.hj-dual-preview) #nodes .node:active{cursor:grabbing!important}
+&lt;/style&gt;&lt;style id=&quot;hj-year-circle-layout-20261122-css&quot;&gt;
+/* Optional adaptive circular pedigree: concentric rings remain, birth years become readable bands. */
+#hjYearCircleBtn{color:#214b66!important;background:#e4edf6!important;border:1px solid #98b4cb!important;
+ display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;min-width:0;
+ font-size:12px;font-weight:700;padding:9px 12px;border-radius:5px;cursor:pointer}
+body.hj-dual-preview #hjYearCircleBtn{display:none!important}
+body:not(.hj-edit-mode) #hjYearCircleBtn{display:none!important}
+#hjYearCircleBtn:hover{background:#c7ddef!important}
+#hjYearCircleBanner{display:none}
+body.hj-edit-mode #hjYearCircleBanner{
+ display:block;position:relative;top:auto;left:auto;background:#dbe8f3;
+ font-size:11px;padding:7px 10px;color:#36526a;border-bottom:1px solid #a9bfd1;
+ letter-spacing:.02em;line-height:1.45;
+}
+#hjYearBands{pointer-events:none!important}
+#hjYearBands .hj-extended-circle{stroke:#68879d;stroke-width:1.15;fill:none;opacity:.35}
+#hjYearBands .hj-year-band-line{fill:none;stroke:#7596ad;stroke-dasharray:7 7;stroke-width:1.3;opacity:.7}
+#hjYearBands .hj-year-band-label{font:700 17px Arial,sans-serif;letter-spacing:1.4px;fill:#365b78;stroke:#edf3fa;stroke-width:3px;paint-order:stroke}
+#hjYearBands .hj-year-band-sub{font:11px Arial,sans-serif;fill:#58748b;stroke:#edf3fa;stroke-width:2px;paint-order:stroke}
+#nodes .hj-dog-birthyear{font:10px Arial,sans-serif;letter-spacing:.8px;fill:#3d6380;text-anchor:middle;pointer-events:none}
+body.hj-dual-preview #nodes .hj-dog-birthyear{display:none!important}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div&gt;&lt;h1&gt;THE HJ WEIMARANER Club&lt;/h1&gt;&lt;small&gt;FAMILY NETWORK&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;topnav&quot;&gt;&lt;small id=&quot;saveStatus&quot;&gt;この端末に自動保存&lt;/small&gt;&lt;small&gt;FAMILY CIRCLE / EDITOR&lt;/small&gt;&lt;button id=&quot;importBtn&quot;&gt;データ読込 ↑&lt;/button&gt;&lt;button id=&quot;exportBtn&quot;&gt;データ保存 ↓&lt;/button&gt;&lt;input accept=&quot;.json,application/json&quot; id=&quot;importFile&quot; style=&quot;display:none&quot; type=&quot;file&quot;/&gt;&lt;/div&gt;&lt;/header&gt;&lt;main class=&quot;layout&quot;&gt;&lt;aside class=&quot;panel left&quot;&gt;&lt;h2&gt;FAMILY EDITOR&lt;/h2&gt;&lt;div class=&quot;stack&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;addBtn&quot;&gt;＋ 犬を追加&lt;/button&gt;&lt;button id=&quot;connectBtn&quot;&gt;↗ 2匹をつなぐ&lt;/button&gt;&lt;button id=&quot;branchBtn&quot;&gt;└ 2匹の線から子犬へ&lt;/button&gt;&lt;button id=&quot;unlinkBtn&quot;&gt;— 関係を削除&lt;/button&gt;&lt;button class=&quot;danger&quot; id=&quot;deleteBtn&quot;&gt;選択した犬を削除&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;h2&gt;LAYOUT CONTROLS&lt;/h2&gt;&lt;p class=&quot;hint&quot;&gt;編集画面には10px間隔の細かいグリッドが表示されます。犬の丸アイコンをドラッグすると、格子点に揃います。自動整列はボタンを押した時だけ実行します。&lt;/p&gt;&lt;div class=&quot;mode&quot;&gt;&lt;button class=&quot;primary&quot; id=&quot;autoLayoutBtn&quot;&gt;世代別に自動整列&lt;/button&gt;&lt;button id=&quot;resetBtn&quot;&gt;配置リセット&lt;/button&gt;&lt;button id=&quot;centerBtn&quot;&gt;表示を中央に&lt;/button&gt;&lt;/div&gt;&lt;p class=&quot;hint&quot;&gt;犬の円をドラッグすると好きな位置に移動できます。「2匹をつなぐ」を押した後に犬を2匹選ぶと、家族関係を登録できます。線をクリックすると関係を編集できます。「2匹の線から子犬へ」で親2匹の線を選び、子犬を選択してください。&lt;/p&gt;&lt;p class=&quot;hint mobile-note&quot;&gt;スマホでは犬を指でドラッグできます。&lt;/p&gt;&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;&lt;span class=&quot;badge&quot; id=&quot;counter&quot;&gt;&lt;/span&gt;&lt;/aside&gt;&lt;section class=&quot;workspace&quot;&gt;&lt;div class=&quot;worktitle&quot;&gt;&lt;span&gt;INTERACTIVE PEDIGREE&lt;/span&gt;&lt;b&gt;Family Circle&lt;/b&gt;&lt;/div&gt;&lt;svg id=&quot;canvas&quot; preserveaspectratio=&quot;xMidYMid meet&quot; viewbox=&quot;0 0 900 700&quot;&gt;&lt;defs&gt;&lt;radialgradient id=&quot;nodefill&quot;&gt;&lt;stop stop-color=&quot;#6e8796&quot;&gt;&lt;/stop&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;#3b5260&quot;&gt;&lt;/stop&gt;&lt;/radialgradient&gt;&lt;clippath id=&quot;circleClip&quot;&gt;&lt;circle r=&quot;27&quot;&gt;&lt;/circle&gt;&lt;/clippath&gt;&lt;/defs&gt;&lt;g id=&quot;scene&quot;&gt;&lt;g aria-hidden=&quot;true&quot; class=&quot;hj-orbit-art&quot; id=&quot;hjReferenceOrbits&quot;&gt;
 &lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;78&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;112&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;148&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;184&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-blue&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;220&quot;&gt;&lt;/circle&gt;&lt;circle class=&quot;hj-added-orbit&quot; cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;255&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;291&quot;&gt;&lt;/circle&gt;&lt;circle cx=&quot;450&quot; cy=&quot;350&quot; r=&quot;332&quot;&gt;&lt;/circle&gt;
 &lt;path class=&quot;hj-ray&quot; d=&quot;M450 18V682 M118 350H782 M215 115L685 585 M685 115L215 585&quot;&gt;&lt;/path&gt;
@@ -4183,7 +4451,7 @@ body.hj-edit-mode .workspace .toolbar{
    alert('円形配列には「夫婦」の関係が設定された犬2匹が必要です。');
    return;
   }
-  const persistent=window.isHJAdmin===true&amp;&amp;document.body.classList.contains('hj-edit-mode');
+  const persistent=document.body.classList.contains('hj-edit-mode')&amp;&amp;!document.body.classList.contains('hj-dual-preview');
   if(persistent){
    const a=dogs.find(d=&gt;d.id===placement.pair[0]);
    const b=dogs.find(d=&gt;d.id===placement.pair[1]);
@@ -4424,6 +4692,232 @@ body.hj-dual-preview #hjFrameGlobalTop{display:none!important}
   const existing=links.find(e=&gt;(e.a===a&amp;&amp;e.b===b)||(e.a===b&amp;&amp;e.b===a));
   registerSibling(a,b,existing);
  },true);
+})();
+&lt;/script&gt;&lt;script id=&quot;hj-year-circle-layout-20261122&quot;&gt;
+(()=&gt;{
+ const canvas=document.getElementById('canvas'),scene=document.getElementById('scene'),nodes=document.getElementById('nodes');
+ const toolbar=document.querySelector('.workspace .toolbar'),workspace=document.querySelector('.workspace');
+ if(!canvas||!scene||!nodes||!toolbar||typeof render!=='function')return;
+ const NS='http://www.w3.org/2000/svg';
+ const button=document.createElement('button');
+ button.id='hjYearCircleBtn';button.type='button';
+ button.textContent='◎ 生年順の円形配列';
+ button.title='同じ親の犬を生まれた年順に上下へグループ化。多数の兄弟も重なりにくく配置します';
+ toolbar.appendChild(button);
+ const banner=document.createElement('div');
+ banner.id='hjYearCircleBanner';banner.textContent='生年順の円形配列：年齢の古い兄弟が上、新しい兄弟が下。配置は後からドラッグで調整できます。';
+ workspace.insertBefore(banner,canvas);
+ const layer=document.createElementNS(NS,'g');
+ layer.id='hjYearBands';layer.setAttribute('aria-hidden','true');layer.setAttribute('pointer-events','none');
+ const edges=document.getElementById('edges');
+ scene.insertBefore(layer,edges||scene.firstChild);
+ let familyId=null,yearBands=[],yearLayout=false;
+ const storageKey=id=&gt;'hj-year-circle-bands-v1-'+id;
+ const birthYear=d=&gt;typeof d?.birthday==='string'&amp;&amp;/^(19|20)\d{2}-\d{2}-\d{2}$/.test(d.birthday)?Number(d.birthday.slice(0,4)):null;
+ const getParents=id=&gt;{
+  const parents=new Set();
+  for(const e of links){
+   if(e.type!=='Parent / Child'||e.b!==id)continue;
+   const ids=Array.isArray(e.fromPair)&amp;&amp;e.fromPair.length===2?e.fromPair:[e.a];
+   for(const p of ids)if(dogs.some(d=&gt;d.id===p))parents.add(p);
+  }
+  return parents;
+ };
+ const allChildren=parentId=&gt;dogs.filter(d=&gt;getParents(d.id).has(parentId)).map(d=&gt;d.id);
+ function chooseRoot(){
+  const available=new Set(dogs.map(d=&gt;d.id));
+  const spouses=links.filter(e=&gt;e.type==='Partner'&amp;&amp;available.has(e.a)&amp;&amp;available.has(e.b));
+  const candidates=spouses.map(e=&gt;{
+   const p=[e.a,e.b],children=dogs.filter(d=&gt;{const parents=getParents(d.id);return p.some(id=&gt;parents.has(id))}).map(d=&gt;d.id);
+   const focus=p.includes(selected)?50:children.includes(selected)?30:0;
+   return {parents:p,children,score:children.length*10+focus};
+  });
+  if(candidates.length){candidates.sort((a,b)=&gt;b.score-a.score);return candidates[0];}
+  const parents=dogs.map(d=&gt;({id:d.id,kids:allChildren(d.id)})).sort((a,b)=&gt;b.kids.length-a.kids.length);
+  if(parents.length&amp;&amp;parents[0].kids.length)return {parents:[parents[0].id],children:parents[0].kids,score:parents[0].kids.length};
+  return null;
+ }
+ function calculate(){
+  const root=chooseRoot();
+  if(!root)return null;
+  const map=new Map(dogs.map(d=&gt;[d.id,d]));
+  const pos=new Map(),bands=[];
+  const baseX=450,snap=x=&gt;Math.round(x/10)*10;
+  const rootParents=root.parents;
+  const parentY=140;
+  if(rootParents.length===2){
+   pos.set(rootParents[0],{x:baseX-100,y:parentY});
+   pos.set(rootParents[1],{x:baseX+100,y:parentY});
+  }else pos.set(rootParents[0],{x:baseX,y:parentY});
+  const assigned=new Set(rootParents);
+  let frontier=[...rootParents],baseY=345,gen=1;
+  const cap=6,colSpacing=168,rowSpacing=150,groupGap=95,genGap=125;
+  // Up to six visible generations, with distinct dates inside each generation.
+  while(frontier.length&amp;&amp;gen&lt;=Math.min(6,dogs.length)){
+   const source=new Set(frontier),next=[];
+   for(const d of dogs){
+    if(assigned.has(d.id))continue;
+    const known=getParents(d.id);
+    if([...known].some(id=&gt;source.has(id))){assigned.add(d.id);next.push(d.id)}
+   }
+   // Only for the first cohort, unparented siblings are shown as unconfirmed connections
+   // instead of being assigned invented biological parents.
+   if(gen===1){
+    for(const e of links.filter(e=&gt;e.type==='Siblings')){
+     if(next.includes(e.a)&amp;&amp;!assigned.has(e.b)&amp;&amp;getParents(e.b).size===0){assigned.add(e.b);next.push(e.b)}
+     else if(next.includes(e.b)&amp;&amp;!assigned.has(e.a)&amp;&amp;getParents(e.a).size===0){assigned.add(e.a);next.push(e.a)}
+    }
+   }
+   if(!next.length)break;
+   const groupMap=new Map();
+   for(const id of next){
+    const d=map.get(id),year=birthYear(d);
+    const p=[...getParents(id)].filter(x=&gt;source.has(x)).sort((a,b)=&gt;a-b).join('-')||'unknown';
+    const key=p+'|'+(year||'unknown');
+    if(!groupMap.has(key))groupMap.set(key,{year,parents:p,ids:[]});
+    groupMap.get(key).ids.push(id);
+   }
+   const sorted=[...groupMap.values()].sort((a,b)=&gt;
+    (a.year===null?Infinity:a.year)-(b.year===null?Infinity:b.year)||
+    a.parents.localeCompare(b.parents)||a.ids[0]-b.ids[0]);
+   for(const group of sorted){
+    const count=group.ids.length,rows=Math.ceil(count/cap),startY=baseY;
+    let minX=Infinity,maxX=-Infinity;
+    for(let row=0;row&lt;rows;row++){
+     const rowIds=group.ids.slice(row*cap,(row+1)*cap),n=rowIds.length;
+     rowIds.forEach((id,i)=&gt;{
+      const dist=n&lt;=1?0:Math.abs((i-(n-1)/2)/((n-1)/2));
+      const x=snap(baseX+(i-(n-1)/2)*colSpacing);
+      const y=snap(baseY+row*rowSpacing+28*dist*dist);
+      pos.set(id,{x,y});minX=Math.min(minX,x);maxX=Math.max(maxX,x);
+     });
+    }
+    const label=group.year?String(group.year)+' BORN':'YEAR UNKNOWN';
+    const subtitle=gen+' GENERATION · '+count+' DOG'+(count===1?'':'S');
+    bands.push({label,subtitle,y:startY-76,x:Math.min(70,minX-120),minX,maxX,groupIds:group.ids.slice(),gen});
+    baseY+=rows*rowSpacing+groupGap;
+   }
+   frontier=next;
+   baseY+=genGap;
+   gen++;
+  }
+  // Never hide unconnected relatives. Keep them in a separate, clearly marked zone.
+  const leftovers=dogs.filter(d=&gt;!assigned.has(d.id));
+  if(leftovers.length){
+   const groups=new Map();
+   for(const d of leftovers){
+    const year=birthYear(d)||'unknown';
+    if(!groups.has(year))groups.set(year,[]);
+    groups.get(year).push(d.id);
+   }
+   for(const [year,ids] of [...groups.entries()].sort((a,b)=&gt;(a[0]==='unknown'?Infinity:Number(a[0]))-(b[0]==='unknown'?Infinity:Number(b[0])))){
+    const rows=Math.ceil(ids.length/cap);
+    ids.forEach((id,index)=&gt;{
+     const row=Math.floor(index/cap),rowLength=Math.min(cap,ids.length-row*cap),col=index%cap;
+     pos.set(id,{x:snap(baseX+(col-(rowLength-1)/2)*colSpacing),y:snap(baseY+row*rowSpacing)});
+    });
+    bands.push({label:year==='unknown'?'YEAR UNKNOWN':year+' BORN',subtitle:'OTHER RELATIVES · '+ids.length+' DOGS',
+      x:60,y:baseY-75,minX:baseX-420,maxX:baseX+420,groupIds:ids.slice(),gen:gen+1});
+    baseY+=rows*rowSpacing+groupGap;
+   }
+  }
+  const pts=[...pos.values()];
+  const minX=Math.min(0,...pts.map(p=&gt;p.x))-165;
+  const maxX=Math.max(900,...pts.map(p=&gt;p.x))+165;
+  const minY=Math.min(0,...pts.map(p=&gt;p.y))-150;
+  const maxY=Math.max(700,...pts.map(p=&gt;p.y))+135;
+  const box=[snap(minX),snap(minY),snap(maxX-minX),snap(maxY-minY)];
+  return {positions:pos,bands,viewBox:box.join(' '),root};
+ }
+ function drawYearBands(){
+  layer.replaceChildren();
+  if(!yearLayout||document.body.classList.contains('hj-dual-preview'))return;
+  if(!yearBands.length)return;
+  const lastY=Math.max(...yearBands.map(b=&gt;b.y));
+  const needed=Math.max(500,lastY-350+130);
+  for(let r=420;r&lt;needed;r+=165){
+   const circle=document.createElementNS(NS,'circle');
+   circle.setAttribute('cx',450);circle.setAttribute('cy',350);circle.setAttribute('r',r);
+   circle.setAttribute('class','hj-extended-circle');layer.appendChild(circle);
+  }
+  for(const band of yearBands){
+   const line=document.createElementNS(NS,'path');
+   line.setAttribute('class','hj-year-band-line');
+   line.setAttribute('d','M '+(band.minX-65)+' '+band.y+' H '+(band.maxX+65));
+   layer.appendChild(line);
+   for(const [text,cls,delta] of [[band.label,'hj-year-band-label',-11],[band.subtitle,'hj-year-band-sub',12]]){
+    const el=document.createElementNS(NS,'text');
+    el.setAttribute('x',band.x);el.setAttribute('y',band.y+delta);
+    el.setAttribute('class',cls);el.textContent=text;layer.appendChild(el);
+   }
+  }
+ }
+ function drawDOB(){
+  if(document.body.classList.contains('hj-dual-preview'))return;
+  const groups=[...nodes.children].filter(x=&gt;x.classList?.contains('node'));
+  dogs.forEach((d,i)=&gt;{
+   const year=birthYear(d),g=groups[i];
+   if(!g||!year||g.querySelector('.hj-dog-birthyear'))return;
+   const text=document.createElementNS(NS,'text');
+   text.setAttribute('y','82');text.setAttribute('class','hj-dog-birthyear');
+   text.textContent='DOB '+String(year).slice(2);
+   g.appendChild(text);
+  });
+ }
+ const prior=render;
+ render=function(){const out=prior();drawDOB();drawYearBands();return out};
+ button.onclick=()=&gt;{
+  if(!document.body.classList.contains('hj-edit-mode'))return;
+  const placement=calculate();
+  if(!placement){
+   alert('生年順配置には、少なくとも1件の親子関係が必要です。');
+   return;
+  }
+  const count=placement.positions.size;
+  if(!confirm(count+'匹を生年別の弧状レイヤーに整理します。現在の手動配置は変更されますが、写真・家族関係はそのままです。実行しますか？'))return;
+  const old=new Map(dogs.map(d=&gt;[d.id,{x:d.x,y:d.y}]));
+  yearBands=placement.bands;yearLayout=true;
+  for(const d of dogs){
+   const pos=placement.positions.get(d.id);
+   if(pos){d.x=pos.x;d.y=pos.y}
+  }
+  canvas.setAttribute('viewBox',placement.viewBox);
+  zoom=1;offset={x:0,y:0};drag=null;
+  try{
+   if(familyId)localStorage.setItem(storageKey(familyId),JSON.stringify({bands:yearBands,viewBox:placement.viewBox}));
+   render();
+  }catch(error){
+   for(const d of dogs){const prev=old.get(d.id);if(prev){d.x=prev.x;d.y=prev.y}}
+   console.error('Year layout failed',error);
+   alert('配置を完了できなかったため、以前の位置に戻しました。');
+   render();
+  }
+ };
+ function restore(){
+  if(!familyId)return;
+  try{
+   const saved=JSON.parse(localStorage.getItem(storageKey(familyId))||'null');
+   if(!saved||!Array.isArray(saved.bands)||saved.bands.length&gt;300)return;
+   if(saved.bands.some(b=&gt;typeof b.y!=='number'||!Array.isArray(b.groupIds)))return;
+   yearBands=saved.bands;yearLayout=true;
+  }catch(error){console.warn('Birth-year overlay state not available',error)}
+  drawYearBands();
+ }
+ for(const id of ['hjCircularLayoutBtn','autoLayoutBtn','resetBtn']){
+  const el=document.getElementById(id);
+  if(!el)continue;
+  el.addEventListener('click',()=&gt;{
+   yearLayout=false;yearBands=[];drawYearBands();
+   if(familyId)try{localStorage.removeItem(storageKey(familyId))}catch(error){}
+  },true);
+ }
+ window.addEventListener('message',e=&gt;{
+  if(e.origin!==window.parent.location.origin||e.data?.type!=='HJ_INIT')return;
+  if(![1,2].includes(e.data.family))return;
+  familyId=e.data.family;
+  yearLayout=false;yearBands=[];
+  setTimeout(restore,25);
+ });
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図2"></iframe></div></section></div><p class="note">家系図01・02はそれぞれ独立して編集できます。犬の追加・削除、移動、家族関係、誕生日一致、DOG PROFILE、写真、飼い主情報に対応。変更はオンラインに保存されます。別端末では再読み込みすると最新データを表示します。</p></main><script>
