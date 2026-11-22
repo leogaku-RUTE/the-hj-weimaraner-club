@@ -1493,7 +1493,7 @@ function toScene(ev){
  if(!matrix)return null;
  const pt=$('canvas').createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;
  try{return pt.matrixTransform(matrix.inverse())}catch(error){return null}
-}function selectDog(id){selected=id;selectedEdge=-1;const d=getDog(id);if(!d)return;$('dogName').value=d.name;$('dogSex').value=d.sex;$('dogInsta').value=d.instagram||'';$('dogBirthday').value=d.birthday||'';showBirthdayMatches(d);$('ownerName').value=d.ownerName||'';$('ownerPref').value=d.ownerPref||'';$('ownerCity').value=d.ownerCity||'';$('preview').replaceChildren();if(d.photo){const img=document.createElement('img');img.src=d.photo;$('preview').appendChild(img)}else $('preview').textContent=d.name.toUpperCase();$('edgeDescription').textContent='線をクリックすると編集できます。';render()}function showBirthdayMatches(d){const panel=$('birthdayMatches');panel.replaceChildren();const head=document.createElement('strong');head.textContent='同じ誕生日の犬';panel.appendChild(head);const matches=d.birthday?dogs.filter(x=&gt;x.id!==d.id&amp;&amp;x.birthday===d.birthday):[];const note=document.createElement('p');note.textContent=!d.birthday?'誕生日を登録すると候補を表示します。':matches.length?`${d.birthday} 生まれ：${matches.length}匹が一致。点線は誕生日の一致で、血縁関係を示すものではありません。`:'同じ誕生日の犬はまだ登録されていません。';panel.appendChild(note);matches.forEach(other=&gt;{const b=document.createElement('button');b.textContent=other.name+' を見る';b.onclick=()=&gt;selectDog(other.id);panel.appendChild(b);const already=links.some(l=&gt;((l.a===d.id&amp;&amp;l.b===other.id)||(l.b===d.id&amp;&amp;l.a===other.id))&amp;&amp;l.type==='Siblings');if(!already){const confirmBtn=document.createElement('button');confirmBtn.textContent='兄弟・姉妹として確定';confirmBtn.onclick=()=&gt;{if(!confirm(`${d.name} と ${other.name} が兄弟・姉妹であることを確認しましたか？`))return;const existing=links.find(l=&gt;(l.a===d.id&amp;&amp;l.b===other.id)||(l.b===d.id&amp;&amp;l.a===other.id));if(existing)existing.type='Siblings';else links.push({a:d.id,b:other.id,type:'Siblings'});selectDog(d.id)};panel.appendChild(confirmBtn)}})}function showEdge(){const l=links[selectedEdge];if(l){$('edgeDescription').textContent=`${getDog(l.a)?.name} — ${getDog(l.b)?.name}`;$('relation').value=l.type}}
+}function selectDog(id){selected=id;selectedEdge=-1;const d=getDog(id);if(!d)return;$('dogName').value=d.name;$('dogSex').value=d.sex;$('dogInsta').value=d.instagram||'';$('dogBirthday').value=d.birthday||'';showBirthdayMatches(d);$('ownerName').value=d.ownerName||'';$('ownerPref').value=d.ownerPref||'';$('ownerCity').value=d.ownerCity||'';$('preview').replaceChildren();if(d.photo){const img=document.createElement('img');img.src=d.photo;$('preview').appendChild(img)}else $('preview').textContent=d.name.toUpperCase();$('edgeDescription').textContent='線をクリックすると編集できます。';render()}function showBirthdayMatches(d){const panel=$('birthdayMatches');panel.replaceChildren();const head=document.createElement('strong');head.textContent='同じ誕生日の犬';panel.appendChild(head);const matches=d.birthday?dogs.filter(x=&gt;x.id!==d.id&amp;&amp;x.birthday===d.birthday):[];const note=document.createElement('p');note.textContent=!d.birthday?'誕生日を登録すると候補を表示します。':matches.length?`${d.birthday} 生まれ：${matches.length}匹が一致。点線は誕生日の一致で、血縁関係を示すものではありません。`:'同じ誕生日の犬はまだ登録されていません。';panel.appendChild(note);matches.forEach(other=&gt;{const b=document.createElement('button');b.textContent=other.name+' を見る';b.onclick=()=&gt;selectDog(other.id);panel.appendChild(b);const already=links.some(l=&gt;((l.a===d.id&amp;&amp;l.b===other.id)||(l.b===d.id&amp;&amp;l.a===other.id))&amp;&amp;l.type==='Siblings');if(!already){const confirmBtn=document.createElement('button');confirmBtn.dataset.hjSiblingTarget=String(other.id);confirmBtn.textContent='兄弟・姉妹として確定';confirmBtn.onclick=()=&gt;{if(!confirm(`${d.name} と ${other.name} が兄弟・姉妹であることを確認しましたか？`))return;const existing=links.find(l=&gt;(l.a===d.id&amp;&amp;l.b===other.id)||(l.b===d.id&amp;&amp;l.a===other.id));if(existing)existing.type='Siblings';else links.push({a:d.id,b:other.id,type:'Siblings'});selectDog(d.id)};panel.appendChild(confirmBtn)}})}function showEdge(){const l=links[selectedEdge];if(l){$('edgeDescription').textContent=`${getDog(l.a)?.name} — ${getDog(l.b)?.name}`;$('relation').value=l.type}}
 
 /* In-page dialog avoids the browser's native prompt, which can exit fullscreen. */
 function hjRequestNewDogName(){
@@ -2241,6 +2241,181 @@ body.hj-dual-preview #hjFrameGlobalTop{display:none!important}
   if(window.parent===window)return;
   window.parent.postMessage({type:'HJ_GO_TOP',family:1},window.parent.location.origin);
  });
+})();
+&lt;/script&gt;&lt;style id=&quot;hj-relationship-inference-20261122-css&quot;&gt;
+#hjAutoFamilyStatus{padding:9px 10px;margin:12px 0;background:#e1e9f0;border-left:3px solid #658397;
+ border-radius:4px;color:#29475d;font-size:11px;line-height:1.5}
+#hjSiblingScopeDialog{box-sizing:border-box;width:min(440px,calc(100vw - 30px));max-width:100%;
+ border:1px solid #8da6b5;border-radius:12px;background:#eef3f7;color:#273f54;
+ box-shadow:0 16px 60px #152b3f88;padding:20px}
+#hjSiblingScopeDialog::backdrop{background:#102436aa}
+#hjSiblingScopeDialog h3{margin:0 0 8px;font-size:17px}
+#hjSiblingScopeDialog p{font-size:12px;line-height:1.6;margin:8px 0}
+#hjSiblingScopeDialog .hj-sibling-choices{display:grid;gap:8px;margin-top:15px}
+#hjSiblingScopeDialog button{width:100%;background:#dfeaf3;color:#254763;text-align:left;
+ border:1px solid #a2bacb;font-size:13px;padding:10px 12px}
+#hjSiblingScopeDialog button:last-child{background:transparent;color:#617083}
+&lt;/style&gt;&lt;script id=&quot;hj-relationship-inference-20261122&quot;&gt;
+(()=&gt;{
+ if(typeof render!=='function'||typeof dogs==='undefined'||typeof links==='undefined')return;
+ const familyEditor=document.querySelector('.hj-safe-relationships');
+ const status=document.createElement('p');
+ status.id='hjAutoFamilyStatus';status.className='hint';
+ status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ status.textContent='兄弟設定で親を自動引継ぎ（両親／父のみ／母のみを選択）';
+ familyEditor?.appendChild(status);
+ const dog=id=&gt;dogs.find(d=&gt;d.id===id);
+ const parentsOf=id=&gt;{
+  const ids=new Set();
+  for(const e of links){
+   if(e.type!=='Parent / Child'||e.b!==id)continue;
+   const p=Array.isArray(e.fromPair)&amp;&amp;e.fromPair.length===2?e.fromPair:[e.a];
+   for(const n of p)if(dog(n))ids.add(n);
+  }
+  return ids;
+ };
+ function eligibleParent(parentId,childId){
+  if(parentId===childId)return false;
+  const parent=dog(parentId),child=dog(childId);
+  if(!parent||!child)return false;
+  const childParents=parentsOf(childId);
+  if(childParents.has(parentId))return false;
+  // Do not invent another father or mother when an existing one is known.
+  if(parent.sex==='Male'&amp;&amp;[...childParents].some(id=&gt;dog(id)?.sex==='Male'))return false;
+  if(parent.sex==='Female'&amp;&amp;[...childParents].some(id=&gt;dog(id)?.sex==='Female'))return false;
+  if(childParents.size&gt;=2)return false;
+  if(parent.birthday&amp;&amp;child.birthday&amp;&amp;/^\d{4}/.test(parent.birthday)&amp;&amp;/^\d{4}/.test(child.birthday)&amp;&amp;
+    Number(parent.birthday.slice(0,4))&gt;=Number(child.birthday.slice(0,4)))return false;
+  // Prevent ancestry cycles from malformed or partial imported records.
+  const seen=new Set(),pending=[parentId];
+  while(pending.length){
+   const next=pending.pop();
+   if(next===childId)return false;
+   if(seen.has(next))continue;seen.add(next);
+   for(const p of parentsOf(next))pending.push(p);
+  }
+  return true;
+ }
+ function transfer(src,dst,scope){
+  if(scope==='none')return 0;
+  let count=0;
+  for(const edge of [...links]){
+   if(edge.type!=='Parent / Child'||edge.b!==src)continue;
+   const sources=Array.isArray(edge.fromPair)&amp;&amp;edge.fromPair.length===2?edge.fromPair:[edge.a];
+   const pool=sources.filter(id=&gt;{
+    if(scope==='father'&amp;&amp;dog(id)?.sex!=='Male')return false;
+    if(scope==='mother'&amp;&amp;dog(id)?.sex!=='Female')return false;
+    return true;
+   });
+   let allowed=pool.filter(id=&gt;eligibleParent(id,dst));
+   if(!allowed.length)continue;
+   if(allowed.length===2&amp;&amp;sources.length===2&amp;&amp;scope==='both'){
+    links.push({a:edge.a,b:dst,type:'Parent / Child',fromPair:[...sources],hjInferred:true});
+    count++;
+   }else{
+    for(const id of allowed){
+     if(!eligibleParent(id,dst))continue;
+     links.push({a:id,b:dst,type:'Parent / Child',hjInferred:true});count++;
+    }
+   }
+  }
+  return count;
+ }
+ function reconcile(){
+  const typed=links.filter(e=&gt;e.type==='Siblings'&amp;&amp;['both','father','mother'].includes(e.hjSiblingScope));
+  if(!typed.length)return 0;
+  let count=0;
+  for(let pass=0;pass&lt;Math.min(typed.length+1,40);pass++){
+   let next=0;
+   for(const e of typed){
+    next+=transfer(e.a,e.b,e.hjSiblingScope);
+    next+=transfer(e.b,e.a,e.hjSiblingScope);
+   }
+   count+=next;
+   if(!next)break;
+  }
+  return count;
+ }
+ function signature(){
+  return JSON.stringify(links.filter(e=&gt;e.type==='Siblings'||e.type==='Parent / Child')
+   .map(e=&gt;[e.type,e.a,e.b,e.hjSiblingScope||'',e.fromPair||[]]));
+ }
+ let previous=signature();
+ const baseRender=render;
+ let inRender=false;
+ render=function(){
+  if(!inRender){
+   const now=signature();
+   if(now!==previous&amp;&amp;document.body.classList.contains('hj-edit-mode')&amp;&amp;
+      !document.body.classList.contains('hj-dual-preview')){
+    inRender=true;
+    try{
+     const n=reconcile();
+     if(n)status.textContent='親子関係を '+n+' 件自動反映しました。既存の親が異なる場合は追加していません。';
+    }catch(error){console.error('Family relation inference was skipped',error)}
+    finally{inRender=false}
+   }
+   previous=signature();
+  }
+  return baseRender();
+ };
+ const dialog=document.createElement('dialog');
+ dialog.id='hjSiblingScopeDialog';
+ dialog.setAttribute('aria-labelledby','hjSiblingScopeTitle');
+ dialog.innerHTML='&lt;div class=&quot;hj-sibling-modal&quot;&gt;&lt;h3 id=&quot;hjSiblingScopeTitle&quot;&gt;兄弟・姉妹の親の共有&lt;/h3&gt;&lt;p id=&quot;hjSiblingScopeNames&quot;&gt;&lt;/p&gt;&lt;p class=&quot;hj-sibling-hint&quot;&gt;共通の親を選択すると、登録済みの親子関係を自動で引き継ぎます。親が未登録の場合も後から連動します。&lt;/p&gt;&lt;div class=&quot;hj-sibling-choices&quot;&gt;&lt;button type=&quot;button&quot; data-scope=&quot;both&quot;&gt;父・母の両方&lt;/button&gt;&lt;button type=&quot;button&quot; data-scope=&quot;father&quot;&gt;父親のみ（異母兄弟）&lt;/button&gt;&lt;button type=&quot;button&quot; data-scope=&quot;mother&quot;&gt;母親のみ（異父兄弟）&lt;/button&gt;&lt;button type=&quot;button&quot; data-scope=&quot;none&quot;&gt;親の情報は引き継がない&lt;/button&gt;&lt;button type=&quot;button&quot; data-scope=&quot;cancel&quot;&gt;キャンセル&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;';
+ document.body.appendChild(dialog);
+ function scopeDialog(a,b){
+  return new Promise(resolve=&gt;{
+   const label=dialog.querySelector('#hjSiblingScopeNames');
+   label.textContent=(dog(a)?.name||'犬')+' と '+(dog(b)?.name||'犬');
+   let settled=false;
+   function finish(result){
+    if(settled)return;settled=true;
+    if(dialog.open)dialog.close();
+    resolve(result);
+   }
+   dialog.querySelectorAll('[data-scope]').forEach(btn=&gt;{
+    btn.onclick=()=&gt;finish(btn.dataset.scope==='cancel'?null:btn.dataset.scope);
+   });
+   dialog.oncancel=ev=&gt;{ev.preventDefault();finish(null)};
+   dialog.onclose=()=&gt;finish(null);
+   if(dialog.open)return finish(null);
+   dialog.showModal();
+  });
+ }
+ function registerSibling(a,b,existing){
+  scopeDialog(a,b).then(scope=&gt;{
+   if(scope===null)return;
+   const edge=existing||{a,b,type:'Siblings'};
+   if(!existing)links.push(edge);
+   edge.type='Siblings';
+   edge.hjSiblingScope=scope;
+   const rel=document.getElementById('relation');
+   if(rel&amp;&amp;selectedEdge&gt;=0&amp;&amp;links[selectedEdge]===edge)rel.value='Siblings';
+   render();
+   if(scope==='none')status.textContent='兄弟関係を保存しました。親子関係の自動引継ぎは無効です。';
+   else if(!links.some(e=&gt;e.type==='Parent / Child'&amp;&amp;(e.b===a||e.b===b)))
+    status.textContent='兄弟関係を保存しました。親を登録すると自動的に引き継ぎます。';
+  });
+ }
+ document.getElementById('hjSafeRelationTypes')?.addEventListener('click',ev=&gt;{
+  const btn=ev.target.closest('button[data-type=&quot;Siblings&quot;]');
+  if(!btn||btn.disabled||selectedEdge&lt;0)return;
+  const edge=links[selectedEdge];
+  if(!edge)return;
+  ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+  registerSibling(edge.a,edge.b,edge);
+ },true);
+ // The birthday-match shortcut uses the same scope choices, not a hardcoded full-sibling assumption.
+ document.getElementById('birthdayMatches')?.addEventListener('click',ev=&gt;{
+  const btn=ev.target.closest('button[data-hj-sibling-target]');
+  if(!btn)return;
+  const a=selected,b=Number(btn.dataset.hjSiblingTarget);
+  if(!dog(a)||!dog(b)||a===b)return;
+  ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+  const existing=links.find(e=&gt;(e.a===a&amp;&amp;e.b===b)||(e.a===b&amp;&amp;e.b===a));
+  registerSibling(a,b,existing);
+ },true);
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図1"></iframe></div></section><section class="card" data-circle="two"><div class="cardhead"><div><b id="familyLabel2">FAMILY CIRCLE 02</b><div class="tag">右側の家系図</div></div></div><div class="framebox"><iframe id="frame2" loading="eager" srcdoc="&lt;!DOCTYPE html&gt;
@@ -3347,7 +3522,7 @@ function toScene(ev){
  if(!matrix)return null;
  const pt=$('canvas').createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;
  try{return pt.matrixTransform(matrix.inverse())}catch(error){return null}
-}function selectDog(id){selected=id;selectedEdge=-1;const d=getDog(id);if(!d)return;$('dogName').value=d.name;$('dogSex').value=d.sex;$('dogInsta').value=d.instagram||'';$('dogBirthday').value=d.birthday||'';showBirthdayMatches(d);$('ownerName').value=d.ownerName||'';$('ownerPref').value=d.ownerPref||'';$('ownerCity').value=d.ownerCity||'';$('preview').replaceChildren();if(d.photo){const img=document.createElement('img');img.src=d.photo;$('preview').appendChild(img)}else $('preview').textContent=d.name.toUpperCase();$('edgeDescription').textContent='線をクリックすると編集できます。';render()}function showBirthdayMatches(d){const panel=$('birthdayMatches');panel.replaceChildren();const head=document.createElement('strong');head.textContent='同じ誕生日の犬';panel.appendChild(head);const matches=d.birthday?dogs.filter(x=&gt;x.id!==d.id&amp;&amp;x.birthday===d.birthday):[];const note=document.createElement('p');note.textContent=!d.birthday?'誕生日を登録すると候補を表示します。':matches.length?`${d.birthday} 生まれ：${matches.length}匹が一致。点線は誕生日の一致で、血縁関係を示すものではありません。`:'同じ誕生日の犬はまだ登録されていません。';panel.appendChild(note);matches.forEach(other=&gt;{const b=document.createElement('button');b.textContent=other.name+' を見る';b.onclick=()=&gt;selectDog(other.id);panel.appendChild(b);const already=links.some(l=&gt;((l.a===d.id&amp;&amp;l.b===other.id)||(l.b===d.id&amp;&amp;l.a===other.id))&amp;&amp;l.type==='Siblings');if(!already){const confirmBtn=document.createElement('button');confirmBtn.textContent='兄弟・姉妹として確定';confirmBtn.onclick=()=&gt;{if(!confirm(`${d.name} と ${other.name} が兄弟・姉妹であることを確認しましたか？`))return;const existing=links.find(l=&gt;(l.a===d.id&amp;&amp;l.b===other.id)||(l.b===d.id&amp;&amp;l.a===other.id));if(existing)existing.type='Siblings';else links.push({a:d.id,b:other.id,type:'Siblings'});selectDog(d.id)};panel.appendChild(confirmBtn)}})}function showEdge(){const l=links[selectedEdge];if(l){$('edgeDescription').textContent=`${getDog(l.a)?.name} — ${getDog(l.b)?.name}`;$('relation').value=l.type}}
+}function selectDog(id){selected=id;selectedEdge=-1;const d=getDog(id);if(!d)return;$('dogName').value=d.name;$('dogSex').value=d.sex;$('dogInsta').value=d.instagram||'';$('dogBirthday').value=d.birthday||'';showBirthdayMatches(d);$('ownerName').value=d.ownerName||'';$('ownerPref').value=d.ownerPref||'';$('ownerCity').value=d.ownerCity||'';$('preview').replaceChildren();if(d.photo){const img=document.createElement('img');img.src=d.photo;$('preview').appendChild(img)}else $('preview').textContent=d.name.toUpperCase();$('edgeDescription').textContent='線をクリックすると編集できます。';render()}function showBirthdayMatches(d){const panel=$('birthdayMatches');panel.replaceChildren();const head=document.createElement('strong');head.textContent='同じ誕生日の犬';panel.appendChild(head);const matches=d.birthday?dogs.filter(x=&gt;x.id!==d.id&amp;&amp;x.birthday===d.birthday):[];const note=document.createElement('p');note.textContent=!d.birthday?'誕生日を登録すると候補を表示します。':matches.length?`${d.birthday} 生まれ：${matches.length}匹が一致。点線は誕生日の一致で、血縁関係を示すものではありません。`:'同じ誕生日の犬はまだ登録されていません。';panel.appendChild(note);matches.forEach(other=&gt;{const b=document.createElement('button');b.textContent=other.name+' を見る';b.onclick=()=&gt;selectDog(other.id);panel.appendChild(b);const already=links.some(l=&gt;((l.a===d.id&amp;&amp;l.b===other.id)||(l.b===d.id&amp;&amp;l.a===other.id))&amp;&amp;l.type==='Siblings');if(!already){const confirmBtn=document.createElement('button');confirmBtn.dataset.hjSiblingTarget=String(other.id);confirmBtn.textContent='兄弟・姉妹として確定';confirmBtn.onclick=()=&gt;{if(!confirm(`${d.name} と ${other.name} が兄弟・姉妹であることを確認しましたか？`))return;const existing=links.find(l=&gt;(l.a===d.id&amp;&amp;l.b===other.id)||(l.b===d.id&amp;&amp;l.a===other.id));if(existing)existing.type='Siblings';else links.push({a:d.id,b:other.id,type:'Siblings'});selectDog(d.id)};panel.appendChild(confirmBtn)}})}function showEdge(){const l=links[selectedEdge];if(l){$('edgeDescription').textContent=`${getDog(l.a)?.name} — ${getDog(l.b)?.name}`;$('relation').value=l.type}}
 
 /* In-page dialog avoids the browser's native prompt, which can exit fullscreen. */
 function hjRequestNewDogName(){
@@ -4074,6 +4249,181 @@ body.hj-dual-preview #hjFrameGlobalTop{display:none!important}
   if(window.parent===window)return;
   window.parent.postMessage({type:'HJ_GO_TOP',family:2},window.parent.location.origin);
  });
+})();
+&lt;/script&gt;&lt;style id=&quot;hj-relationship-inference-20261122-css&quot;&gt;
+#hjAutoFamilyStatus{padding:9px 10px;margin:12px 0;background:#e1e9f0;border-left:3px solid #658397;
+ border-radius:4px;color:#29475d;font-size:11px;line-height:1.5}
+#hjSiblingScopeDialog{box-sizing:border-box;width:min(440px,calc(100vw - 30px));max-width:100%;
+ border:1px solid #8da6b5;border-radius:12px;background:#eef3f7;color:#273f54;
+ box-shadow:0 16px 60px #152b3f88;padding:20px}
+#hjSiblingScopeDialog::backdrop{background:#102436aa}
+#hjSiblingScopeDialog h3{margin:0 0 8px;font-size:17px}
+#hjSiblingScopeDialog p{font-size:12px;line-height:1.6;margin:8px 0}
+#hjSiblingScopeDialog .hj-sibling-choices{display:grid;gap:8px;margin-top:15px}
+#hjSiblingScopeDialog button{width:100%;background:#dfeaf3;color:#254763;text-align:left;
+ border:1px solid #a2bacb;font-size:13px;padding:10px 12px}
+#hjSiblingScopeDialog button:last-child{background:transparent;color:#617083}
+&lt;/style&gt;&lt;script id=&quot;hj-relationship-inference-20261122&quot;&gt;
+(()=&gt;{
+ if(typeof render!=='function'||typeof dogs==='undefined'||typeof links==='undefined')return;
+ const familyEditor=document.querySelector('.hj-safe-relationships');
+ const status=document.createElement('p');
+ status.id='hjAutoFamilyStatus';status.className='hint';
+ status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ status.textContent='兄弟設定で親を自動引継ぎ（両親／父のみ／母のみを選択）';
+ familyEditor?.appendChild(status);
+ const dog=id=&gt;dogs.find(d=&gt;d.id===id);
+ const parentsOf=id=&gt;{
+  const ids=new Set();
+  for(const e of links){
+   if(e.type!=='Parent / Child'||e.b!==id)continue;
+   const p=Array.isArray(e.fromPair)&amp;&amp;e.fromPair.length===2?e.fromPair:[e.a];
+   for(const n of p)if(dog(n))ids.add(n);
+  }
+  return ids;
+ };
+ function eligibleParent(parentId,childId){
+  if(parentId===childId)return false;
+  const parent=dog(parentId),child=dog(childId);
+  if(!parent||!child)return false;
+  const childParents=parentsOf(childId);
+  if(childParents.has(parentId))return false;
+  // Do not invent another father or mother when an existing one is known.
+  if(parent.sex==='Male'&amp;&amp;[...childParents].some(id=&gt;dog(id)?.sex==='Male'))return false;
+  if(parent.sex==='Female'&amp;&amp;[...childParents].some(id=&gt;dog(id)?.sex==='Female'))return false;
+  if(childParents.size&gt;=2)return false;
+  if(parent.birthday&amp;&amp;child.birthday&amp;&amp;/^\d{4}/.test(parent.birthday)&amp;&amp;/^\d{4}/.test(child.birthday)&amp;&amp;
+    Number(parent.birthday.slice(0,4))&gt;=Number(child.birthday.slice(0,4)))return false;
+  // Prevent ancestry cycles from malformed or partial imported records.
+  const seen=new Set(),pending=[parentId];
+  while(pending.length){
+   const next=pending.pop();
+   if(next===childId)return false;
+   if(seen.has(next))continue;seen.add(next);
+   for(const p of parentsOf(next))pending.push(p);
+  }
+  return true;
+ }
+ function transfer(src,dst,scope){
+  if(scope==='none')return 0;
+  let count=0;
+  for(const edge of [...links]){
+   if(edge.type!=='Parent / Child'||edge.b!==src)continue;
+   const sources=Array.isArray(edge.fromPair)&amp;&amp;edge.fromPair.length===2?edge.fromPair:[edge.a];
+   const pool=sources.filter(id=&gt;{
+    if(scope==='father'&amp;&amp;dog(id)?.sex!=='Male')return false;
+    if(scope==='mother'&amp;&amp;dog(id)?.sex!=='Female')return false;
+    return true;
+   });
+   let allowed=pool.filter(id=&gt;eligibleParent(id,dst));
+   if(!allowed.length)continue;
+   if(allowed.length===2&amp;&amp;sources.length===2&amp;&amp;scope==='both'){
+    links.push({a:edge.a,b:dst,type:'Parent / Child',fromPair:[...sources],hjInferred:true});
+    count++;
+   }else{
+    for(const id of allowed){
+     if(!eligibleParent(id,dst))continue;
+     links.push({a:id,b:dst,type:'Parent / Child',hjInferred:true});count++;
+    }
+   }
+  }
+  return count;
+ }
+ function reconcile(){
+  const typed=links.filter(e=&gt;e.type==='Siblings'&amp;&amp;['both','father','mother'].includes(e.hjSiblingScope));
+  if(!typed.length)return 0;
+  let count=0;
+  for(let pass=0;pass&lt;Math.min(typed.length+1,40);pass++){
+   let next=0;
+   for(const e of typed){
+    next+=transfer(e.a,e.b,e.hjSiblingScope);
+    next+=transfer(e.b,e.a,e.hjSiblingScope);
+   }
+   count+=next;
+   if(!next)break;
+  }
+  return count;
+ }
+ function signature(){
+  return JSON.stringify(links.filter(e=&gt;e.type==='Siblings'||e.type==='Parent / Child')
+   .map(e=&gt;[e.type,e.a,e.b,e.hjSiblingScope||'',e.fromPair||[]]));
+ }
+ let previous=signature();
+ const baseRender=render;
+ let inRender=false;
+ render=function(){
+  if(!inRender){
+   const now=signature();
+   if(now!==previous&amp;&amp;document.body.classList.contains('hj-edit-mode')&amp;&amp;
+      !document.body.classList.contains('hj-dual-preview')){
+    inRender=true;
+    try{
+     const n=reconcile();
+     if(n)status.textContent='親子関係を '+n+' 件自動反映しました。既存の親が異なる場合は追加していません。';
+    }catch(error){console.error('Family relation inference was skipped',error)}
+    finally{inRender=false}
+   }
+   previous=signature();
+  }
+  return baseRender();
+ };
+ const dialog=document.createElement('dialog');
+ dialog.id='hjSiblingScopeDialog';
+ dialog.setAttribute('aria-labelledby','hjSiblingScopeTitle');
+ dialog.innerHTML='&lt;div class=&quot;hj-sibling-modal&quot;&gt;&lt;h3 id=&quot;hjSiblingScopeTitle&quot;&gt;兄弟・姉妹の親の共有&lt;/h3&gt;&lt;p id=&quot;hjSiblingScopeNames&quot;&gt;&lt;/p&gt;&lt;p class=&quot;hj-sibling-hint&quot;&gt;共通の親を選択すると、登録済みの親子関係を自動で引き継ぎます。親が未登録の場合も後から連動します。&lt;/p&gt;&lt;div class=&quot;hj-sibling-choices&quot;&gt;&lt;button type=&quot;button&quot; data-scope=&quot;both&quot;&gt;父・母の両方&lt;/button&gt;&lt;button type=&quot;button&quot; data-scope=&quot;father&quot;&gt;父親のみ（異母兄弟）&lt;/button&gt;&lt;button type=&quot;button&quot; data-scope=&quot;mother&quot;&gt;母親のみ（異父兄弟）&lt;/button&gt;&lt;button type=&quot;button&quot; data-scope=&quot;none&quot;&gt;親の情報は引き継がない&lt;/button&gt;&lt;button type=&quot;button&quot; data-scope=&quot;cancel&quot;&gt;キャンセル&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;';
+ document.body.appendChild(dialog);
+ function scopeDialog(a,b){
+  return new Promise(resolve=&gt;{
+   const label=dialog.querySelector('#hjSiblingScopeNames');
+   label.textContent=(dog(a)?.name||'犬')+' と '+(dog(b)?.name||'犬');
+   let settled=false;
+   function finish(result){
+    if(settled)return;settled=true;
+    if(dialog.open)dialog.close();
+    resolve(result);
+   }
+   dialog.querySelectorAll('[data-scope]').forEach(btn=&gt;{
+    btn.onclick=()=&gt;finish(btn.dataset.scope==='cancel'?null:btn.dataset.scope);
+   });
+   dialog.oncancel=ev=&gt;{ev.preventDefault();finish(null)};
+   dialog.onclose=()=&gt;finish(null);
+   if(dialog.open)return finish(null);
+   dialog.showModal();
+  });
+ }
+ function registerSibling(a,b,existing){
+  scopeDialog(a,b).then(scope=&gt;{
+   if(scope===null)return;
+   const edge=existing||{a,b,type:'Siblings'};
+   if(!existing)links.push(edge);
+   edge.type='Siblings';
+   edge.hjSiblingScope=scope;
+   const rel=document.getElementById('relation');
+   if(rel&amp;&amp;selectedEdge&gt;=0&amp;&amp;links[selectedEdge]===edge)rel.value='Siblings';
+   render();
+   if(scope==='none')status.textContent='兄弟関係を保存しました。親子関係の自動引継ぎは無効です。';
+   else if(!links.some(e=&gt;e.type==='Parent / Child'&amp;&amp;(e.b===a||e.b===b)))
+    status.textContent='兄弟関係を保存しました。親を登録すると自動的に引き継ぎます。';
+  });
+ }
+ document.getElementById('hjSafeRelationTypes')?.addEventListener('click',ev=&gt;{
+  const btn=ev.target.closest('button[data-type=&quot;Siblings&quot;]');
+  if(!btn||btn.disabled||selectedEdge&lt;0)return;
+  const edge=links[selectedEdge];
+  if(!edge)return;
+  ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+  registerSibling(edge.a,edge.b,edge);
+ },true);
+ // The birthday-match shortcut uses the same scope choices, not a hardcoded full-sibling assumption.
+ document.getElementById('birthdayMatches')?.addEventListener('click',ev=&gt;{
+  const btn=ev.target.closest('button[data-hj-sibling-target]');
+  if(!btn)return;
+  const a=selected,b=Number(btn.dataset.hjSiblingTarget);
+  if(!dog(a)||!dog(b)||a===b)return;
+  ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+  const existing=links.find(e=&gt;(e.a===a&amp;&amp;e.b===b)||(e.a===b&amp;&amp;e.b===a));
+  registerSibling(a,b,existing);
+ },true);
 })();
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 " title="家系図2"></iframe></div></section></div><p class="note">家系図01・02はそれぞれ独立して編集できます。犬の追加・削除、移動、家族関係、誕生日一致、DOG PROFILE、写真、飼い主情報に対応。変更はオンラインに保存されます。別端末では再読み込みすると最新データを表示します。</p></main><script>
